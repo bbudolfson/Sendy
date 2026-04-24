@@ -1,0 +1,11 @@
+.h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: var(--space-4);
+}
+
+.p {
+  color: var(--color-text-muted);
+  max-width: 36rem;
+  line-height: 1.6;
+}

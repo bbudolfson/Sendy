@@ -1,0 +1,13 @@
+---
+description: Rider implementation follows Notion + docs flows
+globs: "src/app/(rider)/**/*,src/lib/**/*,src/context/**/*"
+alwaysApply: false
+---
+
+# Rider specs
+
+Before changing rider routes or session behavior:
+
+1. Read `docs/flows/rider-overview.md` and cross-check Notion **Screen Flows** (Rider Login & FTUE, Trip Planning, Delivery, Checkout).
+2. Keep URL paths aligned with that overview unless the spec in Notion changes.
+3. Dummy inventory and markets live in `src/lib/dummy-data/index.ts` — extend there for new POC scenarios.

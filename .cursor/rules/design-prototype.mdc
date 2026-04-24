@@ -1,0 +1,10 @@
+---
+description: Grayscale UI until design tokens exist
+alwaysApply: true
+---
+
+# Visual design
+
+- This repo is a **black-and-white prototype**. Do not introduce chroma colors until a design system and tokens are added.
+- Use semantic CSS variables from `src/styles/tokens.css` (e.g. `--color-text`, `--color-border`), not raw grays in arbitrary hex.
+- Prefer system fonts via `--font-sans` unless the user requests otherwise.
