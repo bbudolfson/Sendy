@@ -27,17 +27,19 @@ export function PocAuthModal() {
       }}
     >
       <div className={styles.panel}>
-        <button
-          type="button"
-          className={styles.close}
-          aria-label="Close auth modal"
-          onClick={closeAuthModal}
-        >
-          ×
-        </button>
         {session.authModal === "sign-in" ? (
           <PocCard>
             <PocStack gap="md">
+              <div className={styles.topRow}>
+                <button
+                  type="button"
+                  className={styles.close}
+                  aria-label="Close auth modal"
+                  onClick={closeAuthModal}
+                >
+                  ×
+                </button>
+              </div>
               <PocH1>Sign in</PocH1>
               <PocMuted>Sign in to save profile, trips, and checkout info.</PocMuted>
               <PocStack gap="sm">
@@ -95,6 +97,16 @@ export function PocAuthModal() {
         ) : (
           <PocCard>
             <PocStack gap="md">
+              <div className={styles.topRow}>
+                <button
+                  type="button"
+                  className={styles.close}
+                  aria-label="Close auth modal"
+                  onClick={closeAuthModal}
+                >
+                  ×
+                </button>
+              </div>
               <PocH1>Create account</PocH1>
               <PocMuted>Dummy form — account creation routes to sign-in.</PocMuted>
               <form

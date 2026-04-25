@@ -12,9 +12,6 @@ export default function TripsPage() {
     <div className={styles.page}>
       <div className={styles.topRow}>
         <p className={styles.screenLabel}>Trips</p>
-        <a href="/dashboard" className={styles.closeButton} aria-label="Close trips">
-          ×
-        </a>
       </div>
 
       <PocCard>
