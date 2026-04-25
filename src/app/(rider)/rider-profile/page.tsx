@@ -15,9 +15,6 @@ export default function RiderProfileReviewPage() {
     <div className={styles.page}>
       <div className={styles.topRow}>
         <p className={styles.screenLabel}>Profile</p>
-        <a href="/dashboard" className={styles.closeButton} aria-label="Close profile">
-          ×
-        </a>
       </div>
       <PocCard>
         <PocStack gap="md">
