@@ -20,7 +20,7 @@ export default function SignInPage() {
     <PocCard>
       <PocStack gap="md">
         <PocH1>Sign in</PocH1>
-        <PocMuted>Choose a demo path. No real authentication.</PocMuted>
+        <PocMuted>Sign in to save profile, trips, and checkout info.</PocMuted>
         <PocStack gap="sm">
           <PocLabel>Email</PocLabel>
           <PocInput type="email" placeholder="you@example.com" />
@@ -40,7 +40,7 @@ export default function SignInPage() {
               router.push("/dashboard");
             }}
           >
-            Continue as returning rider
+            Sign in
           </PocButton>
           <PocButton
             type="button"
@@ -55,49 +55,19 @@ export default function SignInPage() {
               router.push("/ftue/profile");
             }}
           >
-            Continue as new rider (FTUE)
+            Sign in with Google
           </PocButton>
           <PocButton
             type="button"
-            variant="ghost"
-            onClick={() => {
-              patch({
-                isLoggedIn: true,
-                riderName: "Alex Rider",
-                hasSavedPaymentMethod: false,
-                hasEnteredNewCard: false,
-                ccvConfirmed: false,
-                checkoutConfirmed: false,
-                accepted: true,
-                bikeId: "bike-yeti-sb130",
-                marketId: "moab",
-                tripLocation: "Moab, UT",
-                tripStart: "2026-05-01",
-                tripEnd: "2026-05-05",
-                datesKnown: true,
-                delivery: {
-                  mode: "pickup",
-                  addressKnown: null,
-                  address: "",
-                  locationType: "",
-                  windowId: "",
-                  returnPickup: false,
-                  returnPickupPriceConfirmed: false,
-                  cancellationAck: false,
-                },
-              });
-              router.push("/checkout/payment/new");
-            }}
+            variant="secondary"
+            onClick={() => router.push("/create-account")}
           >
-            Skip to new-card checkout (demo)
+            Create account
           </PocButton>
         </PocStack>
         <a href="/forgot-password" style={{ fontSize: "0.875rem" }}>
           Forgot password
         </a>
-        <p style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)" }}>
-          Or <strong>Google SSO</strong> (not wired in POC).
-        </p>
       </PocStack>
     </PocCard>
   );
