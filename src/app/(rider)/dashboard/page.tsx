@@ -39,10 +39,10 @@ export default function DashboardPage() {
     <div className={styles.page}>
       <PocCard>
         <PocStack gap="md">
-          <PocH1>Dashboard</PocH1>
+          <PocH1>Welcome to Sendy</PocH1>
           <PocMuted>
             {session.hasCompletedFtue
-              ? "Pick a destination and date range to start your next rental."
+              ? "Where are you riding next?"
               : "Finish FTUE from sign-in if you want the full onboarding path."}
           </PocMuted>
           <form
