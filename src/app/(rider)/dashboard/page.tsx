@@ -15,22 +15,12 @@ export default function DashboardPage() {
   const router = useRouter();
   const { session, patch } = usePocSession();
   const routeToSearch = (location: string, marketId: string | null) => {
-    if (session.tripStart && session.tripEnd) {
-      patch({
-        tripLocation: location,
-        marketId,
-        datesKnown: true,
-      });
-      router.push("/plan/bikes");
-      return;
-    }
-
     patch({
       tripLocation: location,
       marketId,
-      datesKnown: false,
+      datesKnown: !!(session.tripStart && session.tripEnd),
     });
-    router.push("/plan/dates");
+    router.push("/plan/bikes");
   };
 
   const upcomingTrip =
