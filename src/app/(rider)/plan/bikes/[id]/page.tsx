@@ -38,6 +38,19 @@ export default function BikeDetailPage() {
         <PocMuted>
           {market?.label} · {bike.brand} {bike.model} · Size {bike.size} · ${bike.dailyPrice}/day
         </PocMuted>
+        <img
+          src={bike.imageUrl}
+          alt={`${bike.name} photo`}
+          style={{
+            width: "100%",
+            maxWidth: "34rem",
+            height: "15rem",
+            objectFit: "cover",
+            borderRadius: "var(--radius-sm)",
+            border: "1px solid var(--color-border)",
+            background: "var(--color-bg)",
+          }}
+        />
         <div>
           <p style={{ fontSize: "0.8125rem", fontWeight: 600, marginBottom: 8 }}>Availability (dummy 14 days)</p>
           <div

@@ -46,8 +46,25 @@ export default function PlanBikesPage() {
               style={{
                 padding: "var(--space-3) 0",
                 borderBottom: "1px solid var(--color-border)",
+                display: "grid",
+                gridTemplateColumns: "7rem 1fr",
+                gap: "var(--space-3)",
+                alignItems: "center",
               }}
             >
+              <img
+                src={b.imageUrl}
+                alt={`${b.name} photo`}
+                style={{
+                  width: "7rem",
+                  height: "4.75rem",
+                  objectFit: "cover",
+                  borderRadius: "var(--radius-sm)",
+                  border: "1px solid var(--color-border)",
+                  background: "var(--color-bg)",
+                }}
+              />
+              <div>
               <Link href={`/plan/bikes/${b.id}`} style={{ fontWeight: 600 }}>
                 {b.name}
               </Link>
@@ -55,6 +72,7 @@ export default function PlanBikesPage() {
                 {b.brand} · {b.type} · {b.size} · ${b.dailyPrice}/day ·{" "}
                 {b.matchTier === "good" ? "Strong match" : "Other bike"}
               </p>
+              </div>
             </li>
           ))}
         </ul>

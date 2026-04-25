@@ -36,6 +36,8 @@ export const BIKES: Bike[] = [
     marketId: "moab",
     name: "Yeti SB130",
     brand: "Yeti",
+    imageUrl:
+      "https://images.unsplash.com/photo-1541625602330-2277a4c46182?auto=format&fit=crop&w=1200&q=80",
     type: "Mountain",
     model: "SB130",
     size: "L",
@@ -47,6 +49,8 @@ export const BIKES: Bike[] = [
     marketId: "moab",
     name: "Stumpjumper EVO",
     brand: "Specialized",
+    imageUrl:
+      "https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=1200&q=80",
     type: "Mountain",
     model: "Stumpjumper EVO",
     size: "M",
@@ -58,6 +62,8 @@ export const BIKES: Bike[] = [
     marketId: "moab",
     name: "Canyon Grail",
     brand: "Canyon",
+    imageUrl:
+      "https://images.unsplash.com/photo-1511994298241-608e28f14fde?auto=format&fit=crop&w=1200&q=80",
     type: "Gravel",
     model: "Grail 7",
     size: "L",
@@ -69,6 +75,8 @@ export const BIKES: Bike[] = [
     marketId: "bend",
     name: "ENVE Mog",
     brand: "ENVE",
+    imageUrl:
+      "https://images.unsplash.com/photo-1571068316344-75bc76f77890?auto=format&fit=crop&w=1200&q=80",
     type: "Gravel",
     model: "Mog",
     size: "56",
@@ -80,6 +88,8 @@ export const BIKES: Bike[] = [
     marketId: "bend",
     name: "Cervélo Áspero",
     brand: "Cervélo",
+    imageUrl:
+      "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=1200&q=80",
     type: "Gravel",
     model: "Áspero 5",
     size: "54",
@@ -91,6 +101,8 @@ export const BIKES: Bike[] = [
     marketId: "boulder",
     name: "Roubaix Comp",
     brand: "Specialized",
+    imageUrl:
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1200&q=80",
     type: "Road",
     model: "Roubaix",
     size: "58",

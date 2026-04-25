@@ -15,6 +15,7 @@ export type Bike = {
   marketId: string;
   name: string;
   brand: string;
+  imageUrl: string;
   type: BikeType;
   model: string;
   size: string;
