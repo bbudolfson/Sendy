@@ -9,9 +9,17 @@ export function PocRiderShell({ children }: { children: ReactNode }) {
         <a href="/dashboard" className={styles.logo}>
           Sendy
         </a>
-        <a href="/rider-profile" className={styles.profileButton}>
-          Profile
-        </a>
+        <details className={styles.profileMenu}>
+          <summary className={styles.profileButton}>Profile</summary>
+          <div className={styles.menuPanel}>
+            <a href="/rider-profile" className={styles.menuItem}>
+              Profile
+            </a>
+            <a href="/trips" className={styles.menuItem}>
+              Trips
+            </a>
+          </div>
+        </details>
       </header>
       <main className={styles.main}>{children}</main>
       <PocDevNav />

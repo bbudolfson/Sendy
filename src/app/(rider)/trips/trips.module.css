@@ -37,24 +37,26 @@
   border-color: var(--color-text-muted);
 }
 
-.formGrid {
-  display: grid;
-  gap: var(--space-3);
+.sectionTitle {
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--color-text);
 }
 
-@media (min-width: 640px) {
-  .formGrid {
-    grid-template-columns: 1fr 1fr;
-  }
+.rentalRow {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  background: var(--color-bg);
 }
 
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
+.rentalRow p:first-child {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin-bottom: var(--space-1);
 }
 
-.saved {
+.meta {
   font-size: 0.8125rem;
   color: var(--color-text-muted);
 }
