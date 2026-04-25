@@ -9,7 +9,9 @@ export function PocRiderShell({ children }: { children: ReactNode }) {
         <a href="/dashboard" className={styles.logo}>
           Sendy
         </a>
-        <span className={styles.badge}>Rider POC</span>
+        <a href="/rider-profile" className={styles.profileButton}>
+          Profile
+        </a>
       </header>
       <main className={styles.main}>{children}</main>
       <PocDevNav />

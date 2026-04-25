@@ -1,4 +1,11 @@
-import type { Bike, DeliveryWindow, Market, TripType } from "@/lib/domain/types";
+import type {
+  Bike,
+  DeliveryWindow,
+  FeaturedLocation,
+  Market,
+  RentalRecord,
+  TripType,
+} from "@/lib/domain/types";
 
 export const TRIP_TYPES: TripType[] = ["Road", "Mountain", "Gravel", "E-Bike"];
 
@@ -164,3 +171,70 @@ export const LOCATION_TYPES = [
 ] as const;
 
 export const RETURN_PICKUP_FEE = 35;
+
+export const FEATURED_LOCATIONS: FeaturedLocation[] = [
+  {
+    id: "nw-arkansas",
+    label: "Northwest Arkansas",
+    blurb: "Flow trails, XC loops, and growing bike park access.",
+    sampleBikeCount: 34,
+    fromDailyPrice: 62,
+  },
+  {
+    id: "richmond-va",
+    label: "Richmond, VA",
+    blurb: "Urban singletrack and James River tech laps.",
+    sampleBikeCount: 21,
+    fromDailyPrice: 55,
+  },
+  {
+    id: "snowshoe-wv",
+    label: "Snowshoe, West Virginia",
+    blurb: "Bike park days with enduro and DH options.",
+    sampleBikeCount: 27,
+    fromDailyPrice: 78,
+  },
+];
+
+const FEATURED_LOCATION_MARKET_MAP: Record<string, string> = {
+  "Northwest Arkansas": "moab",
+  "Richmond, VA": "boulder",
+  "Snowshoe, West Virginia": "bend",
+};
+
+/**
+ * Map featured marketing locations to inventory-backed demo markets so
+ * one-click dashboard actions can jump directly into bike search.
+ */
+export function getDemoMarketForFeaturedLocation(label: string): Market | null {
+  const marketId = FEATURED_LOCATION_MARKET_MAP[label];
+  if (!marketId) return null;
+  return getMarketById(marketId) ?? null;
+}
+
+export const DUMMY_RENTALS: RentalRecord[] = [
+  {
+    id: "rent-upcoming-moab",
+    location: "Moab, UT",
+    bikeName: "Yeti SB130",
+    startDate: "2026-05-12",
+    endDate: "2026-05-15",
+    status: "upcoming",
+  },
+  {
+    id: "rent-past-bend",
+    location: "Bend, OR",
+    bikeName: "ENVE Mog",
+    startDate: "2026-03-03",
+    endDate: "2026-03-06",
+    status: "past",
+  },
+  {
+    id: "rent-past-boulder",
+    location: "Boulder, CO",
+    bikeName: "Roubaix Comp",
+    startDate: "2025-10-09",
+    endDate: "2025-10-12",
+    status: "past",
+  },
+];

@@ -1,33 +1,152 @@
 "use client";
 
-import {
-  PocButtonLink,
-  PocCard,
-  PocH1,
-  PocMuted,
-  PocStack,
-} from "@/components/poc-ui";
+import { useRouter } from "next/navigation";
+import { PocButton, PocCard, PocH1, PocInput, PocLabel, PocMuted, PocStack } from "@/components/poc-ui";
 import { usePocSession } from "@/context/poc-session";
+import {
+  DUMMY_RENTALS,
+  FEATURED_LOCATIONS,
+  getDemoMarketForFeaturedLocation,
+  resolveMarketFromLocation,
+} from "@/lib/dummy-data";
+import styles from "./dashboard.module.css";
 
 export default function DashboardPage() {
-  const { session } = usePocSession();
+  const router = useRouter();
+  const { session, patch } = usePocSession();
+  const routeToSearch = (location: string, marketId: string | null) => {
+    if (session.tripStart && session.tripEnd) {
+      patch({
+        tripLocation: location,
+        marketId,
+        datesKnown: true,
+      });
+      router.push("/plan/bikes");
+      return;
+    }
+
+    patch({
+      tripLocation: location,
+      marketId,
+      datesKnown: false,
+    });
+    router.push("/plan/dates");
+  };
+
+  const upcomingTrip =
+    (session.checkoutConfirmed &&
+      session.tripLocation &&
+      session.bikeId &&
+      session.tripStart &&
+      session.tripEnd && {
+        location: session.tripLocation,
+        startDate: session.tripStart,
+        endDate: session.tripEnd,
+      }) ||
+    DUMMY_RENTALS.find((r) => r.status === "upcoming");
 
   return (
-    <PocCard>
-      <PocStack gap="md">
-        <PocH1>Dashboard</PocH1>
-        <PocMuted>
-          {session.hasCompletedFtue
-            ? "You’re set up. Start a trip to exercise dummy inventory."
-            : "Finish FTUE from sign-in if you want the full onboarding path."}
-        </PocMuted>
-        <PocStack gap="sm">
-          <PocButtonLink href="/plan/trip-details">Plan a trip</PocButtonLink>
-          <PocButtonLink href="/plan/browse" variant="secondary">
-            Browse trip types
-          </PocButtonLink>
+    <div className={styles.page}>
+      <PocCard>
+        <PocStack gap="md">
+          <PocH1>Dashboard</PocH1>
+          <PocMuted>
+            {session.hasCompletedFtue
+              ? "Pick a destination and date range to start your next rental."
+              : "Finish FTUE from sign-in if you want the full onboarding path."}
+          </PocMuted>
+          <form
+            onSubmit={(e) => {
+              e.preventDefault();
+              const fd = new FormData(e.currentTarget);
+              const location = String(fd.get("location") ?? "").trim();
+              const start = String(fd.get("start") ?? "").trim() || null;
+              const end = String(fd.get("end") ?? "").trim() || null;
+              const { exists, market } = resolveMarketFromLocation(location);
+
+              patch({
+                tripLocation: location,
+                tripStart: start,
+                tripEnd: end,
+                marketId: market?.id ?? null,
+                datesKnown: !!(start && end),
+              });
+
+              if (!exists) {
+                router.push("/plan/request-market");
+                return;
+              }
+              if (start && end) {
+                router.push("/plan/bikes");
+              } else {
+                router.push("/plan/dates");
+              }
+            }}
+          >
+            <PocStack gap="sm">
+              <div>
+                <PocLabel>Location</PocLabel>
+                <PocInput
+                  name="location"
+                  required
+                  placeholder="e.g. Moab, UT or Northwest Arkansas"
+                  defaultValue={session.tripLocation}
+                />
+              </div>
+              <div className={styles.dateRow}>
+                <div>
+                  <PocLabel>Start date</PocLabel>
+                  <PocInput name="start" type="date" defaultValue={session.tripStart ?? ""} />
+                </div>
+                <div>
+                  <PocLabel>End date</PocLabel>
+                  <PocInput name="end" type="date" defaultValue={session.tripEnd ?? ""} />
+                </div>
+              </div>
+              <PocButton type="submit">Search bikes</PocButton>
+            </PocStack>
+          </form>
         </PocStack>
-      </PocStack>
-    </PocCard>
+      </PocCard>
+
+      {upcomingTrip ? (
+        <PocCard>
+          <PocStack gap="sm">
+            <h2 className={styles.sectionTitle}>Upcoming trip</h2>
+            <p className={styles.meta}>
+              {upcomingTrip.location} · {upcomingTrip.startDate} → {upcomingTrip.endDate}
+            </p>
+            <a className={styles.inlineLink} href="/plan/accept">
+              View trip details
+            </a>
+          </PocStack>
+        </PocCard>
+      ) : null}
+
+      <PocCard>
+        <PocStack gap="sm">
+          <h2 className={styles.sectionTitle}>Featured locations</h2>
+          <div className={styles.featureGrid}>
+            {FEATURED_LOCATIONS.map((loc) => (
+              <button
+                key={loc.id}
+                type="button"
+                className={styles.featureCard}
+                onClick={() => {
+                  const demoMarket = getDemoMarketForFeaturedLocation(loc.label);
+                  routeToSearch(loc.label, demoMarket?.id ?? null);
+                }}
+              >
+                <h3>{loc.label}</h3>
+                <p>{loc.blurb}</p>
+                <p className={styles.meta}>
+                  {loc.sampleBikeCount} bikes · from ${loc.fromDailyPrice}/day
+                </p>
+              </button>
+            ))}
+          </div>
+        </PocStack>
+      </PocCard>
+    </div>
   );
 }

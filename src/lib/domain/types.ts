@@ -33,3 +33,20 @@ export type AddonSelection = {
   padSpec?: string;
   pedalType?: string;
 };
+
+export type FeaturedLocation = {
+  id: string;
+  label: string;
+  blurb: string;
+  sampleBikeCount: number;
+  fromDailyPrice: number;
+};
+
+export type RentalRecord = {
+  id: string;
+  location: string;
+  bikeName: string;
+  startDate: string;
+  endDate: string;
+  status: "upcoming" | "past";
+};
