@@ -22,6 +22,9 @@
 }
 
 .profileButton {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
   font-size: 0.8125rem;
   color: var(--color-text);
   border: 1px solid var(--color-border);
@@ -33,6 +36,18 @@
 
 .profileButton:hover {
   border-color: var(--color-text-muted);
+}
+
+.avatar {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid var(--color-border);
+  font-size: 0.6875rem;
+  font-weight: 600;
 }
 
 .profileMenu {
@@ -62,14 +77,33 @@
 
 .menuItem {
   display: block;
+  width: 100%;
   font-size: 0.8125rem;
   color: var(--color-text);
   text-decoration: none;
   padding: var(--space-2) var(--space-3);
   border-radius: var(--radius-sm);
+  text-align: left;
 }
 
 .menuItem:hover {
+  background: var(--color-bg);
+}
+
+.menuItemButton {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  font-family: var(--font-sans);
+  font-size: 0.8125rem;
+  color: var(--color-text);
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  text-align: left;
+  cursor: pointer;
+}
+
+.menuItemButton:hover {
   background: var(--color-bg);
 }
 

@@ -31,7 +31,12 @@ export default function SignInPage() {
           <PocButton
             type="button"
             onClick={() => {
-              patch({ isReturningUser: true, hasCompletedFtue: true });
+              patch({
+                isLoggedIn: true,
+                riderName: "Alex Rider",
+                isReturningUser: true,
+                hasCompletedFtue: true,
+              });
               router.push("/dashboard");
             }}
           >
@@ -41,7 +46,12 @@ export default function SignInPage() {
             type="button"
             variant="secondary"
             onClick={() => {
-              patch({ isReturningUser: false, hasCompletedFtue: false });
+              patch({
+                isLoggedIn: true,
+                riderName: "Alex Rider",
+                isReturningUser: false,
+                hasCompletedFtue: false,
+              });
               router.push("/ftue/profile");
             }}
           >
@@ -52,6 +62,8 @@ export default function SignInPage() {
             variant="ghost"
             onClick={() => {
               patch({
+                isLoggedIn: true,
+                riderName: "Alex Rider",
                 hasSavedPaymentMethod: false,
                 hasEnteredNewCard: false,
                 ccvConfirmed: false,

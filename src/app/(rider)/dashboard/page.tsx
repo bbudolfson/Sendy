@@ -24,7 +24,8 @@ export default function DashboardPage() {
   };
 
   const upcomingTrip =
-    (session.checkoutConfirmed &&
+    (session.isLoggedIn &&
+      session.checkoutConfirmed &&
       session.tripLocation &&
       session.bikeId &&
       session.tripStart &&
@@ -33,7 +34,7 @@ export default function DashboardPage() {
         startDate: session.tripStart,
         endDate: session.tripEnd,
       }) ||
-    DUMMY_RENTALS.find((r) => r.status === "upcoming");
+    (session.isLoggedIn ? DUMMY_RENTALS.find((r) => r.status === "upcoming") : null);
 
   return (
     <div className={styles.page}>
@@ -41,9 +42,9 @@ export default function DashboardPage() {
         <PocStack gap="md">
           <PocH1>Welcome to Sendy</PocH1>
           <PocMuted>
-            {session.hasCompletedFtue
+            {session.isLoggedIn
               ? "Where are you riding next?"
-              : "Finish FTUE from sign-in if you want the full onboarding path."}
+              : "Search bikes and trips without logging in, or log in to save your rentals."}
           </PocMuted>
           <form
             onSubmit={(e) => {
@@ -99,19 +100,30 @@ export default function DashboardPage() {
         </PocStack>
       </PocCard>
 
-      {upcomingTrip ? (
-        <PocCard>
-          <PocStack gap="sm">
-            <h2 className={styles.sectionTitle}>Upcoming trip</h2>
-            <p className={styles.meta}>
-              {upcomingTrip.location} · {upcomingTrip.startDate} → {upcomingTrip.endDate}
-            </p>
-            <a className={styles.inlineLink} href="/plan/accept">
-              View trip details
-            </a>
-          </PocStack>
-        </PocCard>
-      ) : null}
+      <PocCard>
+        <PocStack gap="sm">
+          <h2 className={styles.sectionTitle}>Upcoming trip</h2>
+          {upcomingTrip ? (
+            <>
+              <p className={styles.meta}>
+                {upcomingTrip.location} · {upcomingTrip.startDate} → {upcomingTrip.endDate}
+              </p>
+              <a className={styles.inlineLink} href="/plan/accept">
+                View trip details
+              </a>
+            </>
+          ) : (
+            <>
+              <p className={styles.meta}>No upcoming trips.</p>
+              {!session.isLoggedIn ? (
+                <a className={styles.inlineLink} href="/sign-in">
+                  Login
+                </a>
+              ) : null}
+            </>
+          )}
+        </PocStack>
+      </PocCard>
 
       <PocCard>
         <PocStack gap="sm">

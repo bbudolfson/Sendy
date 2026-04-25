@@ -23,6 +23,8 @@ export type DeliveryDraft = {
 };
 
 export type PocSession = {
+  isLoggedIn: boolean;
+  riderName: string;
   /** Quick path: skip FTUE */
   isReturningUser: boolean;
   hasCompletedFtue: boolean;
@@ -57,6 +59,8 @@ const defaultDelivery: DeliveryDraft = {
 };
 
 const defaultSession: PocSession = {
+  isLoggedIn: false,
+  riderName: "",
   isReturningUser: true,
   hasCompletedFtue: true,
   tripLocation: "",
