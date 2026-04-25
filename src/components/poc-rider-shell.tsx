@@ -4,11 +4,12 @@ import type { ReactNode } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./poc-rider-shell.module.css";
 import { PocDevNav } from "./poc-dev-nav";
+import { PocAuthModal } from "./poc-auth-modal";
 import { usePocSession } from "@/context/poc-session";
 
 export function PocRiderShell({ children }: { children: ReactNode }) {
   const router = useRouter();
-  const { session, resetAll } = usePocSession();
+  const { session, resetAll, openAuthModal } = usePocSession();
   const label = session.isLoggedIn ? session.riderName || "Rider" : "Login";
   const initial = label.slice(0, 1).toUpperCase();
 
@@ -29,9 +30,13 @@ export function PocRiderShell({ children }: { children: ReactNode }) {
                 Profile
               </a>
             ) : (
-              <a href="/sign-in" className={styles.menuItem}>
+              <button
+                type="button"
+                className={styles.menuItemButton}
+                onClick={() => openAuthModal("sign-in")}
+              >
                 Login
-              </a>
+              </button>
             )}
             <a href="/trips" className={styles.menuItem}>
               Trips
@@ -52,6 +57,7 @@ export function PocRiderShell({ children }: { children: ReactNode }) {
         </details>
       </header>
       <main className={styles.main}>{children}</main>
+      <PocAuthModal />
       <PocDevNav />
     </div>
   );

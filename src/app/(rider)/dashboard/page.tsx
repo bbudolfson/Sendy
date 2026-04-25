@@ -13,7 +13,7 @@ import styles from "./dashboard.module.css";
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { session, patch } = usePocSession();
+  const { session, patch, openAuthModal } = usePocSession();
   const routeToSearch = (location: string, marketId: string | null) => {
     patch({
       tripLocation: location,
@@ -116,9 +116,13 @@ export default function DashboardPage() {
             <>
               <p className={styles.meta}>No upcoming trips.</p>
               {!session.isLoggedIn ? (
-                <a className={styles.inlineLink} href="/sign-in">
+                <button
+                  type="button"
+                  className={styles.inlineButton}
+                  onClick={() => openAuthModal("sign-in")}
+                >
                   Login
-                </a>
+                </button>
               ) : null}
             </>
           )}

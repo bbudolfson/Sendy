@@ -25,6 +25,7 @@ export type DeliveryDraft = {
 export type PocSession = {
   isLoggedIn: boolean;
   riderName: string;
+  authModal: "sign-in" | "create-account" | null;
   /** Quick path: skip FTUE */
   isReturningUser: boolean;
   hasCompletedFtue: boolean;
@@ -61,6 +62,7 @@ const defaultDelivery: DeliveryDraft = {
 const defaultSession: PocSession = {
   isLoggedIn: false,
   riderName: "",
+  authModal: null,
   isReturningUser: true,
   hasCompletedFtue: true,
   tripLocation: "",
@@ -85,6 +87,8 @@ type PocContextValue = {
   session: PocSession;
   patch: (partial: Partial<PocSession>) => void;
   patchDelivery: (partial: Partial<DeliveryDraft>) => void;
+  openAuthModal: (mode?: "sign-in" | "create-account") => void;
+  closeAuthModal: () => void;
   resetReservation: () => void;
   resetAll: () => void;
 };
@@ -114,6 +118,14 @@ export function PocSessionProvider({ children }: { children: ReactNode }) {
     }));
   }, []);
 
+  const openAuthModal = useCallback((mode: "sign-in" | "create-account" = "sign-in") => {
+    setSession((s) => ({ ...s, authModal: mode }));
+  }, []);
+
+  const closeAuthModal = useCallback(() => {
+    setSession((s) => ({ ...s, authModal: null }));
+  }, []);
+
   const resetReservation = useCallback(() => {
     setSession((s) => ({
       ...s,
@@ -140,8 +152,24 @@ export function PocSessionProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo(
-    () => ({ session, patch, patchDelivery, resetReservation, resetAll }),
-    [session, patch, patchDelivery, resetReservation, resetAll],
+    () => ({
+      session,
+      patch,
+      patchDelivery,
+      openAuthModal,
+      closeAuthModal,
+      resetReservation,
+      resetAll,
+    }),
+    [
+      session,
+      patch,
+      patchDelivery,
+      openAuthModal,
+      closeAuthModal,
+      resetReservation,
+      resetAll,
+    ],
   );
 
   return <PocContext.Provider value={value}>{children}</PocContext.Provider>;
