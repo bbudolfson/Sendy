@@ -10,6 +10,7 @@ import {
   PocMuted,
   PocStack,
 } from "@/components/poc-ui";
+import { StravaConnectSection } from "@/components/strava-connect-section";
 import { usePocSession } from "@/context/poc-session";
 import styles from "./poc-auth-modal.module.css";
 
@@ -92,6 +93,7 @@ export function PocAuthModal() {
                   Forgot password
                 </a>
               </PocStack>
+              <StravaConnectSection variant="compact" />
             </PocStack>
           </PocCard>
         ) : (
@@ -127,6 +129,7 @@ export function PocAuthModal() {
                   <PocButton type="submit">Create account</PocButton>
                 </PocStack>
               </form>
+              <StravaConnectSection variant="compact" />
               <button
                 type="button"
                 onClick={() => openAuthModal("sign-in")}

@@ -46,6 +46,8 @@ export type PocSession = {
   hasEnteredNewCard: boolean;
   ccvConfirmed: boolean;
   checkoutConfirmed: boolean;
+  /** Strava OAuth — prototype toggle until real integration */
+  stravaConnected: boolean;
 };
 
 const defaultDelivery: DeliveryDraft = {
@@ -81,6 +83,7 @@ const defaultSession: PocSession = {
   hasEnteredNewCard: false,
   ccvConfirmed: false,
   checkoutConfirmed: false,
+  stravaConnected: false,
 };
 
 type PocContextValue = {
