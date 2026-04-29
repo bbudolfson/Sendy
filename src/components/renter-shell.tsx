@@ -18,8 +18,9 @@ export function RenterShell({ children }: { children: ReactNode }) {
   return (
     <div className={styles.wrap}>
       <header className={styles.header}>
-        <a href="/shop" className={styles.logo}>
-          Sendy Renter
+        <a href="/shop" className={styles.logo} aria-label="Fitted renter workspace">
+          <img src="/fitted-logo.png" alt="" className={styles.logoImg} />
+          <span className={styles.logoSuffix}>Renter</span>
         </a>
         <div className={styles.rightLinks}>
           <a href="/dashboard" className={styles.link}>

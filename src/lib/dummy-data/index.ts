@@ -263,8 +263,8 @@ export const DUMMY_RENTALS: RentalRecord[] = [
 export const SHOP_PROFILE_DEMO: ShopProfile = {
   id: "shop-demo",
   ownerName: "Taylor Green",
-  email: "owner@canyoncycles.example",
-  shopName: "Canyon Cycles",
+  email: "owner@outpostbikeshop.example",
+  shopName: "Outpost Bike Shop",
   addressLine1: "240 Trail Ave",
   city: "Bend",
   state: "OR",
@@ -355,7 +355,7 @@ export const SHOP_PAYMENT_CONNECTION: PaymentConnection = {
   provider: "stripe",
   status: "pending",
   payoutsEnabled: false,
-  accountLabel: "Canyon Cycles Payouts",
+  accountLabel: "Outpost Bike Shop Payouts",
 };
 
 export const SHOP_EMBED_LINKS: EmbedLink[] = [
@@ -412,4 +412,9 @@ export function getBlockedDatesForBike(bikeId: string): BlockedDate[] {
 
 export function getRatePlanForBike(bikeId: string): RatePlan | undefined {
   return SHOP_RATE_PLANS.find((plan) => plan.bikeId === bikeId);
+}
+
+export function getShopProfileByShopId(shopId: string): ShopProfile | undefined {
+  if (shopId === SHOP_PROFILE_DEMO.id) return SHOP_PROFILE_DEMO;
+  return undefined;
 }

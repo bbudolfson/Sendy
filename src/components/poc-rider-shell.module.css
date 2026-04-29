@@ -15,96 +15,26 @@
 }
 
 .logo {
-  font-weight: 700;
-  font-size: 1.125rem;
-  color: var(--color-text);
-  text-decoration: none;
-}
-
-.profileButton {
   display: inline-flex;
   align-items: center;
-  gap: var(--space-2);
-  font-size: 0.8125rem;
-  color: var(--color-text);
-  border: 1px solid var(--color-border);
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-sm);
   text-decoration: none;
-  background: var(--color-surface);
+  line-height: 0;
 }
 
-.profileButton:hover {
-  border-color: var(--color-text-muted);
-}
-
-.avatar {
-  width: 1.5rem;
-  height: 1.5rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  border: 1px solid var(--color-border);
-  font-size: 0.6875rem;
-  font-weight: 600;
-}
-
-.profileMenu {
-  position: relative;
-}
-
-.profileMenu summary {
-  list-style: none;
-  cursor: pointer;
-}
-
-.profileMenu summary::-webkit-details-marker {
-  display: none;
-}
-
-.menuPanel {
-  position: absolute;
-  right: 0;
-  top: calc(100% + 6px);
-  min-width: 9rem;
-  border: 1px solid var(--color-border);
+.logo:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 4px;
   border-radius: var(--radius-sm);
-  background: var(--color-surface);
-  padding: var(--space-1);
-  z-index: 10;
 }
 
-.menuItem {
+/* Wordmark PNG is optimized for dark backgrounds; invert for light `--color-surface` header bar */
+.logoImg {
   display: block;
-  width: 100%;
-  font-size: 0.8125rem;
-  color: var(--color-text);
-  text-decoration: none;
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-sm);
-  text-align: left;
-}
-
-.menuItem:hover {
-  background: var(--color-bg);
-}
-
-.menuItemButton {
-  width: 100%;
-  border: 0;
-  background: transparent;
-  font-family: var(--font-sans);
-  font-size: 0.8125rem;
-  color: var(--color-text);
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-sm);
-  text-align: left;
-  cursor: pointer;
-}
-
-.menuItemButton:hover {
-  background: var(--color-bg);
+  height: 1.625rem;
+  width: auto;
+  max-width: 12rem;
+  object-fit: contain;
+  filter: invert(1);
 }
 
 .main {

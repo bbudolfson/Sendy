@@ -1,9 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useParams } from "next/navigation";
-import { PocButton, PocButtonLink, PocInput, PocLabel } from "@/components/poc-ui";
-import { getShopBikeById, getShopBikeGallery } from "@/lib/dummy-data";
+import { PocButton, PocButtonLink } from "@/components/poc-ui";
+import {
+  getShopBikeById,
+  getShopBikeGallery,
+  getRatePlanForBike,
+  getShopProfileByShopId,
+} from "@/lib/dummy-data";
 import styles from "./bike-detail.module.css";
 
 export default function BikeDetailPage() {
@@ -11,13 +16,31 @@ export default function BikeDetailPage() {
   const id = String(params.id ?? "");
   const bike = getShopBikeById(id);
   const gallery = getShopBikeGallery(id);
+  const ratePlan = bike ? getRatePlanForBike(bike.id) : undefined;
+  const shop = bike ? getShopProfileByShopId(bike.shopId) : undefined;
+
   const [activeIndex, setActiveIndex] = useState(0);
+  const [startValue, setStartValue] = useState("");
+  const [endValue, setEndValue] = useState("");
+  const startRef = useRef<HTMLInputElement>(null);
+  const endRef = useRef<HTMLInputElement>(null);
+
+  const openPicker = (ref: React.RefObject<HTMLInputElement | null>) => {
+    const node = ref.current;
+    if (!node) return;
+    const picker = node as HTMLInputElement & { showPicker?: () => void };
+    if (picker.showPicker) {
+      picker.showPicker();
+      return;
+    }
+    node.focus();
+  };
 
   if (!bike) {
     return (
       <div className={styles.page}>
         <div className={styles.detailsCard}>
-          <p className={styles.title}>Bike not found</p>
+          <p className={styles.pageTitle}>Bike not found</p>
           <PocButtonLink href="/dashboard" variant="secondary">
             Back to search
           </PocButtonLink>
@@ -26,15 +49,16 @@ export default function BikeDetailPage() {
     );
   }
 
+  const priceLabel =
+    ratePlan !== undefined ? `($${ratePlan.dailyRate} Per Day)` : "(Price on request)";
+
   return (
     <div className={styles.page}>
       <header className={styles.pageHeader}>
         <a href="/dashboard" className={styles.backLink} aria-label="Back to dashboard">
           ←
         </a>
-        <div>
-          <h1 className={styles.pageTitle}>{bike.title}</h1>
-        </div>
+        <h1 className={styles.pageTitle}>{bike.title}</h1>
       </header>
       <div className={styles.carousel}>
         <img
@@ -56,27 +80,72 @@ export default function BikeDetailPage() {
         </div>
       </div>
 
-      <div className={styles.detailsCard}>
-        <div className={styles.detailsTop}>
-          <div>
-            <p className={styles.title}>{bike.title}</p>
-            <p className={styles.meta}>${200} per day</p>
-          </div>
-          <form className={styles.reserveForm}>
-            <div className={styles.reserveDates}>
-              <div>
-                <PocLabel>Start</PocLabel>
-                <PocInput type="date" name="startDate" />
-              </div>
-              <div>
-                <PocLabel>End</PocLabel>
-                <PocInput type="date" name="endDate" />
-              </div>
+      <article className={styles.detailsCard}>
+        <div className={styles.detailsSplit}>
+          <div className={styles.detailsLeft}>
+            <div className={styles.detailsLeftCopy}>
+              <p className={styles.meta}>{priceLabel}</p>
+              <p className={styles.description}>{bike.description}</p>
             </div>
-            <PocButton type="submit">Reserve</PocButton>
-          </form>
+            {shop ? (
+              <p className={styles.hostedBy}>
+                Hosted by <span className={styles.hostedByName}>{shop.shopName}</span>
+              </p>
+            ) : null}
+          </div>
+
+          <div className={styles.detailsRight}>
+            <h2 className={styles.reserveHeading}>Check Availability</h2>
+            <form
+              className={styles.reserveForm}
+              onSubmit={(event) => {
+                event.preventDefault();
+              }}
+            >
+              <div className={styles.dateRangeRow} aria-label="Rental dates">
+                <div className={styles.dateField}>
+                  <button
+                    type="button"
+                    className={`${styles.dateButton} ${startValue ? styles.dateButtonFilled : ""}`}
+                    onClick={() => openPicker(startRef)}
+                  >
+                    {startValue || "Start"}
+                  </button>
+                  <input
+                    ref={startRef}
+                    className={styles.dateNative}
+                    name="start"
+                    type="date"
+                    value={startValue}
+                    onChange={(event) => setStartValue(event.currentTarget.value)}
+                    aria-label="Start date"
+                  />
+                </div>
+                <div className={styles.dateField}>
+                  <button
+                    type="button"
+                    className={`${styles.dateButton} ${endValue ? styles.dateButtonFilled : ""}`}
+                    onClick={() => openPicker(endRef)}
+                  >
+                    {endValue || "End"}
+                  </button>
+                  <input
+                    ref={endRef}
+                    className={styles.dateNative}
+                    name="end"
+                    type="date"
+                    value={endValue}
+                    onChange={(event) => setEndValue(event.currentTarget.value)}
+                    aria-label="End date"
+                  />
+                </div>
+              </div>
+              <PocButton type="submit" variant="primary" className={styles.reserveSubmit}>
+                Reserve
+              </PocButton>
+            </form>
+          </div>
         </div>
-        <p className={styles.description}>{bike.description}</p>
 
         <div className={styles.specGrid}>
           <div className={styles.spec}>
@@ -96,7 +165,7 @@ export default function BikeDetailPage() {
             <p className={styles.specValue}>{bike.size}</p>
           </div>
         </div>
-      </div>
+      </article>
     </div>
   );
 }

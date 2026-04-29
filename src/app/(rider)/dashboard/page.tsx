@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PocInput } from "@/components/poc-ui";
+import { RiderAvatarMenu } from "@/components/rider-avatar-menu";
 import { usePocSession } from "@/context/poc-session";
 import {
   DUMMY_RENTALS,
@@ -18,7 +19,7 @@ const HOME_ROWS = [
 
 export default function DashboardPage() {
   const router = useRouter();
-  const { session, patch, resetAll, openAuthModal } = usePocSession();
+  const { session, patch } = usePocSession();
   const [locationValue, setLocationValue] = useState(session.tripLocation ?? "");
   const [startValue, setStartValue] = useState(session.tripStart ?? "");
   const [endValue, setEndValue] = useState(session.tripEnd ?? "");
@@ -26,8 +27,6 @@ export default function DashboardPage() {
   const startRef = useRef<HTMLInputElement>(null);
   const endRef = useRef<HTMLInputElement>(null);
   const previous = DUMMY_RENTALS.slice(0, 2);
-  const label = session.isLoggedIn ? session.riderName || "Rider" : "Login";
-  const initial = label.slice(0, 2).toUpperCase();
 
   const openPicker = (ref: React.RefObject<HTMLInputElement | null>) => {
     const node = ref.current;
@@ -45,42 +44,7 @@ export default function DashboardPage() {
       <section className={styles.hero}>
         <div className={styles.heroTop}>
           <img src="/fitted-logo.png" alt="Fitted Premium Bike Rentals" className={styles.logoImage} />
-          <details className={styles.profileMenu}>
-            <summary className={styles.avatar}>{initial}</summary>
-            <div className={styles.menuPanel}>
-              {session.isLoggedIn ? (
-                <a href="/rider-profile" className={styles.menuItem}>
-                  Profile
-                </a>
-              ) : (
-                <button
-                  type="button"
-                  className={styles.menuItemButton}
-                  onClick={() => openAuthModal("sign-in")}
-                >
-                  Login
-                </button>
-              )}
-              <a href="/trips" className={styles.menuItem}>
-                Trips
-              </a>
-              <a href="/shop" className={styles.menuItem}>
-                Switch to renter
-              </a>
-              {session.isLoggedIn ? (
-                <button
-                  type="button"
-                  className={styles.menuItemButton}
-                  onClick={() => {
-                    resetAll();
-                    router.push("/dashboard");
-                  }}
-                >
-                  Log out
-                </button>
-              ) : null}
-            </div>
-          </details>
+          <RiderAvatarMenu variant="hero" />
         </div>
         <div className={styles.searchWrap}>
           <form

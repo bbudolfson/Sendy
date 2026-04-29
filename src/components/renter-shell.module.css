@@ -15,10 +15,33 @@
 }
 
 .logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  text-decoration: none;
+  line-height: 0;
   font-weight: 700;
   font-size: 1.125rem;
   color: var(--color-text);
-  text-decoration: none;
+}
+
+.logo:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.logoImg {
+  display: block;
+  height: 1.625rem;
+  width: auto;
+  max-width: 12rem;
+  object-fit: contain;
+  filter: invert(1);
+}
+
+.logoSuffix {
+  line-height: 1.25;
 }
 
 .rightLinks {

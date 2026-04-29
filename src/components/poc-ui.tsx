@@ -51,6 +51,7 @@ export function PocButton({
   type = "button",
   children,
   variant = "primary",
+  className,
   ...rest
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: "primary" | "secondary" | "ghost";
@@ -58,7 +59,7 @@ export function PocButton({
   return (
     <button
       type={type}
-      className={styles.btn}
+      className={className ? `${styles.btn} ${className}` : styles.btn}
       data-variant={variant}
       {...rest}
     >
