@@ -367,8 +367,34 @@ export const SHOP_EMBED_LINKS: EmbedLink[] = [
   },
 ];
 
+const SHOP_BIKE_GALLERY: Record<string, string[]> = {
+  "shop-bike-1": [
+    "https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=1400&q=80",
+    "https://images.unsplash.com/photo-1544191696-102dbdaeeaa0?auto=format&fit=crop&w=1400&q=80",
+    "https://images.unsplash.com/photo-1518655048521-f130df041f66?auto=format&fit=crop&w=1400&q=80",
+  ],
+  "shop-bike-2": [
+    "https://images.unsplash.com/photo-1511994298241-608e28f14fde?auto=format&fit=crop&w=1400&q=80",
+    "https://images.unsplash.com/photo-1576435728678-68d0fbf94e91?auto=format&fit=crop&w=1400&q=80",
+    "https://images.unsplash.com/photo-1571333250630-f0230c320b6d?auto=format&fit=crop&w=1400&q=80",
+  ],
+  "shop-bike-3": [
+    "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1400&q=80",
+    "https://images.unsplash.com/photo-1507035895480-2b3156c31fc8?auto=format&fit=crop&w=1400&q=80",
+    "https://images.unsplash.com/photo-1541625602330-2277a4c46182?auto=format&fit=crop&w=1400&q=80",
+  ],
+};
+
 export function getShopBikeById(id: string): ShopBike | undefined {
   return SHOP_BIKES.find((bike) => bike.id === id);
+}
+
+export function getShopBikeGallery(id: string): string[] {
+  const bike = getShopBikeById(id);
+  if (!bike) return [];
+  const gallery = SHOP_BIKE_GALLERY[id];
+  if (gallery?.length) return gallery;
+  return [bike.imageUrl];
 }
 
 export function getShopBikesByStatus(status: "all" | "active" | "inactive"): ShopBike[] {

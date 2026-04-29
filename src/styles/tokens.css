@@ -14,7 +14,7 @@
   --color-brand-strong: #294f7c;
   --color-overlay-surface: color-mix(in oklab, #ffffff 86%, transparent);
   --color-overlay-border: color-mix(in oklab, #ffffff 55%, transparent);
-  --radius-sm: 4px;
+  --radius-sm: 8px;
   --radius-md: 8px;
   --space-1: 0.25rem;
   --space-2: 0.5rem;

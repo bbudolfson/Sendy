@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PocInput } from "@/components/poc-ui";
 import { usePocSession } from "@/context/poc-session";
@@ -18,9 +19,26 @@ const HOME_ROWS = [
 export default function DashboardPage() {
   const router = useRouter();
   const { session, patch, resetAll, openAuthModal } = usePocSession();
+  const [locationValue, setLocationValue] = useState(session.tripLocation ?? "");
+  const [startValue, setStartValue] = useState(session.tripStart ?? "");
+  const [endValue, setEndValue] = useState(session.tripEnd ?? "");
+  const [showPrevious, setShowPrevious] = useState(false);
+  const startRef = useRef<HTMLInputElement>(null);
+  const endRef = useRef<HTMLInputElement>(null);
   const previous = DUMMY_RENTALS.slice(0, 2);
   const label = session.isLoggedIn ? session.riderName || "Rider" : "Login";
   const initial = label.slice(0, 2).toUpperCase();
+
+  const openPicker = (ref: React.RefObject<HTMLInputElement | null>) => {
+    const node = ref.current;
+    if (!node) return;
+    const picker = node as HTMLInputElement & { showPicker?: () => void };
+    if (picker.showPicker) {
+      picker.showPicker();
+      return;
+    }
+    node.focus();
+  };
 
   return (
     <div className={styles.page}>
@@ -67,6 +85,7 @@ export default function DashboardPage() {
         <div className={styles.searchWrap}>
           <form
             className={styles.searchCard}
+            autoComplete="off"
             onSubmit={(e) => {
               e.preventDefault();
               const fd = new FormData(e.currentTarget);
@@ -95,14 +114,79 @@ export default function DashboardPage() {
             }}
           >
             <div className={styles.searchRow}>
-              <PocInput
-                name="location"
-                required
-                placeholder="Where are you riding?"
-                defaultValue={session.tripLocation}
-              />
-              <PocInput name="start" type="date" defaultValue={session.tripStart ?? ""} />
-              <PocInput name="end" type="date" defaultValue={session.tripEnd ?? ""} />
+              <div
+                className={styles.locationField}
+                onFocus={() => setShowPrevious(true)}
+                onBlur={() => {
+                  window.setTimeout(() => setShowPrevious(false), 120);
+                }}
+              >
+                <PocInput
+                  name="location"
+                  required
+                  placeholder="Where are you riding?"
+                  value={locationValue}
+                  autoComplete="off"
+                  onChange={(event) => setLocationValue(event.currentTarget.value)}
+                />
+                {showPrevious ? (
+                  <div className={styles.locationDropdown}>
+                    <p className={styles.previousLabel}>Previous Searches</p>
+                    <ul className={styles.previousList}>
+                      {previous.map((trip) => (
+                        <li key={trip.id}>
+                          <button
+                            type="button"
+                            className={styles.previousOption}
+                            onClick={() => {
+                              setLocationValue(trip.location);
+                              setStartValue(trip.startDate);
+                              setEndValue(trip.endDate);
+                              setShowPrevious(false);
+                            }}
+                          >
+                            {trip.location}, {trip.startDate.slice(5)}-{trip.endDate.slice(5)}
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : null}
+              </div>
+              <div className={styles.dateField}>
+                <button
+                  type="button"
+                  className={`${styles.dateButton} ${startValue ? styles.dateButtonFilled : ""}`}
+                  onClick={() => openPicker(startRef)}
+                >
+                  {startValue || "Start"}
+                </button>
+                <input
+                  ref={startRef}
+                  className={styles.dateNative}
+                  name="start"
+                  type="date"
+                  value={startValue}
+                  onChange={(event) => setStartValue(event.currentTarget.value)}
+                />
+              </div>
+              <div className={styles.dateField}>
+                <button
+                  type="button"
+                  className={`${styles.dateButton} ${endValue ? styles.dateButtonFilled : ""}`}
+                  onClick={() => openPicker(endRef)}
+                >
+                  {endValue || "End"}
+                </button>
+                <input
+                  ref={endRef}
+                  className={styles.dateNative}
+                  name="end"
+                  type="date"
+                  value={endValue}
+                  onChange={(event) => setEndValue(event.currentTarget.value)}
+                />
+              </div>
               <button type="submit" className={styles.searchSubmit} aria-label="Search bikes">
                 <svg className={styles.searchIcon} viewBox="0 0 24 24" fill="none" aria-hidden>
                   <circle cx="11" cy="11" r="6" stroke="currentColor" strokeWidth="2" />
@@ -111,16 +195,6 @@ export default function DashboardPage() {
               </button>
             </div>
           </form>
-          <div className={styles.previousCard}>
-            <p className={styles.previousLabel}>Previous Searches</p>
-            <ul className={styles.previousList}>
-              {previous.map((trip) => (
-                <li key={trip.id}>
-                  {trip.location}, {trip.startDate.slice(5)}-{trip.endDate.slice(5)}
-                </li>
-              ))}
-            </ul>
-          </div>
         </div>
       </section>
 
@@ -132,11 +206,13 @@ export default function DashboardPage() {
               {Array.from({ length: 5 }, (_, index) => {
                 const bike = SHOP_BIKES[index % SHOP_BIKES.length];
                 return (
-                  <article key={`${row.id}-${index}`} className={styles.bikeCard}>
-                    <img src={bike.imageUrl} alt={bike.title} className={styles.bikeImage} />
-                    <p className={styles.bikeTitle}>{bike.title}</p>
-                    <p className={styles.bikePrice}>($200 Per Day)</p>
-                  </article>
+                  <a key={`${row.id}-${index}`} href={`/bike/${bike.id}`} className={styles.bikeCardLink}>
+                    <article className={styles.bikeCard}>
+                      <img src={bike.imageUrl} alt={bike.title} className={styles.bikeImage} />
+                      <p className={styles.bikeTitle}>{bike.title}</p>
+                      <p className={styles.bikePrice}>($200 Per Day)</p>
+                    </article>
+                  </a>
                 );
               })}
             </div>

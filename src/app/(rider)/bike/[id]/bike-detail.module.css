@@ -1,0 +1,178 @@
+.page {
+  width: 100%;
+  max-width: 64rem;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+}
+
+.pageHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+
+.backLink {
+  display: inline-flex;
+  width: 2rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  text-decoration: none;
+  color: var(--sendy-text-headings);
+  background: var(--color-surface-50);
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.backLink:hover {
+  border-color: var(--sendy-text-action);
+  color: var(--sendy-text-action);
+}
+
+.pageKicker {
+  font-size: var(--sendy-font-size-label);
+  line-height: var(--sendy-line-height-label);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.pageTitle {
+  font-family: var(--sendy-font-family-headings);
+  font-size: var(--sendy-font-size-h2);
+  line-height: var(--sendy-line-height-h2);
+  font-weight: var(--sendy-font-weight-semibold);
+  color: var(--sendy-text-headings);
+}
+
+.carousel {
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  box-shadow: 0 1px 3px color-mix(in oklab, var(--color-text) 12%, transparent);
+  overflow: hidden;
+}
+
+.heroImage {
+  width: 100%;
+  height: 24rem;
+  object-fit: cover;
+  display: block;
+}
+
+.thumbRow {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  gap: var(--space-2);
+  padding: var(--space-3);
+  background: var(--color-surface-50);
+}
+
+.thumb {
+  width: 100%;
+  height: 4.5rem;
+  object-fit: cover;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+.thumb[data-active] {
+  opacity: 1;
+  border-color: var(--sendy-text-action);
+}
+
+.detailsCard {
+  border-radius: var(--radius-md);
+  background: var(--color-surface-50);
+  padding: var(--space-6);
+  box-shadow: 0 1px 3px color-mix(in oklab, var(--color-text) 12%, transparent);
+}
+
+.detailsTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.reserveForm {
+  min-width: 20rem;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.reserveDates {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-2);
+}
+
+.title {
+  font-family: var(--sendy-font-family-headings);
+  font-size: var(--sendy-font-size-h1);
+  line-height: var(--sendy-line-height-h1);
+  font-weight: var(--sendy-font-weight-bold);
+  color: var(--sendy-text-headings);
+}
+
+.meta {
+  margin-top: var(--space-2);
+  font-size: var(--sendy-font-size-body);
+  line-height: var(--sendy-line-height-body);
+  color: var(--color-text-muted);
+}
+
+.description {
+  margin-top: var(--space-4);
+  font-size: var(--sendy-font-size-body);
+  line-height: var(--sendy-line-height-body);
+  color: var(--sendy-text-body);
+}
+
+.specGrid {
+  margin-top: var(--space-4);
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
+.spec {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3);
+  background: var(--color-surface);
+}
+
+.specLabel {
+  font-size: var(--sendy-font-size-label);
+  line-height: var(--sendy-line-height-label);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.specValue {
+  margin-top: var(--space-1);
+  font-size: var(--sendy-font-size-body);
+  line-height: var(--sendy-line-height-body);
+  color: var(--sendy-text-body);
+  font-weight: var(--sendy-font-weight-semibold);
+}
+
+@media (max-width: 860px) {
+  .detailsTop {
+    flex-direction: column;
+  }
+
+  .reserveForm {
+    width: 100%;
+    min-width: 0;
+  }
+}
