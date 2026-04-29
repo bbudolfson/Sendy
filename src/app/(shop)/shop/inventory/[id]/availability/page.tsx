@@ -61,7 +61,7 @@ export default function BikeAvailabilityPage({ params }: { params: { id: string 
               return (
                 <div key={day} className={styles.listItem}>
                   <div className={styles.row}>
-                    <strong style={{ textTransform: "capitalize" }}>{day}</strong>
+                    <strong className={styles.capitalize}>{day}</strong>
                     <label>
                       <input type="checkbox" name={`${day}-enabled`} defaultChecked={existing?.enabled ?? false} /> Open
                     </label>

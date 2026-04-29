@@ -75,11 +75,11 @@ export default function ShopProfilePage() {
               <PocLabel>Logo upload (prototype)</PocLabel>
               <PocInput type="file" accept="image/*" />
             </div>
-            <div style={{ gridColumn: "1 / -1" }}>
+            <div className={styles.fullSpan}>
               <PocLabel>Service area notes</PocLabel>
               <PocTextarea name="serviceAreaNotes" defaultValue={session.profile.serviceAreaNotes} />
             </div>
-            <div style={{ gridColumn: "1 / -1" }} className={styles.actions}>
+            <div className={`${styles.actions} ${styles.fullSpan}`}>
               <PocButton type="submit">Save profile</PocButton>
               {saved ? <PocMuted>Profile updated.</PocMuted> : null}
             </div>

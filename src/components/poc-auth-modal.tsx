@@ -89,7 +89,7 @@ export function PocAuthModal() {
                 >
                   Create account
                 </PocButton>
-                <a href="/forgot-password" style={{ fontSize: "0.875rem" }}>
+                <a href="/forgot-password" className={styles.subtleLink}>
                   Forgot password
                 </a>
               </PocStack>
@@ -133,15 +133,7 @@ export function PocAuthModal() {
               <button
                 type="button"
                 onClick={() => openAuthModal("sign-in")}
-                style={{
-                  border: 0,
-                  background: "transparent",
-                  textAlign: "left",
-                  fontSize: "0.875rem",
-                  color: "var(--color-text-muted)",
-                  cursor: "pointer",
-                  padding: 0,
-                }}
+                className={styles.plainAction}
               >
                 Already have an account? Sign in
               </button>

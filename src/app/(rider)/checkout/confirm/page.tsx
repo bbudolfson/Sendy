@@ -11,6 +11,7 @@ import {
 } from "@/components/poc-ui";
 import { usePocSession } from "@/context/poc-session";
 import { getBikeById, getMarketById, RETURN_PICKUP_FEE } from "@/lib/dummy-data";
+import styles from "../checkout.module.css";
 
 export default function CheckoutConfirmReservationPage() {
   const router = useRouter();
@@ -51,7 +52,7 @@ export default function CheckoutConfirmReservationPage() {
       <PocStack gap="md">
         <PocH1>Confirm reservation</PocH1>
         <PocMuted>Final destructive step in prod — here it only flips demo state.</PocMuted>
-        <ul style={{ fontSize: "0.875rem", lineHeight: 1.6, color: "var(--color-text-muted)" }}>
+        <ul className={styles.summaryList}>
           <li>Bike: {bike?.name}</li>
           <li>Market: {market?.label}</li>
           <li>Dates: {session.tripStart} → {session.tripEnd}</li>

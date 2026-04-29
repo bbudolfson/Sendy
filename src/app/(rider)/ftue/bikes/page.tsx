@@ -8,6 +8,7 @@ import {
   PocH1,
   PocInput,
   PocLabel,
+  PocMuted,
   PocSelect,
   PocStack,
 } from "@/components/poc-ui";
@@ -21,9 +22,9 @@ export default function FtueBikesPage() {
       <PocCard>
         <PocStack gap="md">
           <PocH1>Own a bike?</PocH1>
-          <p style={{ fontSize: "0.875rem", color: "var(--color-text-muted)" }}>
+          <PocMuted>
             Step 2 of 3 — optional bike details loop for matching.
-          </p>
+          </PocMuted>
           <PocButton type="button" onClick={() => setOwnsBike("yes")}>
             Yes
           </PocButton>

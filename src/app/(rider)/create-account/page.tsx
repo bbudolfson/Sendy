@@ -43,7 +43,7 @@ export default function CreateAccountPage() {
                 <PocButton type="submit">Create account</PocButton>
               </PocStack>
             </form>
-            <a href="/sign-in" style={{ fontSize: "0.875rem", color: "var(--color-text-muted)" }}>
+            <a href="/sign-in" className={styles.subtleLink}>
               Already have an account? Sign in
             </a>
           </PocStack>

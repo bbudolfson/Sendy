@@ -10,6 +10,7 @@ import {
 } from "@/components/poc-ui";
 import { usePocSession } from "@/context/poc-session";
 import { getBikesForMarket, getMarketById } from "@/lib/dummy-data";
+import styles from "./bikes.module.css";
 
 export default function PlanBikesPage() {
   const { session, patch } = usePocSession();
@@ -39,39 +40,22 @@ export default function PlanBikesPage() {
         <PocMuted>
           {market?.label} · {session.useFallbackBikes ? "Including other bikes" : "Good matches only"}
         </PocMuted>
-        <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
+        <ul className={styles.list}>
           {withFallback.map((b) => (
-            <li
-              key={b.id}
-              style={{
-                padding: "var(--space-3) 0",
-                borderBottom: "1px solid var(--color-border)",
-                display: "grid",
-                gridTemplateColumns: "7rem 1fr",
-                gap: "var(--space-3)",
-                alignItems: "center",
-              }}
-            >
+            <li key={b.id} className={styles.item}>
               <img
                 src={b.imageUrl}
                 alt={`${b.name} photo`}
-                style={{
-                  width: "7rem",
-                  height: "4.75rem",
-                  objectFit: "cover",
-                  borderRadius: "var(--radius-sm)",
-                  border: "1px solid var(--color-border)",
-                  background: "var(--color-bg)",
-                }}
+                className={styles.image}
               />
               <div>
-              <Link href={`/plan/bikes/${b.id}`} style={{ fontWeight: 600 }}>
-                {b.name}
-              </Link>
-              <p style={{ fontSize: "0.8125rem", color: "var(--color-text-muted)", marginTop: 4 }}>
-                {b.brand} · {b.type} · {b.size} · ${b.dailyPrice}/day ·{" "}
-                {b.matchTier === "good" ? "Strong match" : "Other bike"}
-              </p>
+                <Link href={`/plan/bikes/${b.id}`} className={styles.bikeLink}>
+                  {b.name}
+                </Link>
+                <p className={styles.bikeMeta}>
+                  {b.brand} · {b.type} · {b.size} · ${b.dailyPrice}/day ·{" "}
+                  {b.matchTier === "good" ? "Strong match" : "Other bike"}
+                </p>
               </div>
             </li>
           ))}

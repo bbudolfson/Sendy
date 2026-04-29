@@ -11,6 +11,7 @@ import {
 } from "@/components/poc-ui";
 import { usePocSession } from "@/context/poc-session";
 import { getAvailabilityForBike, getBikeById, getMarketById } from "@/lib/dummy-data";
+import styles from "./bike-detail.module.css";
 
 export default function BikeDetailPage() {
   const params = useParams();
@@ -41,38 +42,16 @@ export default function BikeDetailPage() {
         <img
           src={bike.imageUrl}
           alt={`${bike.name} photo`}
-          style={{
-            width: "100%",
-            maxWidth: "34rem",
-            height: "15rem",
-            objectFit: "cover",
-            borderRadius: "var(--radius-sm)",
-            border: "1px solid var(--color-border)",
-            background: "var(--color-bg)",
-          }}
+          className={styles.heroImage}
         />
         <div>
-          <p style={{ fontSize: "0.8125rem", fontWeight: 600, marginBottom: 8 }}>Availability (dummy 14 days)</p>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(auto-fill, minmax(4.5rem, 1fr))",
-              gap: 6,
-            }}
-          >
+          <p className={styles.availabilityTitle}>Availability (dummy 14 days)</p>
+          <div className={styles.availabilityGrid}>
             {availability.map((d) => (
               <span
                 key={d.date}
                 title={d.date}
-                style={{
-                  fontSize: "0.65rem",
-                  padding: "4px 2px",
-                  textAlign: "center",
-                  border: "1px solid var(--color-border)",
-                  borderRadius: 4,
-                  background: d.available ? "var(--color-surface)" : "var(--color-bg)",
-                  color: d.available ? "var(--color-text)" : "var(--color-text-subtle)",
-                }}
+                className={`${styles.availabilityCell} ${d.available ? styles.available : styles.unavailable}`}
               >
                 {d.date.slice(5)}
               </span>
@@ -88,7 +67,7 @@ export default function BikeDetailPage() {
         >
           Reserve
         </PocButton>
-        <Link href="/plan/bikes" style={{ fontSize: "0.875rem" }}>
+        <Link href="/plan/bikes" className={styles.backLink}>
           ← Back to matches
         </Link>
       </PocStack>

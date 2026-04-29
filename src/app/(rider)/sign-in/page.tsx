@@ -71,7 +71,7 @@ export default function SignInPage() {
                 Create account
               </PocButton>
             </PocStack>
-            <a href="/forgot-password" style={{ fontSize: "0.875rem" }}>
+            <a href="/forgot-password" className={styles.subtleLink}>
               Forgot password
             </a>
           </PocStack>

@@ -10,6 +10,7 @@ import {
 } from "@/components/poc-ui";
 import { usePocSession } from "@/context/poc-session";
 import { getBikeById, getMarketById } from "@/lib/dummy-data";
+import styles from "../plan-shared.module.css";
 
 export default function AcceptPage() {
   const router = useRouter();
@@ -22,7 +23,7 @@ export default function AcceptPage() {
       <PocStack gap="md">
         <PocH1>Review booking</PocH1>
         <PocMuted>Summary before delivery vs checkout branch (system decides delivery).</PocMuted>
-        <ul style={{ fontSize: "0.875rem", lineHeight: 1.6, color: "var(--color-text-muted)" }}>
+        <ul className={styles.summaryList}>
           <li>Bike: {bike?.name ?? "—"}</li>
           <li>Market: {market?.label ?? "—"}</li>
           <li>Dates: {session.tripStart ?? "—"} → {session.tripEnd ?? "—"}</li>

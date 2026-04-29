@@ -66,11 +66,11 @@ export default function NewBikePage() {
               <PocLabel>Image URL</PocLabel>
               <PocInput name="imageUrl" required />
             </div>
-            <div style={{ gridColumn: "1 / -1" }}>
+            <div className={styles.fullSpan}>
               <PocLabel>Description</PocLabel>
               <PocTextarea name="description" required />
             </div>
-            <div className={styles.actions} style={{ gridColumn: "1 / -1" }}>
+            <div className={`${styles.actions} ${styles.fullSpan}`}>
               <PocButton type="submit">Create bike</PocButton>
             </div>
           </form>

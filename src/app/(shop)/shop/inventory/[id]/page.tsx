@@ -78,15 +78,15 @@ export default function InventoryBikeDetailPage({ params }: { params: { id: stri
               <PocLabel>Size</PocLabel>
               <PocInput name="size" defaultValue={bike.size} />
             </div>
-            <div style={{ gridColumn: "1 / -1" }}>
+            <div className={styles.fullSpan}>
               <PocLabel>Image URL</PocLabel>
               <PocInput name="imageUrl" defaultValue={bike.imageUrl} />
             </div>
-            <div style={{ gridColumn: "1 / -1" }}>
+            <div className={styles.fullSpan}>
               <PocLabel>Description</PocLabel>
               <PocTextarea name="description" defaultValue={bike.description} />
             </div>
-            <div className={styles.actions} style={{ gridColumn: "1 / -1" }}>
+            <div className={`${styles.actions} ${styles.fullSpan}`}>
               <PocButton type="submit">Save bike</PocButton>
               <PocButtonLink href={`/shop/inventory/${bike.id}/availability`} variant="secondary">
                 Availability

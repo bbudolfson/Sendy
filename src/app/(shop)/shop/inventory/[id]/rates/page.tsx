@@ -54,11 +54,11 @@ export default function BikeRatesPage({ params }: { params: { id: string } }) {
               <PocLabel>Security deposit</PocLabel>
               <PocInput type="number" name="deposit" defaultValue={ratePlan?.deposit ?? 0} min={0} />
             </div>
-            <div style={{ gridColumn: "1 / -1" }}>
+            <div className={styles.fullSpan}>
               <PocLabel>Seasonal note</PocLabel>
               <PocInput name="seasonalNote" defaultValue={ratePlan?.seasonalNote ?? ""} />
             </div>
-            <div className={styles.actions} style={{ gridColumn: "1 / -1" }}>
+            <div className={`${styles.actions} ${styles.fullSpan}`}>
               <PocButton type="submit">Save rates</PocButton>
             </div>
           </form>

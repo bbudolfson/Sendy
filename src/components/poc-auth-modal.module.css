@@ -6,7 +6,7 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  padding: 24px var(--space-6) var(--space-4);
+  padding: var(--space-6) var(--space-6) var(--space-4);
 }
 
 .panel {
@@ -37,4 +37,19 @@
 
 .close:hover {
   border-color: var(--color-text-muted);
+}
+
+.subtleLink {
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.plainAction {
+  border: 0;
+  background: transparent;
+  text-align: left;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 0;
 }

@@ -7,6 +7,7 @@ import {
   PocH1,
   PocInput,
   PocLabel,
+  PocMuted,
   PocStack,
 } from "@/components/poc-ui";
 
@@ -17,9 +18,9 @@ export default function FtueProfilePage() {
     <PocCard>
       <PocStack gap="md">
         <PocH1>Your profile</PocH1>
-        <p style={{ fontSize: "0.875rem", color: "var(--color-text-muted)" }}>
+        <PocMuted>
           Step 1 of 3 — name, height, weight (single screen per spec).
-        </p>
+        </PocMuted>
         <div>
           <PocLabel>Name</PocLabel>
           <PocInput required placeholder="Alex Rider" />

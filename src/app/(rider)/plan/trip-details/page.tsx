@@ -12,6 +12,7 @@ import {
 } from "@/components/poc-ui";
 import { usePocSession } from "@/context/poc-session";
 import { resolveMarketFromLocation } from "@/lib/dummy-data";
+import styles from "../plan-shared.module.css";
 
 export default function TripDetailsPage() {
   const router = useRouter();
@@ -71,7 +72,7 @@ export default function TripDetailsPage() {
                 name="end"
                 type="date"
                 defaultValue={session.tripEnd ?? ""}
-                style={{ marginTop: "var(--space-2)" }}
+                className={styles.spacedInput}
               />
             </div>
             <div>

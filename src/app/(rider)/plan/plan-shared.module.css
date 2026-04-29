@@ -1,0 +1,9 @@
+.summaryList {
+  font-size: 0.875rem;
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+
+.spacedInput {
+  margin-top: var(--space-2);
+}

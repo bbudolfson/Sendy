@@ -6,6 +6,7 @@ import {
   PocCard,
   PocH1,
   PocLabel,
+  PocMuted,
   PocSelect,
   PocStack,
 } from "@/components/poc-ui";
@@ -17,9 +18,9 @@ export default function FtueRidingStylePage() {
     <PocCard>
       <PocStack gap="md">
         <PocH1>Riding style</PocH1>
-        <p style={{ fontSize: "0.875rem", color: "var(--color-text-muted)" }}>
+        <PocMuted>
           Step 3 of 3 — always shown per spec.
-        </p>
+        </PocMuted>
         <div>
           <PocLabel>Experience</PocLabel>
           <PocSelect defaultValue="Intermediate">
