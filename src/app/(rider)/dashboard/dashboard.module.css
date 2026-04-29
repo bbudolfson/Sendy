@@ -315,7 +315,7 @@
 
 @media (min-width: 720px) {
   .searchRow {
-    grid-template-columns: minmax(22rem, 1fr) 8.5rem 8.5rem auto;
+    grid-template-columns: minmax(14rem, 1fr) 8.5rem 8.5rem auto;
     align-items: center;
   }
 }
@@ -331,11 +331,21 @@
   }
 }
 
-@media (min-width: 720px) and (max-width: 1080px) {
-  .searchWrap {
-    width: min(100%, 33rem);
+@media (min-width: 720px) and (max-width: 960px) {
+  .searchRow {
+    grid-template-columns: 1fr 1fr;
   }
 
+  .locationField {
+    grid-column: 1 / -1;
+  }
+
+  .searchSubmit {
+    justify-self: end;
+  }
+}
+
+@media (min-width: 720px) and (max-width: 1080px) {
   .bikeGrid {
     grid-template-columns: repeat(3, minmax(9rem, 10.5rem));
     width: auto;
