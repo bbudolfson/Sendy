@@ -18,7 +18,7 @@
   padding: var(--space-4) var(--space-6);
   background:
     linear-gradient(to bottom, color-mix(in oklab, var(--color-brand-strong) 20%, transparent), transparent 45%),
-    url("/hero-biker.png");
+    url("/hero-dashboard.png");
   background-position: center;
   background-size: cover;
   color: var(--color-inverse-text);
