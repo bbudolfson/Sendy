@@ -1,9 +1,23 @@
+/* Centered column in shop shell `main` (flex row + justify-content: center) */
 .page {
-  width: 100%;
-  max-width: 64rem;
+  width: min(100%, 64rem);
+  margin-inline: auto;
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: var(--space-4);
+}
+
+/* Headings / stacks that sit beside cards — same width as cards for alignment */
+.page > :not(.grid) {
+  width: min(100%, 36rem);
+  max-width: 100%;
+}
+
+.page > .grid {
+  width: min(100%, 64rem);
+  max-width: 100%;
+  align-self: stretch;
 }
 
 .grid {

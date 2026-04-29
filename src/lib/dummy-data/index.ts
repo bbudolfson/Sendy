@@ -12,6 +12,7 @@ import type {
   RatePlan,
   ShopBike,
   ShopProfile,
+  ShopReservationActivity,
   TripType,
   Weekday,
 } from "@/lib/domain/types";
@@ -262,7 +263,7 @@ export const DUMMY_RENTALS: RentalRecord[] = [
 
 export const SHOP_PROFILE_DEMO: ShopProfile = {
   id: "shop-demo",
-  ownerName: "Taylor Green",
+  ownerName: "Brett Budolfson",
   email: "owner@outpostbikeshop.example",
   shopName: "Outpost Bike Shop",
   addressLine1: "240 Trail Ave",
@@ -365,6 +366,37 @@ export const SHOP_EMBED_LINKS: EmbedLink[] = [
     label: "Main booking page",
     url: "https://sendy.example.com/book/canyon-cycles",
   },
+];
+
+const ACTIVITY_RIDER = "Brett Budolfson";
+const ACTIVITY_BIKE = "Santa Cruz Nomad";
+const ACTIVITY_PRICE = "($200 Per Day)";
+const ACTIVITY_START = "Sunday May 3";
+const ACTIVITY_END = "Wednesday May 6";
+
+function activityRow(id: string): ShopReservationActivity {
+  return {
+    id,
+    bikeTitle: ACTIVITY_BIKE,
+    priceLine: ACTIVITY_PRICE,
+    requestedBy: ACTIVITY_RIDER,
+    startDateDisplay: ACTIVITY_START,
+    endDateDisplay: ACTIVITY_END,
+  };
+}
+
+/** Confirmed / in-progress pickups today — owner follows up via message */
+export const SHOP_ACTIVITY_RESERVATIONS_TODAY: ShopReservationActivity[] = [
+  activityRow("act-today-1"),
+  activityRow("act-today-2"),
+];
+
+/** Pending owner approval */
+export const SHOP_ACTIVITY_OPEN_REQUESTS: ShopReservationActivity[] = [
+  activityRow("act-open-1"),
+  activityRow("act-open-2"),
+  activityRow("act-open-3"),
+  activityRow("act-open-4"),
 ];
 
 const SHOP_BIKE_GALLERY: Record<string, string[]> = {

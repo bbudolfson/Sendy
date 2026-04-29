@@ -138,3 +138,13 @@ export type EmbedLink = {
   label: string;
   url: string;
 };
+
+/** Shop home activity log — prototype rows for owner inbox */
+export type ShopReservationActivity = {
+  id: string;
+  bikeTitle: string;
+  priceLine: string;
+  requestedBy: string;
+  startDateDisplay: string;
+  endDateDisplay: string;
+};
