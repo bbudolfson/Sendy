@@ -2,6 +2,7 @@
 
 import { PocCard, PocH1, PocMuted, PocStack } from "@/components/poc-ui";
 import { DUMMY_RENTALS } from "@/lib/dummy-data";
+import { formatDisplayDate } from "@/lib/format-display-date";
 import styles from "./trips.module.css";
 
 export default function TripsPage() {
@@ -28,7 +29,7 @@ export default function TripsPage() {
             <article key={r.id} className={styles.rentalRow}>
               <p>{r.location}</p>
               <p className={styles.meta}>
-                {r.bikeName} · {r.startDate} → {r.endDate}
+                {r.bikeName} · {formatDisplayDate(r.startDate)} → {formatDisplayDate(r.endDate)}
               </p>
             </article>
           ))}
@@ -42,7 +43,7 @@ export default function TripsPage() {
             <article key={r.id} className={styles.rentalRow}>
               <p>{r.location}</p>
               <p className={styles.meta}>
-                {r.bikeName} · {r.startDate} → {r.endDate}
+                {r.bikeName} · {formatDisplayDate(r.startDate)} → {formatDisplayDate(r.endDate)}
               </p>
             </article>
           ))}

@@ -11,6 +11,7 @@ import {
 } from "@/components/poc-ui";
 import { usePocSession } from "@/context/poc-session";
 import { getBikeById, getMarketById, RETURN_PICKUP_FEE } from "@/lib/dummy-data";
+import { formatDisplayDate, parseIsoDateOnlyLocal } from "@/lib/format-display-date";
 import styles from "../checkout.module.css";
 
 export default function CheckoutConfirmReservationPage() {
@@ -30,7 +31,8 @@ export default function CheckoutConfirmReservationPage() {
       ? Math.max(
           1,
           Math.ceil(
-            (new Date(session.tripEnd).getTime() - new Date(session.tripStart).getTime()) /
+            (parseIsoDateOnlyLocal(session.tripEnd).getTime() -
+              parseIsoDateOnlyLocal(session.tripStart).getTime()) /
               (86400 * 1000),
           ) + 1,
         )
@@ -55,7 +57,9 @@ export default function CheckoutConfirmReservationPage() {
         <ul className={styles.summaryList}>
           <li>Bike: {bike?.name}</li>
           <li>Market: {market?.label}</li>
-          <li>Dates: {session.tripStart} → {session.tripEnd}</li>
+          <li>
+            Dates: {formatDisplayDate(session.tripStart) || "—"} → {formatDisplayDate(session.tripEnd) || "—"}
+          </li>
           <li>Delivery mode: {session.delivery.mode ?? "n/a"}</li>
           <li>Est. bike subtotal: ${bikeTotal}</li>
           {pickupFee > 0 && <li>Return pickup: ${pickupFee}</li>}

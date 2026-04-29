@@ -66,6 +66,13 @@
   position: relative;
 }
 
+/* Location search uses default action green for focus ring (not `--color-focus` black) */
+.searchCard .locationField :global(input:focus),
+.searchCard .locationField :global(input:focus-visible) {
+  outline: 2px solid var(--sendy-token-action-default);
+  outline-offset: 2px;
+}
+
 .locationDropdown {
   position: absolute;
   z-index: 20;
@@ -168,7 +175,7 @@
   padding: 0;
   font-family: var(--sendy-font-family-body);
   font-size: 0.95rem;
-  font-weight: var(--sendy-font-weight-semibold);
+  font-weight: var(--sendy-font-weight-regular);
   color: var(--color-text);
   text-align: left;
   cursor: pointer;
@@ -201,6 +208,36 @@
   line-height: var(--sendy-line-height-h3);
   color: var(--sendy-text-headings);
   font-weight: var(--sendy-font-weight-medium);
+}
+
+.resultsMeta {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--color-text-muted);
+}
+
+.continueRow {
+  margin-top: var(--space-2);
+}
+
+.continueLink {
+  display: inline-block;
+  font-size: 0.875rem;
+  font-weight: var(--sendy-font-weight-medium);
+  color: var(--color-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.continueLink:hover {
+  color: var(--color-text);
+  opacity: 0.85;
+}
+
+.continueLink:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
 }
 
 .bikeGrid {

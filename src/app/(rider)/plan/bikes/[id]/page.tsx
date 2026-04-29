@@ -11,6 +11,7 @@ import {
 } from "@/components/poc-ui";
 import { usePocSession } from "@/context/poc-session";
 import { getAvailabilityForBike, getBikeById, getMarketById } from "@/lib/dummy-data";
+import { formatDisplayDate } from "@/lib/format-display-date";
 import styles from "./bike-detail.module.css";
 
 export default function BikeDetailPage() {
@@ -50,10 +51,10 @@ export default function BikeDetailPage() {
             {availability.map((d) => (
               <span
                 key={d.date}
-                title={d.date}
+                title={formatDisplayDate(d.date)}
                 className={`${styles.availabilityCell} ${d.available ? styles.available : styles.unavailable}`}
               >
-                {d.date.slice(5)}
+                {formatDisplayDate(d.date)}
               </span>
             ))}
           </div>

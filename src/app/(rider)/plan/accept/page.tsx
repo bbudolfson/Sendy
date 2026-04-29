@@ -10,6 +10,7 @@ import {
 } from "@/components/poc-ui";
 import { usePocSession } from "@/context/poc-session";
 import { getBikeById, getMarketById } from "@/lib/dummy-data";
+import { formatDisplayDate } from "@/lib/format-display-date";
 import styles from "../plan-shared.module.css";
 
 export default function AcceptPage() {
@@ -26,7 +27,9 @@ export default function AcceptPage() {
         <ul className={styles.summaryList}>
           <li>Bike: {bike?.name ?? "—"}</li>
           <li>Market: {market?.label ?? "—"}</li>
-          <li>Dates: {session.tripStart ?? "—"} → {session.tripEnd ?? "—"}</li>
+          <li>
+            Dates: {formatDisplayDate(session.tripStart) || "—"} → {formatDisplayDate(session.tripEnd) || "—"}
+          </li>
           <li>Add-ons: {JSON.stringify(session.addOns)}</li>
         </ul>
         <PocButton

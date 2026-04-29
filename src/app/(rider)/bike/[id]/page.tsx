@@ -9,6 +9,7 @@ import {
   getRatePlanForBike,
   getShopProfileByShopId,
 } from "@/lib/dummy-data";
+import { formatDisplayDate } from "@/lib/format-display-date";
 import styles from "./bike-detail.module.css";
 
 export default function BikeDetailPage() {
@@ -109,7 +110,7 @@ export default function BikeDetailPage() {
                     className={`${styles.dateButton} ${startValue ? styles.dateButtonFilled : ""}`}
                     onClick={() => openPicker(startRef)}
                   >
-                    {startValue || "Start"}
+                    {startValue ? formatDisplayDate(startValue) : "Start"}
                   </button>
                   <input
                     ref={startRef}
@@ -127,7 +128,7 @@ export default function BikeDetailPage() {
                     className={`${styles.dateButton} ${endValue ? styles.dateButtonFilled : ""}`}
                     onClick={() => openPicker(endRef)}
                   >
-                    {endValue || "End"}
+                    {endValue ? formatDisplayDate(endValue) : "End"}
                   </button>
                   <input
                     ref={endRef}

@@ -1,3 +1,4 @@
+import { formatDisplayDate } from "@/lib/format-display-date";
 import type {
   AvailabilityRule,
   Bike,
@@ -371,8 +372,8 @@ export const SHOP_EMBED_LINKS: EmbedLink[] = [
 const ACTIVITY_RIDER = "Brett Budolfson";
 const ACTIVITY_BIKE = "Santa Cruz Nomad";
 const ACTIVITY_PRICE = "($200 Per Day)";
-const ACTIVITY_START = "Sunday May 3";
-const ACTIVITY_END = "Wednesday May 6";
+const ACTIVITY_START = formatDisplayDate("2026-05-03");
+const ACTIVITY_END = formatDisplayDate("2026-05-06");
 
 function activityRow(id: string): ShopReservationActivity {
   return {

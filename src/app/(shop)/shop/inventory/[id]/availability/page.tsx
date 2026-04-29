@@ -3,6 +3,7 @@
 import { PocButton, PocButtonLink, PocCard, PocH1, PocInput, PocLabel, PocMuted, PocStack } from "@/components/poc-ui";
 import { useShopSession } from "@/context/shop-session";
 import type { Weekday } from "@/lib/domain/types";
+import { formatDisplayDate } from "@/lib/format-display-date";
 import styles from "../../../shop-pages.module.css";
 
 const DAYS: Weekday[] = [
@@ -109,7 +110,7 @@ export default function BikeAvailabilityPage({ params }: { params: { id: string 
             {blocked.map((entry) => (
               <li key={entry.date} className={styles.listItem}>
                 <div className={styles.row}>
-                  <span>{entry.date}</span>
+                  <span>{formatDisplayDate(entry.date)}</span>
                   <button type="button" onClick={() => removeBikeBlockedDate(bike.id, entry.date)}>
                     Remove
                   </button>

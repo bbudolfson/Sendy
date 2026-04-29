@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PocInput } from "@/components/poc-ui";
@@ -8,8 +9,11 @@ import { usePocSession } from "@/context/poc-session";
 import {
   DUMMY_RENTALS,
   SHOP_BIKES,
+  getBikesForMarket,
+  getMarketById,
   resolveMarketFromLocation,
 } from "@/lib/dummy-data";
+import { formatDisplayDate } from "@/lib/format-display-date";
 import styles from "./dashboard.module.css";
 
 const HOME_ROWS = [
@@ -24,9 +28,16 @@ export default function DashboardPage() {
   const [startValue, setStartValue] = useState(session.tripStart ?? "");
   const [endValue, setEndValue] = useState(session.tripEnd ?? "");
   const [showPrevious, setShowPrevious] = useState(false);
+  /** Drives lower-half tiles after a successful location search (stays on dashboard). */
+  const [resultsMarketId, setResultsMarketId] = useState<string | null>(null);
   const startRef = useRef<HTMLInputElement>(null);
   const endRef = useRef<HTMLInputElement>(null);
   const previous = DUMMY_RENTALS.slice(0, 2);
+
+  const searchMarket = resultsMarketId ? getMarketById(resultsMarketId) : undefined;
+  const searchBikes = resultsMarketId
+    ? getBikesForMarket(resultsMarketId, { includeFallback: true })
+    : [];
 
   const openPicker = (ref: React.RefObject<HTMLInputElement | null>) => {
     const node = ref.current;
@@ -70,10 +81,8 @@ export default function DashboardPage() {
                 router.push("/plan/request-market");
                 return;
               }
-              if (start && end) {
-                router.push("/plan/bikes");
-              } else {
-                router.push("/plan/dates");
+              if (market) {
+                setResultsMarketId(market.id);
               }
             }}
           >
@@ -106,10 +115,21 @@ export default function DashboardPage() {
                               setLocationValue(trip.location);
                               setStartValue(trip.startDate);
                               setEndValue(trip.endDate);
+                              const { exists, market } = resolveMarketFromLocation(trip.location);
+                              if (exists && market) {
+                                setResultsMarketId(market.id);
+                                patch({
+                                  tripLocation: trip.location,
+                                  tripStart: trip.startDate,
+                                  tripEnd: trip.endDate,
+                                  marketId: market.id,
+                                  datesKnown: true,
+                                });
+                              }
                               setShowPrevious(false);
                             }}
                           >
-                            {trip.location}, {trip.startDate.slice(5)}-{trip.endDate.slice(5)}
+                            {trip.location}, {formatDisplayDate(trip.startDate)}–{formatDisplayDate(trip.endDate)}
                           </button>
                         </li>
                       ))}
@@ -123,7 +143,7 @@ export default function DashboardPage() {
                   className={`${styles.dateButton} ${startValue ? styles.dateButtonFilled : ""}`}
                   onClick={() => openPicker(startRef)}
                 >
-                  {startValue || "Start"}
+                  {startValue ? formatDisplayDate(startValue) : "Start"}
                 </button>
                 <input
                   ref={startRef}
@@ -140,7 +160,7 @@ export default function DashboardPage() {
                   className={`${styles.dateButton} ${endValue ? styles.dateButtonFilled : ""}`}
                   onClick={() => openPicker(endRef)}
                 >
-                  {endValue || "End"}
+                  {endValue ? formatDisplayDate(endValue) : "End"}
                 </button>
                 <input
                   ref={endRef}
@@ -163,25 +183,62 @@ export default function DashboardPage() {
       </section>
 
       <section className={styles.resultsWrap}>
-        {HOME_ROWS.map((row) => (
-          <div key={row.id} className={styles.resultSection}>
-            <h2 className={styles.sectionTitle}>{row.label}</h2>
+        {resultsMarketId && searchMarket ? (
+          <div className={styles.resultSection}>
+            <h2 className={styles.sectionTitle}>Bikes in {searchMarket.label}</h2>
+            <p className={styles.resultsMeta}>
+              {startValue && endValue
+                ? `${formatDisplayDate(startValue)} – ${formatDisplayDate(endValue)}`
+                : "Add trip dates in the search bar to continue booking with dates."}
+            </p>
             <div className={styles.bikeGrid}>
-              {Array.from({ length: 5 }, (_, index) => {
-                const bike = SHOP_BIKES[index % SHOP_BIKES.length];
-                return (
-                  <a key={`${row.id}-${index}`} href={`/bike/${bike.id}`} className={styles.bikeCardLink}>
+              {searchBikes.length === 0 ? (
+                <p className={styles.resultsMeta}>No demo bikes for this market yet.</p>
+              ) : (
+                searchBikes.map((bike) => (
+                  <Link key={bike.id} href={`/plan/bikes/${bike.id}`} className={styles.bikeCardLink}>
                     <article className={styles.bikeCard}>
-                      <img src={bike.imageUrl} alt={bike.title} className={styles.bikeImage} />
-                      <p className={styles.bikeTitle}>{bike.title}</p>
-                      <p className={styles.bikePrice}>($200 Per Day)</p>
+                      <img src={bike.imageUrl} alt={bike.name} className={styles.bikeImage} />
+                      <p className={styles.bikeTitle}>{bike.name}</p>
+                      <p className={styles.bikePrice}>${bike.dailyPrice} / day</p>
                     </article>
-                  </a>
-                );
-              })}
+                  </Link>
+                ))
+              )}
+            </div>
+            <div className={styles.continueRow}>
+              {startValue && endValue ? (
+                <Link href="/plan/bikes" className={styles.continueLink}>
+                  Continue to full match list →
+                </Link>
+              ) : (
+                <Link href="/plan/dates" className={styles.continueLink}>
+                  Add dates and continue booking →
+                </Link>
+              )}
             </div>
           </div>
-        ))}
+        ) : (
+          HOME_ROWS.map((row) => (
+            <div key={row.id} className={styles.resultSection}>
+              <h2 className={styles.sectionTitle}>{row.label}</h2>
+              <div className={styles.bikeGrid}>
+                {Array.from({ length: 5 }, (_, index) => {
+                  const bike = SHOP_BIKES[index % SHOP_BIKES.length];
+                  return (
+                    <a key={`${row.id}-${index}`} href={`/bike/${bike.id}`} className={styles.bikeCardLink}>
+                      <article className={styles.bikeCard}>
+                        <img src={bike.imageUrl} alt={bike.title} className={styles.bikeImage} />
+                        <p className={styles.bikeTitle}>{bike.title}</p>
+                        <p className={styles.bikePrice}>($200 Per Day)</p>
+                      </article>
+                    </a>
+                  );
+                })}
+              </div>
+            </div>
+          ))
+        )}
       </section>
     </div>
   );
