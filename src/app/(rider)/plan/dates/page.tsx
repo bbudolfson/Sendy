@@ -28,7 +28,7 @@ export default function PlanDatesPage() {
             const start = String(fd.get("start") ?? "");
             const end = String(fd.get("end") ?? "");
             patch({ tripStart: start, tripEnd: end, datesKnown: true });
-            router.push("/plan/bikes");
+            router.push("/dashboard");
           }}
         >
           <PocStack gap="md">

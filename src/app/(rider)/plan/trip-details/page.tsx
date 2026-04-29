@@ -49,7 +49,7 @@ export default function TripDetailsPage() {
               return;
             }
             if (start && end) {
-              router.push("/plan/bikes");
+              router.push("/dashboard");
             } else {
               router.push("/plan/dates");
             }

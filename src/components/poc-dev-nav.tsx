@@ -9,7 +9,6 @@ const LINKS: { href: string; label: string }[] = [
   { href: "/dashboard", label: "Dashboard" },
   { href: "/plan/trip-details", label: "Trip details" },
   { href: "/plan/browse", label: "Browse" },
-  { href: "/plan/bikes", label: "Bikes" },
   { href: "/checkout", label: "Checkout" },
   { href: "/shop", label: "Shop shell" },
 ];

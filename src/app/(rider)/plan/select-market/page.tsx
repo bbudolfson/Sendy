@@ -38,7 +38,7 @@ export default function SelectMarketPage() {
                   tripLocation: m.label,
                   selectedTripType: tripType,
                 });
-                router.push(session.datesKnown ? "/plan/bikes" : "/plan/dates");
+                router.push(session.datesKnown ? "/dashboard" : "/plan/dates");
               }}
             >
               {m.label}

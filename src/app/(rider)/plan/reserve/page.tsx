@@ -23,7 +23,7 @@ export default function ReservePage() {
         <PocStack gap="md">
           <PocH1>Reserve</PocH1>
           <PocMuted>Pick a bike from matches first.</PocMuted>
-          <Link href="/plan/bikes">Back to bikes</Link>
+          <Link href="/dashboard">Back to search</Link>
         </PocStack>
       </PocCard>
     );

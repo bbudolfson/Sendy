@@ -9,8 +9,8 @@ import { usePocSession } from "@/context/poc-session";
 import {
   DUMMY_RENTALS,
   SHOP_BIKES,
-  getBikesForMarket,
   getMarketById,
+  getRatePlanForBike,
   resolveMarketFromLocation,
 } from "@/lib/dummy-data";
 import { formatDisplayDate } from "@/lib/format-display-date";
@@ -28,16 +28,13 @@ export default function DashboardPage() {
   const [startValue, setStartValue] = useState(session.tripStart ?? "");
   const [endValue, setEndValue] = useState(session.tripEnd ?? "");
   const [showPrevious, setShowPrevious] = useState(false);
-  /** Drives lower-half tiles after a successful location search (stays on dashboard). */
-  const [resultsMarketId, setResultsMarketId] = useState<string | null>(null);
   const startRef = useRef<HTMLInputElement>(null);
   const endRef = useRef<HTMLInputElement>(null);
   const previous = DUMMY_RENTALS.slice(0, 2);
 
-  const searchMarket = resultsMarketId ? getMarketById(resultsMarketId) : undefined;
-  const searchBikes = resultsMarketId
-    ? getBikesForMarket(resultsMarketId, { includeFallback: true })
-    : [];
+  const searchMarket = session.marketId ? getMarketById(session.marketId) : undefined;
+  /** Full shop inventory for tiles — same `/bike/[id]` detail as browse rows. */
+  const resultShopBikes = session.marketId ? SHOP_BIKES : [];
 
   const openPicker = (ref: React.RefObject<HTMLInputElement | null>) => {
     const node = ref.current;
@@ -81,9 +78,6 @@ export default function DashboardPage() {
                 router.push("/plan/request-market");
                 return;
               }
-              if (market) {
-                setResultsMarketId(market.id);
-              }
             }}
           >
             <div className={styles.searchRow}>
@@ -117,7 +111,6 @@ export default function DashboardPage() {
                               setEndValue(trip.endDate);
                               const { exists, market } = resolveMarketFromLocation(trip.location);
                               if (exists && market) {
-                                setResultsMarketId(market.id);
                                 patch({
                                   tripLocation: trip.location,
                                   tripStart: trip.startDate,
@@ -183,7 +176,7 @@ export default function DashboardPage() {
       </section>
 
       <section className={styles.resultsWrap}>
-        {resultsMarketId && searchMarket ? (
+        {session.marketId && searchMarket ? (
           <div className={styles.resultSection}>
             <h2 className={styles.sectionTitle}>Bikes in {searchMarket.label}</h2>
             <p className={styles.resultsMeta}>
@@ -192,30 +185,20 @@ export default function DashboardPage() {
                 : "Add trip dates in the search bar to continue booking with dates."}
             </p>
             <div className={styles.bikeGrid}>
-              {searchBikes.length === 0 ? (
-                <p className={styles.resultsMeta}>No demo bikes for this market yet.</p>
-              ) : (
-                searchBikes.map((bike) => (
-                  <Link key={bike.id} href={`/plan/bikes/${bike.id}`} className={styles.bikeCardLink}>
+              {resultShopBikes.map((bike) => {
+                const rate = getRatePlanForBike(bike.id);
+                const priceLabel =
+                  rate !== undefined ? `($${rate.dailyRate} Per Day)` : "(Price on request)";
+                return (
+                  <Link key={bike.id} href={`/bike/${bike.id}`} className={styles.bikeCardLink}>
                     <article className={styles.bikeCard}>
-                      <img src={bike.imageUrl} alt={bike.name} className={styles.bikeImage} />
-                      <p className={styles.bikeTitle}>{bike.name}</p>
-                      <p className={styles.bikePrice}>${bike.dailyPrice} / day</p>
+                      <img src={bike.imageUrl} alt={bike.title} className={styles.bikeImage} />
+                      <p className={styles.bikeTitle}>{bike.title}</p>
+                      <p className={styles.bikePrice}>{priceLabel}</p>
                     </article>
                   </Link>
-                ))
-              )}
-            </div>
-            <div className={styles.continueRow}>
-              {startValue && endValue ? (
-                <Link href="/plan/bikes" className={styles.continueLink}>
-                  Continue to full match list →
-                </Link>
-              ) : (
-                <Link href="/plan/dates" className={styles.continueLink}>
-                  Add dates and continue booking →
-                </Link>
-              )}
+                );
+              })}
             </div>
           </div>
         ) : (
@@ -225,12 +208,15 @@ export default function DashboardPage() {
               <div className={styles.bikeGrid}>
                 {Array.from({ length: 5 }, (_, index) => {
                   const bike = SHOP_BIKES[index % SHOP_BIKES.length];
+                  const rate = getRatePlanForBike(bike.id);
+                  const priceLabel =
+                    rate !== undefined ? `($${rate.dailyRate} Per Day)` : "(Price on request)";
                   return (
                     <a key={`${row.id}-${index}`} href={`/bike/${bike.id}`} className={styles.bikeCardLink}>
                       <article className={styles.bikeCard}>
                         <img src={bike.imageUrl} alt={bike.title} className={styles.bikeImage} />
                         <p className={styles.bikeTitle}>{bike.title}</p>
-                        <p className={styles.bikePrice}>($200 Per Day)</p>
+                        <p className={styles.bikePrice}>{priceLabel}</p>
                       </article>
                     </a>
                   );

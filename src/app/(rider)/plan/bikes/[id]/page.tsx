@@ -25,7 +25,7 @@ export default function BikeDetailPage() {
     return (
       <PocCard>
         <PocH1>Bike not found</PocH1>
-        <Link href="/plan/bikes">Back</Link>
+        <Link href="/dashboard">Back</Link>
       </PocCard>
     );
   }
@@ -68,8 +68,8 @@ export default function BikeDetailPage() {
         >
           Reserve
         </PocButton>
-        <Link href="/plan/bikes" className={styles.backLink}>
-          ← Back to matches
+        <Link href="/dashboard" className={styles.backLink}>
+          ← Back to search
         </Link>
       </PocStack>
     </PocCard>

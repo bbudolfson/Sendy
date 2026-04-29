@@ -216,30 +216,6 @@
   color: var(--color-text-muted);
 }
 
-.continueRow {
-  margin-top: var(--space-2);
-}
-
-.continueLink {
-  display: inline-block;
-  font-size: 0.875rem;
-  font-weight: var(--sendy-font-weight-medium);
-  color: var(--color-text);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.continueLink:hover {
-  color: var(--color-text);
-  opacity: 0.85;
-}
-
-.continueLink:focus-visible {
-  outline: 2px solid var(--color-focus);
-  outline-offset: 2px;
-  border-radius: var(--radius-sm);
-}
-
 .bikeGrid {
   display: grid;
   grid-template-columns: repeat(5, 10.5rem);
