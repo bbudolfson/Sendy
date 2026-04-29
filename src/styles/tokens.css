@@ -2,6 +2,7 @@
 :root {
   --color-bg: #fafafa;
   --color-surface: #ffffff;
+  --color-surface-50: #f4f5f5;
   --color-border: #d4d4d4;
   --color-text: #0a0a0a;
   --color-text-muted: #525252;
@@ -9,6 +10,10 @@
   --color-focus: #0a0a0a;
   --color-inverse-bg: #171717;
   --color-inverse-text: #fafafa;
+  --color-brand: #3b6ea8;
+  --color-brand-strong: #294f7c;
+  --color-overlay-surface: color-mix(in oklab, #ffffff 86%, transparent);
+  --color-overlay-border: color-mix(in oklab, #ffffff 55%, transparent);
   --radius-sm: 4px;
   --radius-md: 8px;
   --space-1: 0.25rem;
@@ -18,12 +23,55 @@
   --space-6: 1.5rem;
   --space-8: 2rem;
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --sendy-font-family-body: "Outfit", var(--font-sans);
+  --sendy-font-family-headings: "Outfit", var(--font-sans);
+  --sendy-font-weight-light: 300;
+  --sendy-font-weight-regular: 400;
+  --sendy-font-weight-medium: 500;
+  --sendy-font-weight-semibold: 600;
+  --sendy-font-weight-bold: 800;
+
+  --sendy-font-size-display: 3.5rem;
+  --sendy-line-height-display: 4rem;
+  --sendy-font-size-h1: 2rem;
+  --sendy-line-height-h1: 2.375rem;
+  --sendy-font-size-h2: 1.5rem;
+  --sendy-line-height-h2: 1.875rem;
+  --sendy-font-size-h3: 1rem;
+  --sendy-line-height-h3: 1.375rem;
+  --sendy-font-size-body: 1rem;
+  --sendy-line-height-body: 1.5rem;
+  --sendy-font-size-body-sm: 0.75rem;
+  --sendy-line-height-body-sm: 1.125rem;
+  --sendy-font-size-label: 0.625rem;
+  --sendy-line-height-label: 0.875rem;
+
+  --sendy-text-headings: var(--color-text);
+  --sendy-text-body: var(--color-text);
+  /*
+   Mapped/Mode 1 → Text.Action → Primary.Default → Earth.Default
+   Mapped/Mode 1 → Text.Action hover → Primary.600 → Earth.600
+   Mapped/Mode 1 → Text.On Action → Neutral.White
+   (see tokens/tokens.json)
+   */
+  --sendy-token-action-default: #768577;
+  --sendy-token-action-hover: #5e6a5f;
+  --sendy-text-action: var(--sendy-token-action-default);
+  --sendy-text-action-hover: var(--sendy-token-action-hover);
+  --sendy-text-on-action: #ffffff;
+  --sendy-text-disabled: var(--color-text-subtle);
+  --sendy-text-error: #b91c1c;
+  --sendy-text-success: #166534;
+  --sendy-text-warning: #a16207;
+  --sendy-text-information: #1d4ed8;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --color-bg: #0a0a0a;
     --color-surface: #171717;
+    --color-surface-50: #202020;
     --color-border: #404040;
     --color-text: #fafafa;
     --color-text-muted: #a3a3a3;
@@ -31,5 +79,13 @@
     --color-focus: #fafafa;
     --color-inverse-bg: #fafafa;
     --color-inverse-text: #0a0a0a;
+    --color-brand: #7aa7de;
+    --color-brand-strong: #5b8bc7;
+    --color-overlay-surface: color-mix(in oklab, #171717 80%, transparent);
+    --color-overlay-border: color-mix(in oklab, #fafafa 25%, transparent);
+    --sendy-token-action-default: #919d92;
+    --sendy-token-action-hover: #768577;
+    --sendy-text-action: var(--sendy-token-action-default);
+    --sendy-text-action-hover: var(--sendy-token-action-hover);
   }
 }

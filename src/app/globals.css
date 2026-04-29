@@ -1,4 +1,5 @@
 @import "../styles/tokens.css";
+@import "../styles/typography.css";
 
 html,
 body {
@@ -9,7 +10,7 @@ body {
 body {
   color: var(--color-text);
   background: var(--color-bg);
-  font-family: var(--font-sans);
+  font-family: var(--sendy-font-family-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

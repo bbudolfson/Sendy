@@ -117,3 +117,8 @@
   justify-content: flex-start;
   width: 100%;
 }
+
+.mainDashboard {
+  padding: 0;
+  align-items: stretch;
+}

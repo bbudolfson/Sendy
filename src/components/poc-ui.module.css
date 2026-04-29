@@ -22,28 +22,34 @@
 }
 
 .h1 {
-  font-size: 1.5rem;
-  font-weight: 600;
-  color: var(--color-text);
-  letter-spacing: -0.02em;
+  font-family: var(--sendy-font-family-headings);
+  font-size: var(--sendy-font-size-h1);
+  line-height: var(--sendy-line-height-h1);
+  font-weight: var(--sendy-font-weight-bold);
+  color: var(--sendy-text-headings);
+  letter-spacing: -0.25px;
 }
 
 .h2 {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: var(--color-text);
+  font-family: var(--sendy-font-family-headings);
+  font-size: var(--sendy-font-size-h2);
+  line-height: var(--sendy-line-height-h2);
+  font-weight: var(--sendy-font-weight-semibold);
+  color: var(--sendy-text-headings);
+  letter-spacing: -0.1px;
 }
 
 .muted {
-  font-size: 0.875rem;
+  font-size: var(--sendy-font-size-body-sm);
+  line-height: var(--sendy-line-height-body-sm);
   color: var(--color-text-muted);
-  line-height: 1.5;
 }
 
 .label {
   display: block;
-  font-size: 0.75rem;
-  font-weight: 500;
+  font-size: var(--sendy-font-size-label);
+  line-height: var(--sendy-line-height-label);
+  font-weight: var(--sendy-font-weight-medium);
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: var(--color-text-muted);
@@ -57,8 +63,9 @@
   border-radius: var(--radius-sm);
   background: var(--color-surface);
   color: var(--color-text);
-  font-size: 1rem;
-  font-family: var(--font-sans);
+  font-size: var(--sendy-font-size-body);
+  line-height: var(--sendy-line-height-body);
+  font-family: var(--sendy-font-family-body);
 }
 .input:focus {
   outline: 2px solid var(--color-focus);
@@ -71,9 +78,10 @@
   justify-content: center;
   padding: var(--space-3) var(--space-4);
   border-radius: var(--radius-sm);
-  font-size: 0.9375rem;
-  font-weight: 500;
-  font-family: var(--font-sans);
+  font-size: var(--sendy-font-size-body);
+  line-height: var(--sendy-line-height-body);
+  font-weight: var(--sendy-font-weight-semibold);
+  font-family: var(--sendy-font-family-body);
   border: 1px solid transparent;
   cursor: pointer;
   text-decoration: none;

@@ -1,0 +1,111 @@
+/*
+  Sendy Typography
+  Matches Figma type scale using token references.
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap");
+
+body {
+  font-family: var(--sendy-font-family-body);
+  font-weight: var(--sendy-font-weight-regular);
+  color: var(--sendy-text-body);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.text-display {
+  font-family: var(--sendy-font-family-headings);
+  font-weight: var(--sendy-font-weight-light);
+  font-size: var(--sendy-font-size-display);
+  line-height: var(--sendy-line-height-display);
+  letter-spacing: -0.5px;
+  color: var(--sendy-text-headings);
+}
+
+.text-h1 {
+  font-family: var(--sendy-font-family-headings);
+  font-weight: var(--sendy-font-weight-bold);
+  font-size: var(--sendy-font-size-h1);
+  line-height: var(--sendy-line-height-h1);
+  letter-spacing: -0.25px;
+  color: var(--sendy-text-headings);
+}
+
+.text-h2 {
+  font-family: var(--sendy-font-family-headings);
+  font-weight: var(--sendy-font-weight-semibold);
+  font-size: var(--sendy-font-size-h2);
+  line-height: var(--sendy-line-height-h2);
+  letter-spacing: -0.1px;
+  color: var(--sendy-text-headings);
+}
+
+.text-h3 {
+  font-family: var(--sendy-font-family-headings);
+  font-weight: var(--sendy-font-weight-medium);
+  font-size: var(--sendy-font-size-h3);
+  line-height: var(--sendy-line-height-h3);
+  color: var(--sendy-text-headings);
+}
+
+.text-body {
+  font-family: var(--sendy-font-family-body);
+  font-weight: var(--sendy-font-weight-regular);
+  font-size: var(--sendy-font-size-body);
+  line-height: var(--sendy-line-height-body);
+  color: var(--sendy-text-body);
+}
+
+.text-body-sm {
+  font-family: var(--sendy-font-family-body);
+  font-weight: var(--sendy-font-weight-regular);
+  font-size: var(--sendy-font-size-body-sm);
+  line-height: var(--sendy-line-height-body-sm);
+  color: var(--sendy-text-body);
+}
+
+.text-label {
+  font-family: var(--sendy-font-family-body);
+  font-weight: var(--sendy-font-weight-medium);
+  font-size: var(--sendy-font-size-label);
+  line-height: var(--sendy-line-height-label);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--sendy-text-body);
+}
+
+.text-action {
+  font-family: var(--sendy-font-family-body);
+  font-weight: var(--sendy-font-weight-semibold);
+  font-size: var(--sendy-font-size-body);
+  line-height: var(--sendy-line-height-body);
+  color: var(--sendy-text-action);
+}
+
+.text-action:hover {
+  color: var(--sendy-text-action-hover);
+}
+
+.text-disabled {
+  color: var(--sendy-text-disabled);
+}
+
+.text-error {
+  color: var(--sendy-text-error);
+}
+
+.text-success {
+  color: var(--sendy-text-success);
+}
+
+.text-warning {
+  color: var(--sendy-text-warning);
+}
+
+.text-info {
+  color: var(--sendy-text-information);
+}
+
+.text-on-action {
+  color: var(--sendy-text-on-action);
+}
