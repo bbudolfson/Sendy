@@ -30,7 +30,7 @@
   align-items: flex-start;
 }
 
-/* Match `logoImg` in rider / renter shells (same asset, hero context — no invert) */
+/* Match `logoImg` in rider / shop shells (same asset, hero context — no invert) */
 .logoImage {
   display: block;
   height: 1.625rem;
@@ -41,7 +41,7 @@
 
 .searchWrap {
   width: min(100%, var(--bike-grid-width-desktop));
-  margin: var(--space-8) auto 0;
+  margin: calc(var(--space-8) + 40px) auto 0;
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
@@ -256,7 +256,7 @@
 
 @media (max-width: 719px) {
   .searchWrap {
-    margin-top: var(--space-6);
+    margin-top: calc(var(--space-6) + 40px);
   }
 
   .bikeGrid {

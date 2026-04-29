@@ -1,9 +1,9 @@
 "use client";
 
 import { PocButton, PocButtonLink, PocCard, PocH1, PocInput, PocLabel, PocMuted, PocStack } from "@/components/poc-ui";
-import { useRenterSession } from "@/context/renter-session";
+import { useShopSession } from "@/context/shop-session";
 import type { Weekday } from "@/lib/domain/types";
-import styles from "../../../renter-pages.module.css";
+import styles from "../../../shop-pages.module.css";
 
 const DAYS: Weekday[] = [
   "monday",
@@ -16,7 +16,7 @@ const DAYS: Weekday[] = [
 ];
 
 export default function BikeAvailabilityPage({ params }: { params: { id: string } }) {
-  const { session, setBikeAvailabilityRules, addBikeBlockedDate, removeBikeBlockedDate } = useRenterSession();
+  const { session, setBikeAvailabilityRules, addBikeBlockedDate, removeBikeBlockedDate } = useShopSession();
   const bike = session.inventory.find((item) => item.id === params.id);
   if (!bike) {
     return (

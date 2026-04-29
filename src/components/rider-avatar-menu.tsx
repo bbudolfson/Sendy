@@ -44,7 +44,7 @@ export function RiderAvatarMenu({ variant = "surface" }: Props) {
           Trips
         </a>
         <a href="/shop" className={styles.menuItem}>
-          Switch to renter
+          Switch to shop
         </a>
         {session.isLoggedIn ? (
           <button

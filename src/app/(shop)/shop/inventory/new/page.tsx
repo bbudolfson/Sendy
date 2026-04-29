@@ -2,13 +2,13 @@
 
 import { useRouter } from "next/navigation";
 import { PocButton, PocCard, PocH1, PocInput, PocLabel, PocSelect, PocStack, PocTextarea } from "@/components/poc-ui";
-import { useRenterSession } from "@/context/renter-session";
+import { useShopSession } from "@/context/shop-session";
 import type { ShopBike } from "@/lib/domain/types";
-import styles from "../../renter-pages.module.css";
+import styles from "../../shop-pages.module.css";
 
 export default function NewBikePage() {
   const router = useRouter();
-  const { session, upsertBikeDraft } = useRenterSession();
+  const { session, upsertBikeDraft } = useShopSession();
 
   return (
     <div className={styles.page}>

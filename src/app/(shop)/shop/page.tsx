@@ -1,16 +1,16 @@
 "use client";
 
 import { PocButtonLink, PocCard, PocH1, PocH2, PocMuted, PocStack } from "@/components/poc-ui";
-import { useRenterSession } from "@/context/renter-session";
-import styles from "./renter-pages.module.css";
+import { useShopSession } from "@/context/shop-session";
+import styles from "./shop-pages.module.css";
 
 export default function ShopHomePage() {
-  const { session, profileCompletion, canPublishInventory } = useRenterSession();
+  const { session, profileCompletion, canPublishInventory } = useShopSession();
   const activeCount = session.inventory.filter((bike) => bike.status === "active").length;
 
   return (
     <div className={styles.page}>
-      <PocH1>Renter dashboard</PocH1>
+      <PocH1>Shop dashboard</PocH1>
       <div className={styles.grid}>
         <PocCard>
           <PocStack gap="md">

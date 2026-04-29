@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { PocButton, PocCard, PocH1, PocInput, PocLabel, PocMuted, PocStack, PocTextarea } from "@/components/poc-ui";
-import { useRenterSession } from "@/context/renter-session";
-import styles from "../renter-pages.module.css";
+import { useShopSession } from "@/context/shop-session";
+import styles from "../shop-pages.module.css";
 
 export default function ShopProfilePage() {
-  const { session, patchShopProfile, profileCompletion, addDeliveryZone } = useRenterSession();
+  const { session, patchShopProfile, profileCompletion, addDeliveryZone } = useShopSession();
   const [saved, setSaved] = useState(false);
 
   return (

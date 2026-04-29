@@ -1,11 +1,11 @@
 "use client";
 
 import { PocButton, PocCard, PocH1, PocInput, PocLabel, PocMuted, PocStack } from "@/components/poc-ui";
-import { useRenterSession } from "@/context/renter-session";
-import styles from "../renter-pages.module.css";
+import { useShopSession } from "@/context/shop-session";
+import styles from "../shop-pages.module.css";
 
 export default function ShopEmbedPage() {
-  const { session, addEmbedLink, canEnableEmbed } = useRenterSession();
+  const { session, addEmbedLink, canEnableEmbed } = useShopSession();
   const shopSlug = session.profile.shopName.trim().toLowerCase().replace(/\s+/g, "-");
 
   return (

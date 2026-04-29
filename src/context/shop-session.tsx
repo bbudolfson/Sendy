@@ -30,7 +30,7 @@ import {
   SHOP_RATE_PLANS,
 } from "@/lib/dummy-data";
 
-type RenterSession = {
+type ShopSession = {
   profile: ShopProfile;
   inventory: ShopBike[];
   availabilityRules: AvailabilityRule[];
@@ -41,7 +41,7 @@ type RenterSession = {
   embedLinks: EmbedLink[];
 };
 
-const defaultSession: RenterSession = {
+const defaultSession: ShopSession = {
   profile: { ...SHOP_PROFILE_DEMO },
   inventory: [...SHOP_BIKES],
   availabilityRules: [...SHOP_AVAILABILITY_RULES],
@@ -52,8 +52,8 @@ const defaultSession: RenterSession = {
   embedLinks: [...SHOP_EMBED_LINKS],
 };
 
-type RenterSessionValue = {
-  session: RenterSession;
+type ShopSessionValue = {
+  session: ShopSession;
   patchShopProfile: (partial: Partial<ShopProfile>) => void;
   upsertBikeDraft: (bike: ShopBike) => void;
   setBikeAvailabilityRules: (bikeId: string, rules: AvailabilityRule[]) => void;
@@ -68,10 +68,10 @@ type RenterSessionValue = {
   canEnableEmbed: boolean;
 };
 
-const RenterSessionContext = createContext<RenterSessionValue | null>(null);
+const ShopSessionContext = createContext<ShopSessionValue | null>(null);
 
-export function RenterSessionProvider({ children }: { children: ReactNode }) {
-  const [session, setSession] = useState<RenterSession>(defaultSession);
+export function ShopSessionProvider({ children }: { children: ReactNode }) {
+  const [session, setSession] = useState<ShopSession>(defaultSession);
 
   const patchShopProfile = useCallback((partial: Partial<ShopProfile>) => {
     setSession((current) => ({
@@ -201,11 +201,11 @@ export function RenterSessionProvider({ children }: { children: ReactNode }) {
     ],
   );
 
-  return <RenterSessionContext.Provider value={value}>{children}</RenterSessionContext.Provider>;
+  return <ShopSessionContext.Provider value={value}>{children}</ShopSessionContext.Provider>;
 }
 
-export function useRenterSession() {
-  const ctx = useContext(RenterSessionContext);
-  if (!ctx) throw new Error("useRenterSession must be used within RenterSessionProvider");
+export function useShopSession() {
+  const ctx = useContext(ShopSessionContext);
+  if (!ctx) throw new Error("useShopSession must be used within ShopSessionProvider");
   return ctx;
 }

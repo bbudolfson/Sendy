@@ -2,7 +2,7 @@
 
 import type { ReactNode } from "react";
 import { usePathname } from "next/navigation";
-import styles from "./renter-shell.module.css";
+import styles from "./shop-shell.module.css";
 
 const NAV_ITEMS = [
   { href: "/shop", label: "Dashboard" },
@@ -12,15 +12,15 @@ const NAV_ITEMS = [
   { href: "/shop/embed", label: "Embed" },
 ];
 
-export function RenterShell({ children }: { children: ReactNode }) {
+export function ShopShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
 
   return (
     <div className={styles.wrap}>
       <header className={styles.header}>
-        <a href="/shop" className={styles.logo} aria-label="Fitted renter workspace">
+        <a href="/shop" className={styles.logo} aria-label="Fitted shop workspace">
           <img src="/fitted-logo.png" alt="" className={styles.logoImg} />
-          <span className={styles.logoSuffix}>Renter</span>
+          <span className={styles.logoSuffix}>Shop</span>
         </a>
         <div className={styles.rightLinks}>
           <a href="/dashboard" className={styles.link}>

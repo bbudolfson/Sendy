@@ -2,11 +2,11 @@
 
 import { useMemo, useState } from "react";
 import { PocButtonLink, PocCard, PocH1, PocMuted, PocSelect, PocStack } from "@/components/poc-ui";
-import { useRenterSession } from "@/context/renter-session";
-import styles from "../renter-pages.module.css";
+import { useShopSession } from "@/context/shop-session";
+import styles from "../shop-pages.module.css";
 
 export default function ShopInventoryPage() {
-  const { session } = useRenterSession();
+  const { session } = useShopSession();
   const [status, setStatus] = useState<"all" | "active" | "inactive">("all");
   const [type, setType] = useState<"all" | "Road" | "Mountain" | "Gravel" | "E-Bike">("all");
 

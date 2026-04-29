@@ -1,11 +1,11 @@
 "use client";
 
 import { PocButton, PocButtonLink, PocCard, PocH1, PocInput, PocLabel, PocSelect, PocStack, PocTextarea } from "@/components/poc-ui";
-import { useRenterSession } from "@/context/renter-session";
-import styles from "../../renter-pages.module.css";
+import { useShopSession } from "@/context/shop-session";
+import styles from "../../shop-pages.module.css";
 
 export default function InventoryBikeDetailPage({ params }: { params: { id: string } }) {
-  const { session, upsertBikeDraft } = useRenterSession();
+  const { session, upsertBikeDraft } = useShopSession();
   const bike = session.inventory.find((item) => item.id === params.id);
   if (!bike) {
     return (

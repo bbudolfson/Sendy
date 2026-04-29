@@ -1,13 +1,13 @@
 "use client";
 
 import { PocButton, PocCard, PocH1, PocMuted, PocStack } from "@/components/poc-ui";
-import { useRenterSession } from "@/context/renter-session";
-import styles from "../renter-pages.module.css";
+import { useShopSession } from "@/context/shop-session";
+import styles from "../shop-pages.module.css";
 
 const STATUSES = ["not_connected", "pending", "connected", "restricted"] as const;
 
 export default function ShopPaymentsPage() {
-  const { session, setPaymentConnectionState } = useRenterSession();
+  const { session, setPaymentConnectionState } = useShopSession();
 
   return (
     <div className={styles.page}>
