@@ -41,6 +41,9 @@ export function PocRiderShell({ children }: { children: ReactNode }) {
             <a href="/trips" className={styles.menuItem}>
               Trips
             </a>
+            <a href="/shop" className={styles.menuItem}>
+              Switch to renter
+            </a>
             {session.isLoggedIn ? (
               <button
                 type="button"

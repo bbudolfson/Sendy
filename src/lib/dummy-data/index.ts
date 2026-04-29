@@ -1,10 +1,19 @@
 import type {
+  AvailabilityRule,
   Bike,
+  BlockedDate,
   DeliveryWindow,
+  DeliveryZone,
+  EmbedLink,
   FeaturedLocation,
   Market,
+  PaymentConnection,
   RentalRecord,
+  RatePlan,
+  ShopBike,
+  ShopProfile,
   TripType,
+  Weekday,
 } from "@/lib/domain/types";
 
 export const TRIP_TYPES: TripType[] = ["Road", "Mountain", "Gravel", "E-Bike"];
@@ -250,3 +259,131 @@ export const DUMMY_RENTALS: RentalRecord[] = [
     status: "past",
   },
 ];
+
+export const SHOP_PROFILE_DEMO: ShopProfile = {
+  id: "shop-demo",
+  ownerName: "Taylor Green",
+  email: "owner@canyoncycles.example",
+  shopName: "Canyon Cycles",
+  addressLine1: "240 Trail Ave",
+  city: "Bend",
+  state: "OR",
+  postalCode: "97701",
+  logoUrl: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=640&q=80",
+  supportPhone: "(541) 555-0189",
+  serviceAreaNotes: "Downtown Bend, Phil's Trailhead, and west-side hotels.",
+};
+
+export const SHOP_BIKES: ShopBike[] = [
+  {
+    id: "shop-bike-1",
+    shopId: "shop-demo",
+    title: "Santa Cruz Tallboy",
+    brand: "Santa Cruz",
+    model: "Tallboy C",
+    type: "Mountain",
+    size: "L",
+    description: "Efficient trail setup with 130mm front travel and modern geo.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=1200&q=80",
+    status: "active",
+  },
+  {
+    id: "shop-bike-2",
+    shopId: "shop-demo",
+    title: "Specialized Diverge",
+    brand: "Specialized",
+    model: "Diverge Comp",
+    type: "Gravel",
+    size: "56",
+    description: "All-road gravel bike tuned for mixed-surface adventure rides.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1511994298241-608e28f14fde?auto=format&fit=crop&w=1200&q=80",
+    status: "active",
+  },
+  {
+    id: "shop-bike-3",
+    shopId: "shop-demo",
+    title: "Trek Domane",
+    brand: "Trek",
+    model: "Domane SL 6",
+    type: "Road",
+    size: "54",
+    description: "Endurance road option with comfortable fit for long days.",
+    imageUrl:
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?auto=format&fit=crop&w=1200&q=80",
+    status: "inactive",
+  },
+];
+
+const BASE_WEEKLY_HOURS: Array<{
+  weekday: Weekday;
+  open: string;
+  close: string;
+  enabled: boolean;
+}> = [
+  { weekday: "monday", open: "09:00", close: "18:00", enabled: true },
+  { weekday: "tuesday", open: "09:00", close: "18:00", enabled: true },
+  { weekday: "wednesday", open: "09:00", close: "18:00", enabled: true },
+  { weekday: "thursday", open: "09:00", close: "18:00", enabled: true },
+  { weekday: "friday", open: "09:00", close: "18:00", enabled: true },
+  { weekday: "saturday", open: "08:00", close: "16:00", enabled: true },
+  { weekday: "sunday", open: "09:00", close: "14:00", enabled: false },
+];
+
+export const SHOP_AVAILABILITY_RULES: AvailabilityRule[] = SHOP_BIKES.flatMap((bike) =>
+  BASE_WEEKLY_HOURS.map((hours) => ({ bikeId: bike.id, ...hours })),
+);
+
+export const SHOP_BLOCKED_DATES: BlockedDate[] = [
+  { bikeId: "shop-bike-1", date: "2026-05-11", reason: "Tune-up" },
+  { bikeId: "shop-bike-2", date: "2026-05-15", reason: "Group booking" },
+];
+
+export const SHOP_RATE_PLANS: RatePlan[] = [
+  { bikeId: "shop-bike-1", dailyRate: 92, weeklyRate: 560, deposit: 250, seasonalNote: "Peak pricing July-August." },
+  { bikeId: "shop-bike-2", dailyRate: 78, weeklyRate: 468, deposit: 200, seasonalNote: "" },
+  { bikeId: "shop-bike-3", dailyRate: 68, weeklyRate: 395, deposit: 175, seasonalNote: "Road package includes lights." },
+];
+
+export const SHOP_DELIVERY_ZONES: DeliveryZone[] = [
+  { id: "zone-1", shopId: "shop-demo", label: "Phil's Trailhead", notes: "Morning drop-offs only" },
+  { id: "zone-2", shopId: "shop-demo", label: "Old Mill District Hotels", notes: "2-hour delivery window" },
+];
+
+export const SHOP_PAYMENT_CONNECTION: PaymentConnection = {
+  provider: "stripe",
+  status: "pending",
+  payoutsEnabled: false,
+  accountLabel: "Canyon Cycles Payouts",
+};
+
+export const SHOP_EMBED_LINKS: EmbedLink[] = [
+  {
+    id: "embed-main",
+    shopId: "shop-demo",
+    label: "Main booking page",
+    url: "https://sendy.example.com/book/canyon-cycles",
+  },
+];
+
+export function getShopBikeById(id: string): ShopBike | undefined {
+  return SHOP_BIKES.find((bike) => bike.id === id);
+}
+
+export function getShopBikesByStatus(status: "all" | "active" | "inactive"): ShopBike[] {
+  if (status === "all") return SHOP_BIKES;
+  return SHOP_BIKES.filter((bike) => bike.status === status);
+}
+
+export function getAvailabilityRulesForBike(bikeId: string): AvailabilityRule[] {
+  return SHOP_AVAILABILITY_RULES.filter((rule) => rule.bikeId === bikeId);
+}
+
+export function getBlockedDatesForBike(bikeId: string): BlockedDate[] {
+  return SHOP_BLOCKED_DATES.filter((entry) => entry.bikeId === bikeId);
+}
+
+export function getRatePlanForBike(bikeId: string): RatePlan | undefined {
+  return SHOP_RATE_PLANS.find((plan) => plan.bikeId === bikeId);
+}

@@ -51,3 +51,90 @@ export type RentalRecord = {
   endDate: string;
   status: "upcoming" | "past";
 };
+
+export type Weekday =
+  | "monday"
+  | "tuesday"
+  | "wednesday"
+  | "thursday"
+  | "friday"
+  | "saturday"
+  | "sunday";
+
+export type ShopProfile = {
+  id: string;
+  ownerName: string;
+  email: string;
+  shopName: string;
+  addressLine1: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  logoUrl: string;
+  supportPhone: string;
+  serviceAreaNotes: string;
+};
+
+export type ShopBikeStatus = "active" | "inactive";
+
+export type ShopBike = {
+  id: string;
+  shopId: string;
+  title: string;
+  brand: string;
+  model: string;
+  type: BikeType;
+  size: string;
+  description: string;
+  imageUrl: string;
+  status: ShopBikeStatus;
+};
+
+export type AvailabilityRule = {
+  bikeId: string;
+  weekday: Weekday;
+  open: string;
+  close: string;
+  enabled: boolean;
+};
+
+export type BlockedDate = {
+  bikeId: string;
+  date: string;
+  reason: string;
+};
+
+export type RatePlan = {
+  bikeId: string;
+  dailyRate: number;
+  weeklyRate: number;
+  deposit: number;
+  seasonalNote: string;
+};
+
+export type DeliveryZone = {
+  id: string;
+  shopId: string;
+  label: string;
+  notes: string;
+};
+
+export type PaymentConnectionStatus =
+  | "not_connected"
+  | "pending"
+  | "connected"
+  | "restricted";
+
+export type PaymentConnection = {
+  provider: "stripe";
+  status: PaymentConnectionStatus;
+  payoutsEnabled: boolean;
+  accountLabel: string;
+};
+
+export type EmbedLink = {
+  id: string;
+  shopId: string;
+  label: string;
+  url: string;
+};
