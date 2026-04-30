@@ -66,6 +66,45 @@
   position: relative;
 }
 
+.locationInputWrap {
+  position: relative;
+  width: 100%;
+}
+
+.locationClear {
+  position: absolute;
+  right: var(--space-2);
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.locationClear:hover {
+  color: var(--color-text);
+  background: color-mix(in oklab, var(--color-text) 6%, transparent);
+}
+
+.locationClear:focus-visible {
+  outline: 2px solid var(--sendy-token-action-default);
+  outline-offset: 2px;
+}
+
+.locationClearIcon {
+  width: 1rem;
+  height: 1rem;
+}
+
 /* Location search uses default action green for focus ring (not `--color-focus` black) */
 .searchCard .locationField :global(input:focus),
 .searchCard .locationField :global(input:focus-visible) {
@@ -90,6 +129,10 @@
   background: color-mix(in oklab, var(--color-surface) 92%, transparent);
   height: var(--search-control-height);
   padding: 0 var(--space-3);
+}
+
+.searchRow .locationInputWrapWithClear :global(input) {
+  padding-right: 2.5rem;
 }
 
 .dateField {

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PocInput } from "@/components/poc-ui";
 import { RiderAvatarMenu } from "@/components/rider-avatar-menu";
@@ -48,6 +48,22 @@ export default function DashboardPage() {
     node.focus();
   };
 
+  const clearLocationSearch = useCallback(() => {
+    setLocationValue("");
+    setStartValue("");
+    setEndValue("");
+    setShowPrevious(false);
+    patch({
+      tripLocation: "",
+      tripStart: null,
+      tripEnd: null,
+      marketId: null,
+      datesKnown: false,
+    });
+  }, [patch]);
+
+  const showLocationClear = session.marketId != null;
+
   return (
     <div className={styles.page}>
       <section className={styles.hero}>
@@ -89,14 +105,40 @@ export default function DashboardPage() {
                   window.setTimeout(() => setShowPrevious(false), 120);
                 }}
               >
-                <PocInput
-                  name="location"
-                  required
-                  placeholder="Where are you riding?"
-                  value={locationValue}
-                  autoComplete="off"
-                  onChange={(event) => setLocationValue(event.currentTarget.value)}
-                />
+                <div
+                  className={
+                    showLocationClear
+                      ? `${styles.locationInputWrap} ${styles.locationInputWrapWithClear}`
+                      : styles.locationInputWrap
+                  }
+                >
+                  <PocInput
+                    name="location"
+                    required
+                    placeholder="Where are you riding?"
+                    value={locationValue}
+                    autoComplete="off"
+                    onChange={(event) => setLocationValue(event.currentTarget.value)}
+                  />
+                  {showLocationClear ? (
+                    <button
+                      type="button"
+                      className={styles.locationClear}
+                      aria-label="Clear location and search"
+                      onMouseDown={(event) => event.preventDefault()}
+                      onClick={clearLocationSearch}
+                    >
+                      <svg className={styles.locationClearIcon} viewBox="0 0 24 24" fill="none" aria-hidden>
+                        <path
+                          d="M6 6l12 12M18 6L6 18"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                    </button>
+                  ) : null}
+                </div>
                 {showPrevious ? (
                   <div className={styles.locationDropdown}>
                     <p className={styles.previousLabel}>Previous Searches</p>
