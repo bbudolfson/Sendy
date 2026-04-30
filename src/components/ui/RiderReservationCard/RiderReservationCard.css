@@ -164,6 +164,7 @@
 
 .sendy-rider-res-card__reserve-btn {
   width: 100%;
+  max-width: none;
   min-height: 40px;
   border-radius: 0.5rem;
 }
