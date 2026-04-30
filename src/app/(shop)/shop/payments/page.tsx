@@ -11,9 +11,11 @@ export default function ShopPaymentsPage() {
 
   return (
     <div className={styles.page}>
+      <div className={styles.shopPageHeaderRow}>
+        <PocH1>Payments</PocH1>
+      </div>
       <PocCard>
         <PocStack gap="md">
-          <PocH1>Payments onboarding</PocH1>
           <PocMuted>
             Prototype state machine for Stripe Connect-like onboarding. This is mock-only for now.
           </PocMuted>

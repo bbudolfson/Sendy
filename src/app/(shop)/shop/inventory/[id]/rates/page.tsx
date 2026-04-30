@@ -10,14 +10,14 @@ export default function BikeRatesPage({ params }: { params: { id: string } }) {
   if (!bike) {
     return (
       <div className={styles.page}>
-        <PocCard>
-          <PocStack gap="sm">
-            <PocH1>Bike not found</PocH1>
+        <div className={styles.shopPageHeaderRow}>
+          <PocH1>Bike not found</PocH1>
+          <div className={styles.shopPageHeaderActions}>
             <PocButtonLink href="/shop/inventory" variant="secondary">
               Back to inventory
             </PocButtonLink>
-          </PocStack>
-        </PocCard>
+          </div>
+        </div>
       </div>
     );
   }
@@ -25,9 +25,17 @@ export default function BikeRatesPage({ params }: { params: { id: string } }) {
 
   return (
     <div className={styles.page}>
+      <div className={styles.shopPageHeaderRow}>
+        <PocH1>Rates</PocH1>
+        <div className={styles.shopPageHeaderActions}>
+          <span className={styles.mutedText}>{bike.title}</span>
+          <PocButtonLink href={`/shop/inventory/${bike.id}`} variant="secondary">
+            Bike details
+          </PocButtonLink>
+        </div>
+      </div>
       <PocCard>
         <PocStack gap="md">
-          <PocH1>Rates: {bike.title}</PocH1>
           <form
             className={styles.twoCol}
             onSubmit={(event) => {

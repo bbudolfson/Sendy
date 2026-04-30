@@ -10,9 +10,11 @@ export default function ShopEmbedPage() {
 
   return (
     <div className={styles.page}>
+      <div className={styles.shopPageHeaderRow}>
+        <PocH1>Embed</PocH1>
+      </div>
       <PocCard>
         <PocStack gap="md">
-          <PocH1>Embed booking links</PocH1>
           <PocMuted>
             Generate copy-ready booking links for your existing website. Embed enablement depends on profile completeness and connected payouts.
           </PocMuted>

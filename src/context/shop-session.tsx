@@ -153,14 +153,14 @@ export function ShopSessionProvider({ children }: { children: ReactNode }) {
 
   const profileCompletion = useMemo(() => {
     const checks = [
-      !!session.profile.ownerName,
       !!session.profile.shopName,
+      !!session.profile.shopEmail.trim(),
+      !!session.profile.supportPhone.trim(),
       !!session.profile.addressLine1,
       !!session.profile.city,
       !!session.profile.state,
       !!session.profile.postalCode,
-      !!session.profile.logoUrl,
-      !!session.profile.serviceAreaNotes,
+      !!session.profile.websiteUrl.trim(),
     ];
     return Math.round((checks.filter(Boolean).length / checks.length) * 100);
   }, [session.profile]);

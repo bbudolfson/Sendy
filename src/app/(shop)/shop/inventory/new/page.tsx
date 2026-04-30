@@ -4,6 +4,7 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   PocButton,
+  PocH1,
   PocInput,
   PocLabel,
   PocMuted,
@@ -93,9 +94,11 @@ export default function NewBikePage() {
 
   return (
     <div className={pageStyles.page}>
-      <div className={`${pageStyles.pageWide} ${styles.card}`}>
-        <h1 className={styles.title}>Add a Bike</h1>
+      <div className={pageStyles.shopPageHeaderRow}>
+        <PocH1>Add a bike</PocH1>
+      </div>
 
+      <div className={`${pageStyles.pageWide} ${styles.card}`}>
         <form className={styles.layout} onSubmit={onSubmit}>
           <label
             className={`${styles.dropzone} ${dragActive ? styles.dragActive : ""}`}

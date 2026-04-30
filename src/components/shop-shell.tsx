@@ -32,11 +32,11 @@ const RIDER_APP_LINK: MenuLink = {
 export function ShopShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const { session } = useShopSession();
-  const owner = session.profile.ownerName.trim();
+  const shopLabel = session.profile.shopName.trim();
   const initials =
-    owner.length >= 2
-      ? owner.slice(0, 2).toUpperCase()
-      : `${(owner.slice(0, 1) || "?").toUpperCase()}${(owner.slice(0, 1) || "?").toUpperCase()}`;
+    shopLabel.length >= 2
+      ? shopLabel.slice(0, 2).toUpperCase()
+      : `${(shopLabel.slice(0, 1) || "?").toUpperCase()}${(shopLabel.slice(0, 1) || "?").toUpperCase()}`;
 
   return (
     <div className={styles.wrap}>
@@ -53,7 +53,7 @@ export function ShopShell({ children }: { children: ReactNode }) {
                   {initials}
                 </span>
               </span>
-              <span className={styles.srOnly}>Shop menu ({session.profile.ownerName})</span>
+              <span className={styles.srOnly}>Shop menu ({session.profile.shopName})</span>
             </summary>
             <div className={styles.menuPanel}>
               {PRIMARY_MENU_LINKS.map((item) => (

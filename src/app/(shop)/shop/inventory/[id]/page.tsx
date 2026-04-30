@@ -10,23 +10,30 @@ export default function InventoryBikeDetailPage({ params }: { params: { id: stri
   if (!bike) {
     return (
       <div className={styles.page}>
-        <PocCard>
-          <PocStack gap="sm">
-            <PocH1>Bike not found</PocH1>
+        <div className={styles.shopPageHeaderRow}>
+          <PocH1>Bike not found</PocH1>
+          <div className={styles.shopPageHeaderActions}>
             <PocButtonLink href="/shop/inventory" variant="secondary">
               Back to inventory
             </PocButtonLink>
-          </PocStack>
-        </PocCard>
+          </div>
+        </div>
       </div>
     );
   }
 
   return (
     <div className={styles.page}>
+      <div className={styles.shopPageHeaderRow}>
+        <PocH1>Edit bike</PocH1>
+        <div className={styles.shopPageHeaderActions}>
+          <PocButtonLink href="/shop/inventory" variant="secondary">
+            Back to fleet
+          </PocButtonLink>
+        </div>
+      </div>
       <PocCard>
         <PocStack gap="md">
-          <PocH1>Edit bike</PocH1>
           <img src={bike.imageUrl} alt={bike.title} className={styles.image} />
           <form
             className={styles.twoCol}

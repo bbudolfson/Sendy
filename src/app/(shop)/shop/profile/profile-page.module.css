@@ -1,5 +1,6 @@
-.card {
+.profileCard {
   width: 100%;
+  max-width: 36rem;
   margin-inline: auto;
   padding: var(--space-6);
   background: var(--color-surface);
@@ -9,23 +10,28 @@
     color-mix(in oklab, var(--color-text) 6%, transparent);
 }
 
-.layout {
-  display: grid;
-  gap: var(--space-6);
-}
-
-@media (min-width: 800px) {
-  .layout {
-    grid-template-columns: minmax(12rem, 1fr) minmax(18rem, 1.35fr);
-    align-items: start;
-  }
-}
-
-.dropzone {
+.form {
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-  min-height: 18rem;
+  gap: var(--space-4);
+}
+
+.profileLabel {
+  display: block;
+  margin-bottom: var(--space-2);
+  font-family: var(--sendy-font-family-body);
+  font-size: var(--sendy-font-size-body-sm);
+  line-height: var(--sendy-line-height-body-sm);
+  font-weight: var(--sendy-font-weight-medium);
+  color: var(--color-text);
+}
+
+.logoDropzone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 8.75rem;
+  padding: var(--space-4);
   border: 2px dashed var(--color-border);
   border-radius: var(--radius-sm);
   background: var(--color-surface-50);
@@ -37,25 +43,15 @@
   cursor: pointer;
   transition:
     border-color 0.15s,
-    background-color 0.15s,
-    color 0.15s;
+    background-color 0.15s;
 }
 
-.dropzone:hover,
-.dropzone.dragActive {
+.logoDropzone:hover {
   border-color: var(--color-text-subtle);
   background: color-mix(in oklab, var(--color-text) 3%, var(--color-surface));
 }
 
-.dropzoneInner {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-6);
-}
-
-.dropzone input[type="file"] {
+.logoDropzone input[type="file"] {
   position: absolute;
   width: 0;
   height: 0;
@@ -63,32 +59,11 @@
   overflow: hidden;
 }
 
-.dropzoneThumbRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  justify-content: center;
-  padding: 0 var(--space-4) var(--space-4);
-}
-
-.dropzoneThumb {
-  width: 3rem;
-  height: 3rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--color-border);
-  object-fit: cover;
-}
-
-.fields {
-  display: flex;
-  flex-direction: column;
-  gap: var(--space-4);
-}
-
 .footer {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-3);
+  align-items: center;
   justify-content: flex-end;
+  gap: var(--space-3);
   padding-top: var(--space-2);
 }

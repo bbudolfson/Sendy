@@ -1,6 +1,6 @@
 "use client";
 
-import { PocButton, PocButtonLink, PocCard, PocCheckbox, PocH1, PocInput, PocLabel, PocMuted, PocStack } from "@/components/poc-ui";
+import { PocButton, PocButtonLink, PocCard, PocCheckbox, PocH1, PocH2, PocInput, PocLabel, PocMuted, PocStack } from "@/components/poc-ui";
 import { useShopSession } from "@/context/shop-session";
 import type { Weekday } from "@/lib/domain/types";
 import { getShopBikeAvailabilityCalendar } from "@/lib/dummy-data";
@@ -23,14 +23,14 @@ export default function BikeAvailabilityPage({ params }: { params: { id: string 
   if (!bike) {
     return (
       <div className={styles.page}>
-        <PocCard>
-          <PocStack gap="sm">
-            <PocH1>Bike not found</PocH1>
+        <div className={styles.shopPageHeaderRow}>
+          <PocH1>Bike not found</PocH1>
+          <div className={styles.shopPageHeaderActions}>
             <PocButtonLink href="/shop/inventory" variant="secondary">
               Back to inventory
             </PocButtonLink>
-          </PocStack>
-        </PocCard>
+          </div>
+        </div>
       </div>
     );
   }
@@ -41,9 +41,17 @@ export default function BikeAvailabilityPage({ params }: { params: { id: string 
 
   return (
     <div className={styles.page}>
+      <div className={styles.shopPageHeaderRow}>
+        <PocH1>Availability</PocH1>
+        <div className={styles.shopPageHeaderActions}>
+          <span className={styles.mutedText}>{bike.title}</span>
+          <PocButtonLink href={`/shop/inventory/${bike.id}`} variant="secondary">
+            Bike details
+          </PocButtonLink>
+        </div>
+      </div>
       <PocCard>
         <PocStack gap="md">
-          <PocH1>Availability: {bike.title}</PocH1>
           <form
             className={styles.list}
             onSubmit={(event) => {
@@ -83,7 +91,7 @@ export default function BikeAvailabilityPage({ params }: { params: { id: string 
 
       <PocCard>
         <PocStack gap="sm">
-          <PocH1>Availability calendar</PocH1>
+          <PocH2>Availability calendar</PocH2>
           <div className={styles.chipRow}>
             {calendar.map((entry) => (
               <span key={entry.date} className={styles.chip}>
@@ -96,7 +104,7 @@ export default function BikeAvailabilityPage({ params }: { params: { id: string 
 
       <PocCard>
         <PocStack gap="sm">
-          <PocH1>Blocked dates</PocH1>
+          <PocH2>Blocked dates</PocH2>
           <form
             className={styles.actions}
             onSubmit={(event) => {

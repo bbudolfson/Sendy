@@ -1,8 +1,10 @@
 "use client";
 
+import { PocH1 } from "@/components/poc-ui";
 import { ShopReservationCard } from "@/components/ui/ShopReservationCard/ShopReservationCard";
 import { SHOP_ACTIVITY_OPEN_REQUESTS, SHOP_ACTIVITY_RESERVATIONS_TODAY } from "@/lib/dummy-data";
 import type { ShopReservationActivity } from "@/lib/domain/types";
+import shopPageStyles from "./shop-pages.module.css";
 import styles from "./shop-home.module.css";
 
 function ActivityCard({
@@ -39,6 +41,10 @@ function ActivityCard({
 export default function ShopHomePage() {
   return (
     <div className={styles.page}>
+      <div className={shopPageStyles.shopPageHeaderRow}>
+        <PocH1>Reservations</PocH1>
+      </div>
+
       <section className={styles.section} aria-labelledby="today-heading">
         <h2 id="today-heading" className={styles.sectionTitle}>
           Reservations today

@@ -264,14 +264,14 @@ export const DUMMY_RENTALS: RentalRecord[] = [
 
 export const SHOP_PROFILE_DEMO: ShopProfile = {
   id: "shop-demo",
-  ownerName: "Brett Budolfson",
-  email: "owner@outpostbikeshop.example",
   shopName: "Outpost Bike Shop",
+  shopEmail: "hello@outpostbikeshop.example",
   addressLine1: "240 Trail Ave",
   city: "Bend",
   state: "OR",
   postalCode: "97701",
   logoUrl: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=640&q=80",
+  websiteUrl: "https://outpostbikeshop.example",
   supportPhone: "(541) 555-0189",
   serviceAreaNotes: "Downtown Bend, Phil's Trailhead, and west-side hotels.",
 };

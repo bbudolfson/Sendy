@@ -63,14 +63,14 @@ export type Weekday =
 
 export type ShopProfile = {
   id: string;
-  ownerName: string;
-  email: string;
   shopName: string;
+  shopEmail: string;
   addressLine1: string;
   city: string;
   state: string;
   postalCode: string;
   logoUrl: string;
+  websiteUrl: string;
   supportPhone: string;
   serviceAreaNotes: string;
 };
