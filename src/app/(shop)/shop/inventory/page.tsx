@@ -2,21 +2,37 @@
 
 import { useMemo, useState } from "react";
 import { PocButtonLink, PocCard, PocH1, PocMuted, PocSelect, PocStack } from "@/components/poc-ui";
+import { ShopInventoryCard } from "@/components/ui/ShopInventoryCard/ShopInventoryCard";
 import { useShopSession } from "@/context/shop-session";
 import styles from "../shop-pages.module.css";
 
 export default function ShopInventoryPage() {
-  const { session } = useShopSession();
+  const { session, upsertBikeDraft } = useShopSession();
   const [status, setStatus] = useState<"all" | "active" | "inactive">("all");
   const [type, setType] = useState<"all" | "Road" | "Mountain" | "Gravel" | "E-Bike">("all");
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [removedIds, setRemovedIds] = useState<string[]>([]);
+  const [draftBike, setDraftBike] = useState({ bike: "", size: "", specs: "", rate: "" });
+
+  const ratesByBikeId = useMemo(
+    () =>
+      new Map(
+        session.rates.map((rate) => [
+          rate.bikeId,
+          `$${rate.dailyRate} Full Day | $${Math.round(rate.dailyRate * 0.625)} Half Day`,
+        ]),
+      ),
+    [session.rates],
+  );
 
   const bikes = useMemo(() => {
     return session.inventory.filter((bike) => {
+      if (removedIds.includes(bike.id)) return false;
       if (status !== "all" && bike.status !== status) return false;
       if (type !== "all" && bike.type !== type) return false;
       return true;
     });
-  }, [session.inventory, status, type]);
+  }, [removedIds, session.inventory, status, type]);
 
   return (
     <div className={styles.page}>
@@ -47,24 +63,55 @@ export default function ShopInventoryPage() {
           <ul className={styles.list}>
             {bikes.map((bike) => (
               <li key={bike.id} className={styles.listItem}>
-                <div className={styles.row}>
-                  <strong>{bike.title}</strong>
-                  <span className={styles.pill}>{bike.status}</span>
-                </div>
-                <p className={styles.mutedText}>
-                  {bike.type} - Size {bike.size}
-                </p>
-                <div className={styles.actions}>
-                  <PocButtonLink href={`/shop/inventory/${bike.id}`} variant="secondary">
-                    Edit
-                  </PocButtonLink>
-                  <PocButtonLink href={`/shop/inventory/${bike.id}/availability`} variant="secondary">
-                    Availability
-                  </PocButtonLink>
-                  <PocButtonLink href={`/shop/inventory/${bike.id}/rates`} variant="secondary">
-                    Rates
-                  </PocButtonLink>
-                </div>
+                <ShopInventoryCard
+                  mode={editingId === bike.id ? "edit" : "view"}
+                  imageUrl={bike.imageUrl}
+                  title={bike.title}
+                  bikeLine={`Bike: ${bike.title}`}
+                  sizeLine={`Size: ${bike.size}`}
+                  specsLine={`Specs: ${bike.model}`}
+                  rateLine={`Rate: ${ratesByBikeId.get(bike.id) ?? "$200 Full Day | $125 Half Day"}`}
+                  bikeValue={draftBike.bike}
+                  sizeValue={draftBike.size}
+                  specsValue={draftBike.specs}
+                  rateValue={draftBike.rate}
+                  onBikeValueChange={(value) => setDraftBike((current) => ({ ...current, bike: value }))}
+                  onSizeValueChange={(value) => setDraftBike((current) => ({ ...current, size: value }))}
+                  onSpecsValueChange={(value) => setDraftBike((current) => ({ ...current, specs: value }))}
+                  onRateValueChange={(value) => setDraftBike((current) => ({ ...current, rate: value }))}
+                  onEdit={() => {
+                    setEditingId(bike.id);
+                    setDraftBike({
+                      bike: bike.title,
+                      size: bike.size,
+                      specs: bike.model,
+                      rate: ratesByBikeId.get(bike.id) ?? "$200 Full Day | $125 Half Day",
+                    });
+                  }}
+                  onRemove={() => setRemovedIds((current) => [...current, bike.id])}
+                  onDuplicate={() => {
+                    const duplicateId = `bike-${Date.now()}`;
+                    upsertBikeDraft({
+                      ...bike,
+                      id: duplicateId,
+                      title: `${bike.title} Copy`,
+                    });
+                  }}
+                  onCancel={() => {
+                    setEditingId(null);
+                    setDraftBike({ bike: "", size: "", specs: "", rate: "" });
+                  }}
+                  onSave={() => {
+                    upsertBikeDraft({
+                      ...bike,
+                      title: draftBike.bike.trim() || bike.title,
+                      size: draftBike.size.trim() || bike.size,
+                      model: draftBike.specs.trim() || bike.model,
+                    });
+                    setEditingId(null);
+                    setDraftBike({ bike: "", size: "", specs: "", rate: "" });
+                  }}
+                />
               </li>
             ))}
           </ul>

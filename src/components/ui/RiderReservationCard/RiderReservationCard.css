@@ -40,6 +40,26 @@
   color: var(--sendy-text-body);
 }
 
+.sendy-rider-res-card__type-pill {
+  margin-top: var(--space-3);
+  width: min(100%, 7.5rem);
+  max-width: 7.5rem;
+  min-height: 1.625rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #a9c7d8;
+  border-radius: 9999px;
+  background: var(--sendy-surface-page);
+  padding: 0.25rem 1rem;
+  font-family: var(--sendy-font-family-headings);
+  font-size: 10px;
+  line-height: 1.2;
+  font-weight: var(--sendy-font-weight-medium);
+  color: var(--sendy-text-headings);
+  text-transform: uppercase;
+}
+
 .sendy-rider-res-card__description {
   margin: var(--space-3) 0 0;
   font-family: var(--sendy-font-family-body);
@@ -85,10 +105,6 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
-}
-
-.sendy-rider-res-card__status-pill {
-  margin-bottom: var(--space-3);
 }
 
 .sendy-rider-res-card__details-copy {
@@ -147,9 +163,8 @@
 
 .sendy-rider-res-card__reserve-btn {
   width: 100%;
-  min-height: 3rem;
+  min-height: 40px;
   border-radius: 0.5rem;
-  font-size: 1.5rem;
 }
 
 .sendy-rider-res-card__total-charges {
@@ -159,6 +174,16 @@
   line-height: 1.3;
   font-weight: var(--sendy-font-weight-medium);
   color: #d97745;
+}
+
+.sendy-rider-res-card__reserved-message {
+  margin: var(--space-4) 0 0;
+  font-family: var(--sendy-font-family-headings);
+  font-size: 1.625rem;
+  line-height: 1.2;
+  font-weight: var(--sendy-font-weight-regular);
+  color: var(--color-text-muted);
+  text-align: center;
 }
 
 @media (max-width: 860px) {

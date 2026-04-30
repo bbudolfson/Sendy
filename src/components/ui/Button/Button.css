@@ -9,10 +9,12 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    max-width: 200px;
     font-family: var(--sendy-font-family-body);
-    font-weight: var(--sendy-font-weight-semibold);
-    font-size: 16px;
-    line-height: 24px;
+    font-weight: var(--sendy-font-weight-regular);
+    font-size: var(--sendy-font-size-body);
+    line-height: var(--sendy-line-height-body);
+    min-height: 40px;
     border-radius: var(--sendy-radius-md);
     border: var(--sendy-border-width-sm) solid transparent;
     cursor: pointer;
@@ -27,20 +29,17 @@
   }
   
   /* ─── Sizes ─── */
+  /* Single button size for now (40px tall). */
   .sendy-btn--sm {
-    padding: var(--sendy-scale-200) var(--sendy-scale-300);
-    font-size: 12px;
-    line-height: 18px;
+    padding: 0 var(--sendy-scale-500);
   }
   
   .sendy-btn--md {
-    padding: var(--sendy-scale-300) var(--sendy-scale-500);
+    padding: 0 var(--sendy-scale-500);
   }
   
   .sendy-btn--lg {
-    padding: var(--sendy-scale-400) var(--sendy-scale-600);
-    font-size: 18px;
-    line-height: 28px;
+    padding: 0 var(--sendy-scale-500);
   }
   
   /* ─── Primary ─── */

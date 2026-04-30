@@ -81,46 +81,26 @@ export default function BikeDetailPage() {
         </div>
       </div>
 
-      <article className={styles.detailsCard}>
-        <RiderReservationCard
-          bikeTitle={bike.title}
-          priceLine={priceLabel}
-          description={bike.description}
-          bikeLine={`Bike: ${bike.title}`}
-          sizeLine={`Size: ${bike.size}`}
-          hostedBy={shop?.shopName ?? "Bike Shop"}
-          state={startValue && endValue ? "priced" : "draft"}
-          startValue={startValue}
-          endValue={endValue}
-          totalChargesLine={startValue && endValue ? "Total Charges: $475.00 ($200 x 3 Days)" : undefined}
-          onOpenStartPicker={() => openPicker(startRef)}
-          onOpenEndPicker={() => openPicker(endRef)}
-          onStartChange={setStartValue}
-          onEndChange={setEndValue}
-          onReserve={() => {}}
-          startInputRef={startRef}
-          endInputRef={endRef}
-        />
-
-        <div className={styles.specGrid}>
-          <div className={styles.spec}>
-            <p className={styles.specLabel}>Brand</p>
-            <p className={styles.specValue}>{bike.brand}</p>
-          </div>
-          <div className={styles.spec}>
-            <p className={styles.specLabel}>Model</p>
-            <p className={styles.specValue}>{bike.model}</p>
-          </div>
-          <div className={styles.spec}>
-            <p className={styles.specLabel}>Type</p>
-            <p className={styles.specValue}>{bike.type}</p>
-          </div>
-          <div className={styles.spec}>
-            <p className={styles.specLabel}>Size</p>
-            <p className={styles.specValue}>{bike.size}</p>
-          </div>
-        </div>
-      </article>
+      <RiderReservationCard
+        bikeTitle={bike.title}
+        priceLine={priceLabel}
+        bikeTypeLabel={bike.type}
+        description={bike.description}
+        bikeLine={`Bike: ${bike.title}`}
+        sizeLine={`Size: ${bike.size}`}
+        hostedBy={shop?.shopName ?? "Bike Shop"}
+        state={startValue && endValue ? "priced" : "draft"}
+        startValue={startValue}
+        endValue={endValue}
+        totalChargesLine={startValue && endValue ? "Total Charges: $475.00 ($200 x 3 Days)" : undefined}
+        onOpenStartPicker={() => openPicker(startRef)}
+        onOpenEndPicker={() => openPicker(endRef)}
+        onStartChange={setStartValue}
+        onEndChange={setEndValue}
+        onReserve={() => {}}
+        startInputRef={startRef}
+        endInputRef={endRef}
+      />
     </div>
   );
 }

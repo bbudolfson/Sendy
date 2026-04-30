@@ -23,6 +23,7 @@ function DemoCard() {
     <RiderReservationCard
       bikeTitle="Santa Cruz Nomad"
       priceLine="($200 Per Day)"
+      bikeTypeLabel="Mountain"
       description="Efficient trial setup with 130mm front travel and modern geo."
       bikeLine="Bike: Santa Cruz Nomad"
       sizeLine="Size: Large"
@@ -59,6 +60,7 @@ export const Priced: Story = {
     <RiderReservationCard
       bikeTitle="Santa Cruz Nomad"
       priceLine="($200 Per Day)"
+      bikeTypeLabel="Mountain"
       description="Efficient trial setup with 130mm front travel and modern geo."
       bikeLine="Bike: Santa Cruz Nomad"
       sizeLine="Size: Large"
@@ -81,6 +83,7 @@ export const Reserved: Story = {
     <RiderReservationCard
       bikeTitle="Santa Cruz Nomad"
       priceLine="($200 Per Day)"
+      bikeTypeLabel="Mountain"
       description="Efficient trial setup with 130mm front travel and modern geo."
       bikeLine="Bike: Santa Cruz Nomad"
       sizeLine="Size: Large"

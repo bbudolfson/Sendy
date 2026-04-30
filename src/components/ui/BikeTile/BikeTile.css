@@ -71,17 +71,5 @@
 
 .sendy-bike-tile__type-pill {
   margin-top: var(--space-1);
-  width: fit-content;
-  min-width: 10rem;
-  border: 2px solid #a9c7d8;
-  border-radius: 9999px;
-  background: var(--color-surface);
-  padding: 0.5rem 1.5rem;
-  font-family: var(--sendy-font-family-headings);
-  font-size: 1.125rem;
-  line-height: 1.2;
-  font-weight: var(--sendy-font-weight-semibold);
-  color: var(--sendy-text-headings);
-  text-align: center;
 }
 

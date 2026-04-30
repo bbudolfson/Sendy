@@ -1,6 +1,5 @@
 import React from "react";
 import { Button } from "@/components/ui/Button/Button";
-import { Pill } from "@/components/ui/Pill/Pill";
 import { formatDisplayDate } from "@/lib/format-display-date";
 import "./RiderReservationCard.css";
 
@@ -9,6 +8,7 @@ type RiderReservationState = "draft" | "priced" | "reserved";
 type RiderReservationCardProps = {
   bikeTitle: string;
   priceLine: string;
+  bikeTypeLabel: string;
   description: string;
   bikeLine: string;
   sizeLine: string;
@@ -33,6 +33,7 @@ type RiderReservationCardProps = {
 export function RiderReservationCard({
   bikeTitle,
   priceLine,
+  bikeTypeLabel,
   description,
   bikeLine,
   sizeLine,
@@ -62,6 +63,7 @@ export function RiderReservationCard({
         <div className="sendy-rider-res-card__left">
           <h2 className="sendy-rider-res-card__title">{bikeTitle}</h2>
           <p className="sendy-rider-res-card__price">{priceLine}</p>
+          <span className="sendy-rider-res-card__type-pill">{bikeTypeLabel}</span>
           <p className="sendy-rider-res-card__description">{description}</p>
           <p className="sendy-rider-res-card__meta">{bikeLine}</p>
           <p className="sendy-rider-res-card__meta">{sizeLine}</p>
@@ -72,15 +74,13 @@ export function RiderReservationCard({
           {state === "reserved" ? (
             <>
               <h3 className="sendy-rider-res-card__heading">Reservation Details</h3>
-              <Pill variant="success" className="sendy-rider-res-card__status-pill">
-                RESERVED
-              </Pill>
               <div className="sendy-rider-res-card__details-copy">
                 {reservationBikeLine ? <p>{reservationBikeLine}</p> : null}
                 {reservationPickupLine ? <p>{reservationPickupLine}</p> : null}
                 {reservationReturnLine ? <p>{reservationReturnLine}</p> : null}
                 {reservationTotalLine ? <p>{reservationTotalLine}</p> : null}
               </div>
+              <p className="sendy-rider-res-card__reserved-message">Your Bike is Reserved!</p>
             </>
           ) : (
             <>
