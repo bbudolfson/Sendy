@@ -1,0 +1,137 @@
+/* 
+  Sendy — Button component styles
+  Matches Figma button variants exactly.
+  All values reference design tokens — never hardcode.
+*/
+
+/* ─── Base ─── */
+.sendy-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--sendy-font-family-body);
+    font-weight: var(--sendy-font-weight-semibold);
+    font-size: 16px;
+    line-height: 24px;
+    border-radius: var(--sendy-radius-md);
+    border: var(--sendy-border-width-sm) solid transparent;
+    cursor: pointer;
+    transition: background 150ms ease, color 150ms ease, border-color 150ms ease;
+    white-space: nowrap;
+    text-decoration: none;
+    outline: none;
+  }
+  
+  .sendy-btn--full {
+    width: 100%;
+  }
+  
+  /* ─── Sizes ─── */
+  .sendy-btn--sm {
+    padding: var(--sendy-scale-200) var(--sendy-scale-300);
+    font-size: 12px;
+    line-height: 18px;
+  }
+  
+  .sendy-btn--md {
+    padding: var(--sendy-scale-300) var(--sendy-scale-500);
+  }
+  
+  .sendy-btn--lg {
+    padding: var(--sendy-scale-400) var(--sendy-scale-600);
+    font-size: 18px;
+    line-height: 28px;
+  }
+  
+  /* ─── Primary ─── */
+  .sendy-btn--primary {
+    background: var(--sendy-surface-action);
+    color: var(--sendy-text-on-action);
+    border-color: transparent;
+  }
+  
+  .sendy-btn--primary:hover:not(:disabled) {
+    background: var(--sendy-surface-action-hover);
+  }
+  
+  .sendy-btn--primary:focus-visible {
+    outline: var(--sendy-border-width-md) solid var(--sendy-border-focus);
+    outline-offset: 2px;
+  }
+  
+  /* ─── Secondary ─── */
+  .sendy-btn--secondary {
+    background: var(--sendy-surface-page);
+    color: var(--sendy-text-action);
+    border-color: var(--sendy-border-action);
+  }
+  
+  .sendy-btn--secondary:hover:not(:disabled) {
+    background: var(--sendy-surface-secondary-hover, var(--sendy-earth-50));
+    border-color: var(--sendy-border-action-hover);
+    color: var(--sendy-text-action-hover);
+  }
+  
+  .sendy-btn--secondary:focus-visible {
+    outline: var(--sendy-border-width-md) solid var(--sendy-border-focus);
+    outline-offset: 2px;
+  }
+  
+  /* ─── Destructive ─── */
+  .sendy-btn--destructive {
+    background: var(--sendy-surface-page);
+    color: var(--sendy-text-error);
+    border-color: var(--sendy-border-error);
+  }
+  
+  .sendy-btn--destructive:hover:not(:disabled) {
+    background: var(--sendy-surface-error);
+  }
+  
+  .sendy-btn--destructive:focus-visible {
+    outline: var(--sendy-border-width-md) solid var(--sendy-color-error);
+    outline-offset: 2px;
+  }
+  
+  /* ─── Tertiary ─── */
+  .sendy-btn--tertiary {
+    background: transparent;
+    color: var(--sendy-text-action);
+    border-color: transparent;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  
+  .sendy-btn--tertiary:hover:not(:disabled) {
+    color: var(--sendy-text-action-hover);
+    text-decoration: underline;
+  }
+  
+  .sendy-btn--tertiary:focus-visible {
+    outline: var(--sendy-border-width-md) solid var(--sendy-border-focus);
+    outline-offset: 2px;
+  }
+
+  /* ─── Ghost (legacy POC parity) ─── */
+  .sendy-btn--ghost {
+    background: transparent;
+    color: var(--color-text-muted);
+    border-color: transparent;
+  }
+
+  .sendy-btn--ghost:hover:not(:disabled) {
+    color: var(--color-text);
+  }
+
+  .sendy-btn--ghost:focus-visible {
+    outline: var(--sendy-border-width-md) solid var(--sendy-border-focus);
+    outline-offset: 2px;
+  }
+  
+  /* ─── Disabled (all variants) ─── */
+  .sendy-btn--disabled,
+  .sendy-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+    pointer-events: none;
+  }

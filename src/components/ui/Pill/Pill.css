@@ -1,0 +1,52 @@
+/* Sendy pill badge variants for status states */
+.sendy-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: min(100%, 7.5rem); /* 120px */
+  max-width: 7.5rem;
+  min-height: 1.625rem;
+  padding: 0.25rem 1rem; /* 4px 16px */
+  border: 1px solid transparent;
+  border-radius: 9999px;
+  background: var(--sendy-surface-page);
+  color: var(--sendy-text-headings);
+  font-family: var(--sendy-font-family-headings);
+  font-weight: var(--sendy-font-weight-medium);
+  font-size: 10px;
+  line-height: 1.2;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-align: center;
+  gap: 0.25rem; /* 4px */
+}
+
+.sendy-pill--sm {
+  min-height: 1.625rem;
+  padding: 0.25rem 1rem;
+  font-size: 10px;
+}
+
+.sendy-pill--md {
+  min-height: 1.625rem;
+  padding: 0.25rem 1rem;
+  font-size: 10px;
+}
+
+.sendy-pill--lg {
+  min-height: 1.625rem;
+  padding: 0.25rem 1rem;
+  font-size: 10px;
+}
+
+.sendy-pill--error {
+  border-color: var(--sendy-text-error);
+}
+
+.sendy-pill--success {
+  border-color: var(--sendy-text-success);
+}
+
+.sendy-pill--pending {
+  border-color: var(--sendy-text-information);
+}

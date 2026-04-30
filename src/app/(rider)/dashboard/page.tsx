@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PocInput } from "@/components/poc-ui";
 import { RiderAvatarMenu } from "@/components/rider-avatar-menu";
+import { BikeTile } from "@/components/ui/BikeTile/BikeTile";
 import { usePocSession } from "@/context/poc-session";
 import {
   DUMMY_RENTALS,
@@ -191,11 +192,13 @@ export default function DashboardPage() {
                   rate !== undefined ? `($${rate.dailyRate} Per Day)` : "(Price on request)";
                 return (
                   <Link key={bike.id} href={`/bike/${bike.id}`} className={styles.bikeCardLink}>
-                    <article className={styles.bikeCard}>
-                      <img src={bike.imageUrl} alt={bike.title} className={styles.bikeImage} />
-                      <p className={styles.bikeTitle}>{bike.title}</p>
-                      <p className={styles.bikePrice}>{priceLabel}</p>
-                    </article>
+                    <BikeTile
+                      imageUrl={bike.imageUrl}
+                      title={bike.title}
+                      priceLine={priceLabel}
+                      hostedBy="Bike Shop"
+                      typeLabel={bike.type}
+                    />
                   </Link>
                 );
               })}
@@ -213,11 +216,13 @@ export default function DashboardPage() {
                     rate !== undefined ? `($${rate.dailyRate} Per Day)` : "(Price on request)";
                   return (
                     <a key={`${row.id}-${index}`} href={`/bike/${bike.id}`} className={styles.bikeCardLink}>
-                      <article className={styles.bikeCard}>
-                        <img src={bike.imageUrl} alt={bike.title} className={styles.bikeImage} />
-                        <p className={styles.bikeTitle}>{bike.title}</p>
-                        <p className={styles.bikePrice}>{priceLabel}</p>
-                      </article>
+                      <BikeTile
+                        imageUrl={bike.imageUrl}
+                        title={bike.title}
+                        priceLine={priceLabel}
+                        hostedBy="Bike Shop"
+                        typeLabel={bike.type}
+                      />
                     </a>
                   );
                 })}

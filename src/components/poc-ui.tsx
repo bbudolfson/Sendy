@@ -1,5 +1,14 @@
 import type { ReactNode } from "react";
+import { Button } from "@/components/ui/Button/Button";
 import styles from "./poc-ui.module.css";
+
+type PocButtonVariant = "primary" | "secondary" | "ghost";
+
+const variantToButtonVariant: Record<PocButtonVariant, "primary" | "secondary" | "ghost"> = {
+  primary: "primary",
+  secondary: "secondary",
+  ghost: "ghost",
+};
 
 export function PocStack({
   children,
@@ -38,10 +47,11 @@ export function PocButtonLink({
 }: {
   href: string;
   children: ReactNode;
-  variant?: "primary" | "secondary" | "ghost";
+  variant?: PocButtonVariant;
 }) {
+  const mappedVariant = variantToButtonVariant[variant];
   return (
-    <a className={styles.btn} data-variant={variant} href={href}>
+    <a className={`sendy-btn sendy-btn--${mappedVariant} sendy-btn--md`} href={href}>
       {children}
     </a>
   );
@@ -54,17 +64,19 @@ export function PocButton({
   className,
   ...rest
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  variant?: "primary" | "secondary" | "ghost";
+  variant?: PocButtonVariant;
 }) {
+  const mappedVariant = variantToButtonVariant[variant];
   return (
-    <button
+    <Button
       type={type}
-      className={className ? `${styles.btn} ${className}` : styles.btn}
-      data-variant={variant}
+      variant={mappedVariant}
+      size="md"
+      className={className}
       {...rest}
     >
       {children}
-    </button>
+    </Button>
   );
 }
 

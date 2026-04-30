@@ -34,9 +34,9 @@
 
   --sendy-font-size-display: 3.5rem;
   --sendy-line-height-display: 4rem;
-  --sendy-font-size-h1: 2rem;
+  --sendy-font-size-h1: 1.75rem;
   --sendy-line-height-h1: 2.375rem;
-  --sendy-font-size-h2: 1.5rem;
+  --sendy-font-size-h2: 1.25rem;
   --sendy-line-height-h2: 1.875rem;
   --sendy-font-size-h3: 1rem;
   --sendy-line-height-h3: 1.375rem;
@@ -65,6 +65,30 @@
   --sendy-text-success: #166534;
   --sendy-text-warning: #a16207;
   --sendy-text-information: #1d4ed8;
+
+  /* Aliases for button component token naming */
+  --sendy-radius-md: var(--radius-md);
+  --sendy-border-width-sm: 1px;
+  --sendy-border-width-md: 2px;
+  --sendy-scale-200: var(--space-2);
+  --sendy-scale-300: var(--space-3);
+  --sendy-scale-400: var(--space-4);
+  --sendy-scale-500: var(--space-6);
+  --sendy-scale-600: var(--space-8);
+  --sendy-border-focus: var(--color-focus);
+
+  /* Keep prototype monochrome while supporting button design tokens */
+  --sendy-surface-page: var(--color-surface);
+  --sendy-surface-action: var(--sendy-token-action-default);
+  --sendy-surface-action-hover: var(--sendy-token-action-hover);
+  --sendy-surface-secondary-hover: var(--color-surface-50);
+  --sendy-border-action: var(--sendy-text-action);
+  --sendy-border-action-hover: var(--sendy-text-action-hover);
+  --sendy-earth-50: var(--color-surface-50);
+
+  --sendy-color-error: #b91c1c;
+  --sendy-border-error: var(--sendy-color-error);
+  --sendy-surface-error: color-mix(in oklab, var(--sendy-color-error) 10%, var(--color-surface));
 }
 
 @media (prefers-color-scheme: dark) {

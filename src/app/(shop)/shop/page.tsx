@@ -1,37 +1,38 @@
 "use client";
 
-import { PocButton } from "@/components/poc-ui";
+import { ShopReservationCard } from "@/components/ui/ShopReservationCard/ShopReservationCard";
 import { SHOP_ACTIVITY_OPEN_REQUESTS, SHOP_ACTIVITY_RESERVATIONS_TODAY } from "@/lib/dummy-data";
 import type { ShopReservationActivity } from "@/lib/domain/types";
 import styles from "./shop-home.module.css";
 
 function ActivityCard({
   row,
-  actionLabel,
+  status,
 }: {
   row: ShopReservationActivity;
-  actionLabel: "Message" | "Approve";
+  status: "pending" | "approved" | "declined";
 }) {
+  const detailTitle = status === "declined" ? "Request Declined" : "Request Details";
+  const totalChargesLine =
+    status === "pending" ? "Total Charges: $475.00 (3 days + Accessories)" : "Total Charges: $475.00";
   return (
-    <article className={styles.card}>
-      <div className={styles.cardBody}>
-        <h3 className={styles.bikeTitle}>{row.bikeTitle}</h3>
-        <p className={styles.datesLabel}>Requested dates</p>
-        <p className={styles.priceLine}>{row.priceLine}</p>
-        <div className={styles.dateRange} aria-label="Requested rental dates">
-          <span className={styles.dateCell}>{row.startDateDisplay}</span>
-          <span className={styles.dateCell}>{row.endDateDisplay}</span>
-        </div>
-        <p className={styles.requestedBy}>
-          Requested by <span className={styles.requestedName}>{row.requestedBy}</span>
-        </p>
-        <div className={styles.actionCell}>
-          <PocButton type="button" variant="primary" className={styles.action}>
-            {actionLabel}
-          </PocButton>
-        </div>
-      </div>
-    </article>
+    <ShopReservationCard
+      bikeTitle={row.bikeTitle}
+      priceLine={row.priceLine}
+      status={status}
+      requestedBy={row.requestedBy}
+      email="bbudolfson@gmail.com"
+      phone="(555) 332-2230"
+      detailsTitle={detailTitle}
+      bikeDetailsLine={`Bike: ${row.bikeTitle}, L, Helmet`}
+      pickupLine={`Pickup: ${row.startDateDisplay}`}
+      returnLine={`Return: ${row.endDateDisplay}`}
+      totalChargesLine={totalChargesLine}
+      declineReasonLine={status === "declined" ? "Reason: Shop worker enters a note when closing out a request." : undefined}
+      onEdit={() => {}}
+      onApprove={() => {}}
+      onDecline={() => {}}
+    />
   );
 }
 
@@ -44,7 +45,7 @@ export default function ShopHomePage() {
         </h2>
         <div className={styles.cardList}>
           {SHOP_ACTIVITY_RESERVATIONS_TODAY.map((row) => (
-            <ActivityCard key={row.id} row={row} actionLabel="Message" />
+            <ActivityCard key={row.id} row={row} status="approved" />
           ))}
         </div>
       </section>
@@ -55,7 +56,7 @@ export default function ShopHomePage() {
         </h2>
         <div className={styles.cardList}>
           {SHOP_ACTIVITY_OPEN_REQUESTS.map((row) => (
-            <ActivityCard key={row.id} row={row} actionLabel="Approve" />
+            <ActivityCard key={row.id} row={row} status="pending" />
           ))}
         </div>
       </section>
