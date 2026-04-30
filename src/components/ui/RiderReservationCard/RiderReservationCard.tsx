@@ -1,6 +1,7 @@
 import React from "react";
 import { PocInput } from "@/components/poc-ui";
 import { Button } from "@/components/ui/Button/Button";
+import { Pill } from "@/components/ui/Pill/Pill";
 import { formatDisplayDate } from "@/lib/format-display-date";
 import "./RiderReservationCard.css";
 
@@ -60,11 +61,17 @@ export function RiderReservationCard({
 
   return (
     <article className="sendy-rider-res-card">
-      <div className="sendy-rider-res-card__body">
-        <div className="sendy-rider-res-card__left">
+      <div className="sendy-rider-res-card__header">
+        <div className="sendy-rider-res-card__title-block">
           <h2 className="sendy-rider-res-card__title">{bikeTitle}</h2>
           <p className="sendy-rider-res-card__price">{priceLine}</p>
-          <span className="sendy-rider-res-card__type-pill">{bikeTypeLabel}</span>
+        </div>
+        <Pill variant="neutral" size="sm" className="sendy-rider-res-card__type-pill">
+          {bikeTypeLabel}
+        </Pill>
+      </div>
+      <div className="sendy-rider-res-card__body">
+        <div className="sendy-rider-res-card__left">
           <p className="sendy-rider-res-card__description">{description}</p>
           <p className="sendy-rider-res-card__meta">{bikeLine}</p>
           <p className="sendy-rider-res-card__meta">{sizeLine}</p>

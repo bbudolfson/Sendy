@@ -5,23 +5,29 @@ import { usePathname } from "next/navigation";
 import { useShopSession } from "@/context/shop-session";
 import styles from "./shop-shell.module.css";
 
-const MENU_LINKS: { href: string; label: string; isActive: (path: string) => boolean }[] = [
+type MenuLink = { href: string; label: string; isActive: (path: string) => boolean };
+
+const PRIMARY_MENU_LINKS: MenuLink[] = [
   { href: "/shop", label: "Reservations", isActive: (p) => p === "/shop" },
   {
     href: "/shop/inventory",
     label: "Fleet",
     isActive: (p) => p.startsWith("/shop/inventory"),
   },
+  { href: "/shop/profile", label: "Profile", isActive: (p) => p.startsWith("/shop/profile") },
   {
     href: "/shop/settings",
     label: "Settings",
-    isActive: (p) => p.startsWith("/shop/settings"),
+    isActive: (p) =>
+      p.startsWith("/shop/settings") || p.startsWith("/shop/payments") || p.startsWith("/shop/embed"),
   },
-  { href: "/shop/profile", label: "Profile", isActive: (p) => p.startsWith("/shop/profile") },
-  { href: "/shop/payments", label: "Payments", isActive: (p) => p.startsWith("/shop/payments") },
-  { href: "/shop/embed", label: "Embed", isActive: (p) => p.startsWith("/shop/embed") },
-  { href: "/dashboard", label: "Rider app", isActive: () => false },
 ];
+
+const RIDER_APP_LINK: MenuLink = {
+  href: "/dashboard",
+  label: "Rider app",
+  isActive: () => false,
+};
 
 export function ShopShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
@@ -31,9 +37,6 @@ export function ShopShell({ children }: { children: ReactNode }) {
     owner.length >= 2
       ? owner.slice(0, 2).toUpperCase()
       : `${(owner.slice(0, 1) || "?").toUpperCase()}${(owner.slice(0, 1) || "?").toUpperCase()}`;
-
-  const primary = MENU_LINKS.slice(0, 3);
-  const secondary = MENU_LINKS.slice(3);
 
   return (
     <div className={styles.wrap}>
@@ -53,7 +56,7 @@ export function ShopShell({ children }: { children: ReactNode }) {
               <span className={styles.srOnly}>Shop menu ({session.profile.ownerName})</span>
             </summary>
             <div className={styles.menuPanel}>
-              {primary.map((item) => (
+              {PRIMARY_MENU_LINKS.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
@@ -64,16 +67,13 @@ export function ShopShell({ children }: { children: ReactNode }) {
                 </a>
               ))}
               <div className={styles.menuDivider} aria-hidden />
-              {secondary.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className={styles.menuItem}
-                  data-active={item.isActive(pathname) || undefined}
-                >
-                  {item.label}
-                </a>
-              ))}
+              <a
+                href={RIDER_APP_LINK.href}
+                className={styles.menuItem}
+                data-active={RIDER_APP_LINK.isActive(pathname) || undefined}
+              >
+                {RIDER_APP_LINK.label}
+              </a>
             </div>
           </details>
         </div>

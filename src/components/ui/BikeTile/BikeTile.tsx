@@ -30,7 +30,7 @@ export function BikeTile({
         <p className="sendy-bike-tile__hosted-by">
           Hosted by <span className="sendy-bike-tile__hosted-by-name">{hostedBy}</span>
         </p>
-        <Pill variant="pending" size="sm" className="sendy-bike-tile__type-pill">
+        <Pill variant="neutral" size="sm" className="sendy-bike-tile__type-pill">
           {typeLabel}
         </Pill>
       </div>

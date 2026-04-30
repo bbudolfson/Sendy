@@ -87,6 +87,7 @@ export type ShopBike = {
   size: string;
   description: string;
   imageUrl: string;
+  photoUrls?: string[];
   status: ShopBikeStatus;
 };
 
@@ -107,6 +108,8 @@ export type BlockedDate = {
 export type RatePlan = {
   bikeId: string;
   dailyRate: number;
+  /** When unset, rider/shop UI may derive a half-day line from daily rate */
+  halfDayRate?: number;
   weeklyRate: number;
   deposit: number;
   seasonalNote: string;

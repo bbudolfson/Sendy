@@ -20,10 +20,13 @@ export default function ShopInventoryPage() {
   const ratesByBikeId = useMemo(
     () =>
       new Map(
-        session.rates.map((rate) => [
-          rate.bikeId,
-          `$${rate.dailyRate} Full Day | $${Math.round(rate.dailyRate * 0.625)} Half Day`,
-        ]),
+        session.rates.map((rate) => {
+          const half =
+            rate.halfDayRate !== undefined
+              ? rate.halfDayRate
+              : Math.round(rate.dailyRate * 0.625);
+          return [rate.bikeId, `$${rate.dailyRate} Full Day | $${half} Half Day`];
+        }),
       ),
     [session.rates],
   );

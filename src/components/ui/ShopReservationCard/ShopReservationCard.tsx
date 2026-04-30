@@ -58,13 +58,17 @@ export function ShopReservationCard({
 
   return (
     <article className="sendy-shop-res-card">
-      <div className="sendy-shop-res-card__body">
-        <div className="sendy-shop-res-card__left">
+      <div className="sendy-shop-res-card__header">
+        <div className="sendy-shop-res-card__title-block">
           <h3 className="sendy-shop-res-card__title">{bikeTitle}</h3>
           <p className="sendy-shop-res-card__price">{priceLine}</p>
-          <Pill variant={toPillVariant(status)} size="sm" className="sendy-shop-res-card__status-pill">
-            {toPillLabel(status)}
-          </Pill>
+        </div>
+        <Pill variant={toPillVariant(status)} size="sm" className="sendy-shop-res-card__status-pill">
+          {toPillLabel(status)}
+        </Pill>
+      </div>
+      <div className="sendy-shop-res-card__body">
+        <div className="sendy-shop-res-card__left">
           <p className="sendy-shop-res-card__meta">
             Requested by: <span>{requestedBy}</span>
           </p>

@@ -13,7 +13,7 @@ const meta = {
   argTypes: {
     variant: {
       control: "inline-radio",
-      options: ["error", "success", "pending"],
+      options: ["error", "success", "pending", "neutral"],
     },
     size: {
       control: "inline-radio",
@@ -47,6 +47,13 @@ export const Pending: Story = {
   },
 };
 
+export const Neutral: Story = {
+  args: {
+    variant: "neutral",
+    children: "Mountain",
+  },
+};
+
 export const Set: Story = {
   args: { children: "PENDING" },
   render: () => (
@@ -54,6 +61,7 @@ export const Set: Story = {
       <Pill variant="error">ERROR</Pill>
       <Pill variant="success">SUCCESS</Pill>
       <Pill variant="pending">PENDING</Pill>
+      <Pill variant="neutral">Mountain</Pill>
     </div>
   ),
 };

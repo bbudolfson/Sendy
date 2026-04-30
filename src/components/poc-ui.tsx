@@ -81,8 +81,12 @@ export function PocButton({
   );
 }
 
-export function PocLabel({ children }: { children: ReactNode }) {
-  return <label className={styles.label}>{children}</label>;
+export function PocLabel({ children, className, htmlFor }: React.LabelHTMLAttributes<HTMLLabelElement> & { children: ReactNode }) {
+  return (
+    <label htmlFor={htmlFor} className={[styles.label, className].filter(Boolean).join(" ")}>
+      {children}
+    </label>
+  );
 }
 
 export const PocInput = forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(

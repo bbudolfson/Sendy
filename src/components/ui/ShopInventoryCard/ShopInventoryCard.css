@@ -38,10 +38,12 @@
 }
 
 .sendy-shop-inventory-card__top-row {
+  width: 100%;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
   gap: 1rem;
+  margin-bottom: var(--space-2);
 }
 
 .sendy-shop-inventory-card__title {

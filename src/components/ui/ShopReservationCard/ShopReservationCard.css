@@ -25,6 +25,23 @@
   min-width: 0;
 }
 
+.sendy-shop-res-card__header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.sendy-shop-res-card__title-block {
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  flex-wrap: nowrap;
+}
+
 .sendy-shop-res-card__title {
   margin: 0;
   font-family: var(--sendy-font-family-headings);
@@ -35,7 +52,7 @@
 }
 
 .sendy-shop-res-card__price {
-  margin: var(--space-1) 0 0;
+  margin: 0;
   font-family: var(--sendy-font-family-headings);
   font-size: 1.25rem; /* H4 */
   line-height: 1.5;
@@ -44,13 +61,7 @@
 }
 
 .sendy-shop-res-card__status-pill {
-  margin-top: var(--space-3);
-  min-width: 8.75rem;
-  min-height: 1.625rem;
-  padding: 0 var(--space-3);
-  font-size: 0.875rem;
-  line-height: 1.1;
-  border-width: 1px;
+  flex-shrink: 0;
 }
 
 .sendy-shop-res-card__meta {

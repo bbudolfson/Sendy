@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import { PocButtonLink } from "@/components/poc-ui";
 import { RiderReservationCard } from "@/components/ui/RiderReservationCard/RiderReservationCard";
 import {
+  getShopBikeAvailabilityCalendar,
   getShopBikeById,
   getShopBikeGallery,
   getRatePlanForBike,
@@ -52,6 +53,7 @@ export default function BikeDetailPage() {
 
   const priceLabel =
     ratePlan !== undefined ? `($${ratePlan.dailyRate} Per Day)` : "(Price on request)";
+  const availability = getShopBikeAvailabilityCalendar(bike.id, startValue || undefined);
 
   return (
     <div className={styles.page}>
@@ -101,6 +103,19 @@ export default function BikeDetailPage() {
         startInputRef={startRef}
         endInputRef={endRef}
       />
+      <div className={styles.availabilityCalendar}>
+        <p className={styles.availabilityTitle}>Bike availability</p>
+        <div className={styles.availabilityGrid}>
+          {availability.map((entry) => (
+            <span
+              key={entry.date}
+              className={`${styles.availabilityCell} ${entry.available ? styles.available : styles.unavailable}`}
+            >
+              {entry.date.slice(5)} {entry.available ? "Open" : "Blocked"}
+            </span>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

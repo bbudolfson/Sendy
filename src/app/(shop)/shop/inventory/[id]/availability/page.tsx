@@ -3,6 +3,7 @@
 import { PocButton, PocButtonLink, PocCard, PocCheckbox, PocH1, PocInput, PocLabel, PocMuted, PocStack } from "@/components/poc-ui";
 import { useShopSession } from "@/context/shop-session";
 import type { Weekday } from "@/lib/domain/types";
+import { getShopBikeAvailabilityCalendar } from "@/lib/dummy-data";
 import { formatDisplayDate } from "@/lib/format-display-date";
 import styles from "../../../shop-pages.module.css";
 
@@ -36,6 +37,7 @@ export default function BikeAvailabilityPage({ params }: { params: { id: string 
 
   const rules = session.availabilityRules.filter((rule) => rule.bikeId === bike.id);
   const blocked = session.blockedDates.filter((entry) => entry.bikeId === bike.id);
+  const calendar = getShopBikeAvailabilityCalendar(bike.id);
 
   return (
     <div className={styles.page}>
@@ -76,6 +78,19 @@ export default function BikeAvailabilityPage({ params }: { params: { id: string 
             })}
             <PocButton type="submit">Save weekly availability</PocButton>
           </form>
+        </PocStack>
+      </PocCard>
+
+      <PocCard>
+        <PocStack gap="sm">
+          <PocH1>Availability calendar</PocH1>
+          <div className={styles.chipRow}>
+            {calendar.map((entry) => (
+              <span key={entry.date} className={styles.chip}>
+                {formatDisplayDate(entry.date)} - {entry.available ? "Available" : "Unavailable"}
+              </span>
+            ))}
+          </div>
         </PocStack>
       </PocCard>
 

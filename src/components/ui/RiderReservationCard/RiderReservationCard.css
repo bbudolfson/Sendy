@@ -23,6 +23,23 @@
   gap: 0;
 }
 
+.sendy-rider-res-card__header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-3);
+  margin-bottom: var(--space-2);
+}
+
+.sendy-rider-res-card__title-block {
+  min-width: 0;
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2);
+  flex-wrap: nowrap;
+}
+
 .sendy-rider-res-card__title {
   margin: 0;
   font-family: var(--sendy-font-family-headings);
@@ -33,7 +50,7 @@
 }
 
 .sendy-rider-res-card__price {
-  margin: var(--space-1) 0 0;
+  margin: 0;
   font-family: var(--sendy-font-family-headings);
   font-size: 1.25rem;
   line-height: 1.5;
@@ -42,23 +59,7 @@
 }
 
 .sendy-rider-res-card__type-pill {
-  margin-top: var(--space-3);
-  width: min(100%, 7.5rem);
-  max-width: 7.5rem;
-  min-height: 1.625rem;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid #a9c7d8;
-  border-radius: 9999px;
-  background: var(--sendy-surface-page);
-  padding: 0.25rem 1rem;
-  font-family: var(--sendy-font-family-headings);
-  font-size: 10px;
-  line-height: 1.2;
-  font-weight: var(--sendy-font-weight-medium);
-  color: var(--sendy-text-headings);
-  text-transform: uppercase;
+  flex-shrink: 0;
 }
 
 .sendy-rider-res-card__description {

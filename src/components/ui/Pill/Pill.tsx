@@ -1,7 +1,7 @@
 import React from "react";
 import "./Pill.css";
 
-type PillVariant = "error" | "success" | "pending";
+type PillVariant = "error" | "success" | "pending" | "neutral";
 type PillSize = "sm" | "md" | "lg";
 
 type PillProps = React.HTMLAttributes<HTMLSpanElement> & {

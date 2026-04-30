@@ -33,9 +33,12 @@ export default function BikeRatesPage({ params }: { params: { id: string } }) {
             onSubmit={(event) => {
               event.preventDefault();
               const form = new FormData(event.currentTarget);
+              const rawHalf = form.get("halfDayRate");
+              const halfParsed = typeof rawHalf === "string" && rawHalf.trim() !== "" ? Number(rawHalf) : NaN;
               setBikeRates({
                 bikeId: bike.id,
                 dailyRate: Number(form.get("dailyRate") ?? 0),
+                halfDayRate: Number.isFinite(halfParsed) && halfParsed >= 0 ? Math.round(halfParsed) : undefined,
                 weeklyRate: Number(form.get("weeklyRate") ?? 0),
                 deposit: Number(form.get("deposit") ?? 0),
                 seasonalNote: String(form.get("seasonalNote") ?? ""),
@@ -45,6 +48,18 @@ export default function BikeRatesPage({ params }: { params: { id: string } }) {
             <div>
               <PocLabel>Daily rate</PocLabel>
               <PocInput type="number" name="dailyRate" defaultValue={ratePlan?.dailyRate ?? 0} min={0} />
+            </div>
+            <div>
+              <PocLabel>Half day rate</PocLabel>
+              <PocInput
+                type="number"
+                name="halfDayRate"
+                defaultValue={
+                  ratePlan?.halfDayRate ??
+                  (ratePlan?.dailyRate !== undefined ? Math.round(ratePlan.dailyRate * 0.625) : "")
+                }
+                min={0}
+              />
             </div>
             <div>
               <PocLabel>Weekly rate</PocLabel>

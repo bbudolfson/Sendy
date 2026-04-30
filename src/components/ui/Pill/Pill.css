@@ -50,3 +50,8 @@
 .sendy-pill--pending {
   border-color: var(--sendy-text-information);
 }
+
+/* Category / neutral labels — monochrome border (bike type, etc.) */
+.sendy-pill--neutral {
+  border-color: var(--color-border);
+}

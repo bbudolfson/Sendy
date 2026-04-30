@@ -56,20 +56,19 @@ export function ShopInventoryCard({
 
   return (
     <article className="sendy-shop-inventory-card">
+      <div className="sendy-shop-inventory-card__top-row">
+        <h3 className="sendy-shop-inventory-card__title">{title}</h3>
+        {!isEdit && (
+          <button type="button" className="sendy-shop-inventory-card__edit-link" onClick={onEdit}>
+            Edit
+          </button>
+        )}
+      </div>
       <div className="sendy-shop-inventory-card__main">
         <div className="sendy-shop-inventory-card__image-wrap">
           <img className="sendy-shop-inventory-card__image" src={imageUrl} alt={imageAlt ?? title} />
         </div>
         <div className="sendy-shop-inventory-card__content">
-          <div className="sendy-shop-inventory-card__top-row">
-            <h3 className="sendy-shop-inventory-card__title">{title}</h3>
-            {!isEdit && (
-              <button type="button" className="sendy-shop-inventory-card__edit-link" onClick={onEdit}>
-                Edit
-              </button>
-            )}
-          </div>
-
           {!isEdit && (
             <div className="sendy-shop-inventory-card__detail-lines">
               <p>{bikeLine}</p>

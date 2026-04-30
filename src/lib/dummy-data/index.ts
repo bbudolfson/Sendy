@@ -337,6 +337,11 @@ export const SHOP_AVAILABILITY_RULES: AvailabilityRule[] = SHOP_BIKES.flatMap((b
   BASE_WEEKLY_HOURS.map((hours) => ({ bikeId: bike.id, ...hours })),
 );
 
+/** Default weekly slots for bikes created from the shop app (matches demo bikes). */
+export function createDefaultAvailabilityRulesForBike(bikeId: string): AvailabilityRule[] {
+  return BASE_WEEKLY_HOURS.map((hours) => ({ bikeId, ...hours }));
+}
+
 export const SHOP_BLOCKED_DATES: BlockedDate[] = [
   { bikeId: "shop-bike-1", date: "2026-05-11", reason: "Tune-up" },
   { bikeId: "shop-bike-2", date: "2026-05-15", reason: "Group booking" },
@@ -425,6 +430,7 @@ export function getShopBikeById(id: string): ShopBike | undefined {
 export function getShopBikeGallery(id: string): string[] {
   const bike = getShopBikeById(id);
   if (!bike) return [];
+  if (bike.photoUrls?.length) return bike.photoUrls;
   const gallery = SHOP_BIKE_GALLERY[id];
   if (gallery?.length) return gallery;
   return [bike.imageUrl];
@@ -441,6 +447,44 @@ export function getAvailabilityRulesForBike(bikeId: string): AvailabilityRule[] 
 
 export function getBlockedDatesForBike(bikeId: string): BlockedDate[] {
   return SHOP_BLOCKED_DATES.filter((entry) => entry.bikeId === bikeId);
+}
+
+function weekdayIndex(weekday: Weekday): number {
+  const map: Record<Weekday, number> = {
+    sunday: 0,
+    monday: 1,
+    tuesday: 2,
+    wednesday: 3,
+    thursday: 4,
+    friday: 5,
+    saturday: 6,
+  };
+  return map[weekday];
+}
+
+export function getShopBikeAvailabilityCalendar(
+  bikeId: string,
+  startDateIso?: string,
+  days = 14,
+): Array<{ date: string; available: boolean; reason?: string }> {
+  const rules = getAvailabilityRulesForBike(bikeId);
+  const blocked = new Set(getBlockedDatesForBike(bikeId).map((entry) => entry.date));
+  const start = startDateIso ? new Date(`${startDateIso}T00:00:00`) : new Date();
+  const safeDays = Math.max(1, days);
+
+  return Array.from({ length: safeDays }, (_, index) => {
+    const d = new Date(start);
+    d.setDate(start.getDate() + index);
+    const iso = d.toISOString().slice(0, 10);
+    const dayRule = rules.find((rule) => weekdayIndex(rule.weekday) === d.getDay());
+    const availableByRule = dayRule ? dayRule.enabled : false;
+    const isBlocked = blocked.has(iso);
+    return {
+      date: iso,
+      available: availableByRule && !isBlocked,
+      reason: isBlocked ? "Blocked date" : undefined,
+    };
+  });
 }
 
 export function getRatePlanForBike(bikeId: string): RatePlan | undefined {

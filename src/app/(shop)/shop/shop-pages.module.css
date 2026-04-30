@@ -14,6 +14,11 @@
   max-width: 62.5rem; /* 1000px max */
 }
 
+.page > .pageWide {
+  width: min(100%, 62.5rem);
+  max-width: 62.5rem;
+}
+
 .page > .grid {
   width: min(100%, 62.5rem); /* 1000px max */
   max-width: 62.5rem;
