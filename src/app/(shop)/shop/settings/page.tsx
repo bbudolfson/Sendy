@@ -14,7 +14,7 @@ export default function ShopSettingsHubPage() {
         <PocCard>
           <PocStack gap="sm">
             <PocButtonLink href="/shop/profile">Shop profile</PocButtonLink>
-            <PocMuted>Address, website, logo, service area notes, and contact details.</PocMuted>
+            <PocMuted>Shop name, address, website, and contact details.</PocMuted>
           </PocStack>
         </PocCard>
         <PocCard>

@@ -39,13 +39,6 @@ export default function ShopProfilePage() {
           }}
         >
           <div>
-            <label className={styles.logoDropzone} htmlFor="shop-profile-logo">
-              <input id="shop-profile-logo" type="file" accept="image/*" aria-label="Upload your logo" />
-              Upload your logo
-            </label>
-          </div>
-
-          <div>
             <label className={styles.profileLabel} htmlFor="shop-profile-name">
               Shop name
             </label>

@@ -26,39 +26,6 @@
   color: var(--color-text);
 }
 
-.logoDropzone {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 8.75rem;
-  padding: var(--space-4);
-  border: 2px dashed var(--color-border);
-  border-radius: var(--radius-sm);
-  background: var(--color-surface-50);
-  color: var(--color-text-muted);
-  font-family: var(--sendy-font-family-body);
-  font-size: var(--sendy-font-size-body-sm);
-  line-height: var(--sendy-line-height-body-sm);
-  text-align: center;
-  cursor: pointer;
-  transition:
-    border-color 0.15s,
-    background-color 0.15s;
-}
-
-.logoDropzone:hover {
-  border-color: var(--color-text-subtle);
-  background: color-mix(in oklab, var(--color-text) 3%, var(--color-surface));
-}
-
-.logoDropzone input[type="file"] {
-  position: absolute;
-  width: 0;
-  height: 0;
-  opacity: 0;
-  overflow: hidden;
-}
-
 .footer {
   display: flex;
   flex-wrap: wrap;
