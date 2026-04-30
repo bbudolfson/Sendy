@@ -1,4 +1,5 @@
 import React from "react";
+import { PocInput } from "@/components/poc-ui";
 import { Button } from "@/components/ui/Button/Button";
 import "./ShopInventoryCard.css";
 
@@ -82,28 +83,32 @@ export function ShopInventoryCard({
             <div className="sendy-shop-inventory-card__form-grid">
               <label className="sendy-shop-inventory-card__field">
                 <span>Bike</span>
-                <input
+                <PocInput
+                  className="sendy-shop-inventory-card__input"
                   value={bikeValue}
                   onChange={(event) => onBikeValueChange?.(event.currentTarget.value)}
                 />
               </label>
               <label className="sendy-shop-inventory-card__field">
                 <span>Size</span>
-                <input
+                <PocInput
+                  className="sendy-shop-inventory-card__input"
                   value={sizeValue}
                   onChange={(event) => onSizeValueChange?.(event.currentTarget.value)}
                 />
               </label>
               <label className="sendy-shop-inventory-card__field">
                 <span>Specs</span>
-                <input
+                <PocInput
+                  className="sendy-shop-inventory-card__input"
                   value={specsValue}
                   onChange={(event) => onSpecsValueChange?.(event.currentTarget.value)}
                 />
               </label>
               <label className="sendy-shop-inventory-card__field">
                 <span>Rate</span>
-                <input
+                <PocInput
+                  className="sendy-shop-inventory-card__input"
                   value={rateValue}
                   onChange={(event) => onRateValueChange?.(event.currentTarget.value)}
                 />

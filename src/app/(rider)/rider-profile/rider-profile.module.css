@@ -1,6 +1,6 @@
 .page {
-  width: 100%;
-  max-width: 42rem;
+  width: min(100%, 50rem); /* 800px default */
+  max-width: 62.5rem; /* 1000px max */
   display: flex;
   flex-direction: column;
   gap: var(--space-4);

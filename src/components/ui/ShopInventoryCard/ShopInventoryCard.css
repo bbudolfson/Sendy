@@ -99,7 +99,7 @@
   color: var(--sendy-text-headings);
 }
 
-.sendy-shop-inventory-card__field input {
+.sendy-shop-inventory-card__input {
   width: 100%;
   min-height: 3.375rem;
   border-radius: 10px;

@@ -1,6 +1,7 @@
 .sendy-shop-res-card {
   display: flex;
-  width: min(100%, 44.0625rem); /* 705px */
+  width: min(100%, 50rem); /* 800px default */
+  max-width: 62.5rem; /* 1000px max */
   padding: var(--space-6); /* 24px */
   flex-direction: column;
   align-items: flex-start;

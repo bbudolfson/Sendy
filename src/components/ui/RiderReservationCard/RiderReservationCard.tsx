@@ -1,4 +1,5 @@
 import React from "react";
+import { PocInput } from "@/components/poc-ui";
 import { Button } from "@/components/ui/Button/Button";
 import { formatDisplayDate } from "@/lib/format-display-date";
 import "./RiderReservationCard.css";
@@ -97,7 +98,7 @@ export function RiderReservationCard({
                     <button type="button" className="sendy-rider-res-card__date-button" onClick={onOpenStartPicker}>
                       {startLabel}
                     </button>
-                    <input
+                    <PocInput
                       ref={startInputRef}
                       className="sendy-rider-res-card__date-native"
                       name="start"
@@ -111,7 +112,7 @@ export function RiderReservationCard({
                     <button type="button" className="sendy-rider-res-card__date-button" onClick={onOpenEndPicker}>
                       {endLabel}
                     </button>
-                    <input
+                    <PocInput
                       ref={endInputRef}
                       className="sendy-rider-res-card__date-native"
                       name="end"

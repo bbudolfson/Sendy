@@ -139,7 +139,7 @@ export default function DashboardPage() {
                 >
                   {startValue ? formatDisplayDate(startValue) : "Start"}
                 </button>
-                <input
+                <PocInput
                   ref={startRef}
                   className={styles.dateNative}
                   name="start"
@@ -156,7 +156,7 @@ export default function DashboardPage() {
                 >
                   {endValue ? formatDisplayDate(endValue) : "End"}
                 </button>
-                <input
+                <PocInput
                   ref={endRef}
                   className={styles.dateNative}
                   name="end"

@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { forwardRef, type ReactNode } from "react";
 import { Button } from "@/components/ui/Button/Button";
 import styles from "./poc-ui.module.css";
 
@@ -84,16 +84,29 @@ export function PocLabel({ children }: { children: ReactNode }) {
   return <label className={styles.label}>{children}</label>;
 }
 
-export function PocInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
-  return <input className={styles.input} {...props} />;
-}
+export const PocInput = forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
+  function PocInput(props, ref) {
+    const { className, ...rest } = props;
+    return <input ref={ref} className={[styles.input, className].filter(Boolean).join(" ")} {...rest} />;
+  },
+);
 
-export function PocSelect(props: React.SelectHTMLAttributes<HTMLSelectElement>) {
-  return <select className={styles.input} {...props} />;
-}
+export const PocCheckbox = forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
+  function PocCheckbox(props, ref) {
+    return <input ref={ref} type="checkbox" {...props} />;
+  },
+);
 
-export function PocTextarea(
-  props: React.TextareaHTMLAttributes<HTMLTextAreaElement>,
-) {
-  return <textarea className={styles.input} rows={4} {...props} />;
-}
+export const PocSelect = forwardRef<HTMLSelectElement, React.SelectHTMLAttributes<HTMLSelectElement>>(
+  function PocSelect(props, ref) {
+    const { className, ...rest } = props;
+    return <select ref={ref} className={[styles.input, className].filter(Boolean).join(" ")} {...rest} />;
+  },
+);
+
+export const PocTextarea = forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttributes<HTMLTextAreaElement>>(
+  function PocTextarea(props, ref) {
+    const { className, ...rest } = props;
+    return <textarea ref={ref} className={[styles.input, className].filter(Boolean).join(" ")} rows={4} {...rest} />;
+  },
+);

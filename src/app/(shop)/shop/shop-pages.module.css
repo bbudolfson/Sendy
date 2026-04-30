@@ -1,6 +1,6 @@
 /* Centered column in shop shell `main` (flex row + justify-content: center) */
 .page {
-  width: min(100%, 64rem);
+  width: min(100%, 62.5rem); /* 1000px max */
   margin-inline: auto;
   display: flex;
   flex-direction: column;
@@ -10,13 +10,13 @@
 
 /* Headings / stacks that sit beside cards — same width as cards for alignment */
 .page > :not(.grid) {
-  width: min(100%, 36rem);
-  max-width: 100%;
+  width: min(100%, 50rem); /* 800px default */
+  max-width: 62.5rem; /* 1000px max */
 }
 
 .page > .grid {
-  width: min(100%, 64rem);
-  max-width: 100%;
+  width: min(100%, 62.5rem); /* 1000px max */
+  max-width: 62.5rem;
   align-self: stretch;
 }
 

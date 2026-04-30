@@ -1,6 +1,6 @@
 "use client";
 
-import { PocButton, PocButtonLink, PocCard, PocH1, PocInput, PocLabel, PocMuted, PocStack } from "@/components/poc-ui";
+import { PocButton, PocButtonLink, PocCard, PocCheckbox, PocH1, PocInput, PocLabel, PocMuted, PocStack } from "@/components/poc-ui";
 import { useShopSession } from "@/context/shop-session";
 import type { Weekday } from "@/lib/domain/types";
 import { formatDisplayDate } from "@/lib/format-display-date";
@@ -64,7 +64,7 @@ export default function BikeAvailabilityPage({ params }: { params: { id: string 
                   <div className={styles.row}>
                     <strong className={styles.capitalize}>{day}</strong>
                     <label>
-                      <input type="checkbox" name={`${day}-enabled`} defaultChecked={existing?.enabled ?? false} /> Open
+                      <PocCheckbox name={`${day}-enabled`} defaultChecked={existing?.enabled ?? false} /> Open
                     </label>
                   </div>
                   <div className={styles.actions}>

@@ -1,5 +1,6 @@
 .sendy-rider-res-card {
-  width: 100%;
+  width: min(100%, 50rem); /* 800px default */
+  max-width: 62.5rem; /* 1000px max */
   border-radius: 12px;
   background: var(--color-surface-50);
   box-shadow:
