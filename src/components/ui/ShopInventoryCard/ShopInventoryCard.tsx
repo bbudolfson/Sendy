@@ -115,26 +115,26 @@ export function ShopInventoryCard({
               </label>
             </div>
           )}
-        </div>
-      </div>
 
-      <div className="sendy-shop-inventory-card__actions">
-        {!isEdit && (
-          <>
-            <Button variant="secondary" onClick={onRemove}>
-              Remove
-            </Button>
-            <Button onClick={onDuplicate}>Duplicate</Button>
-          </>
-        )}
-        {isEdit && (
-          <>
-            <Button variant="secondary" onClick={onCancel}>
-              Cancel
-            </Button>
-            <Button onClick={onSave}>Save</Button>
-          </>
-        )}
+          <div className="sendy-shop-inventory-card__actions">
+            {!isEdit && (
+              <>
+                <Button variant="secondary" onClick={onRemove}>
+                  Remove
+                </Button>
+                <Button onClick={onDuplicate}>Duplicate</Button>
+              </>
+            )}
+            {isEdit && (
+              <>
+                <Button variant="secondary" onClick={onCancel}>
+                  Cancel
+                </Button>
+                <Button onClick={onSave}>Save</Button>
+              </>
+            )}
+          </div>
+        </div>
       </div>
     </article>
   );

@@ -1,12 +1,15 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { PocButtonLink, PocH1, PocMuted, PocSelect } from "@/components/poc-ui";
+import { useRouter } from "next/navigation";
+import { PocH1, PocMuted, PocSelect } from "@/components/poc-ui";
+import { Button } from "@/components/ui/Button/Button";
 import { ShopInventoryCard } from "@/components/ui/ShopInventoryCard/ShopInventoryCard";
 import { useShopSession } from "@/context/shop-session";
 import styles from "../shop-pages.module.css";
 
 export default function ShopInventoryPage() {
+  const router = useRouter();
   const { session, upsertBikeDraft } = useShopSession();
   const [status, setStatus] = useState<"all" | "active" | "inactive">("all");
   const [type, setType] = useState<"all" | "Road" | "Mountain" | "Gravel" | "E-Bike">("all");
@@ -36,27 +39,42 @@ export default function ShopInventoryPage() {
 
   return (
     <div className={styles.page}>
-      <PocH1>Inventory</PocH1>
-      <div className={styles.actions}>
-        <div>
-          <PocMuted>Status</PocMuted>
-          <PocSelect value={status} onChange={(e) => setStatus(e.currentTarget.value as typeof status)}>
-            <option value="all">All</option>
-            <option value="active">Active</option>
-            <option value="inactive">Inactive</option>
-          </PocSelect>
+      <div className={styles.inventoryHeaderRow}>
+        <PocH1>Inventory</PocH1>
+        <div className={styles.inventoryFilters}>
+          <div className={styles.inventoryFilterGroup}>
+            <PocMuted>Status</PocMuted>
+            <PocSelect
+              className={styles.inventoryFilterControl}
+              value={status}
+              onChange={(e) => setStatus(e.currentTarget.value as typeof status)}
+            >
+              <option value="all">All</option>
+              <option value="active">Active</option>
+              <option value="inactive">Inactive</option>
+            </PocSelect>
+          </div>
+          <div className={styles.inventoryFilterGroup}>
+            <PocMuted>Bike type</PocMuted>
+            <PocSelect
+              className={styles.inventoryFilterControl}
+              value={type}
+              onChange={(e) => setType(e.currentTarget.value as typeof type)}
+            >
+              <option value="all">All</option>
+              <option value="Road">Road</option>
+              <option value="Mountain">Mountain</option>
+              <option value="Gravel">Gravel</option>
+              <option value="E-Bike">E-Bike</option>
+            </PocSelect>
+          </div>
+          <Button
+            className={styles.inventoryFilterButton}
+            onClick={() => router.push("/shop/inventory/new")}
+          >
+            Add bike
+          </Button>
         </div>
-        <div>
-          <PocMuted>Bike type</PocMuted>
-          <PocSelect value={type} onChange={(e) => setType(e.currentTarget.value as typeof type)}>
-            <option value="all">All</option>
-            <option value="Road">Road</option>
-            <option value="Mountain">Mountain</option>
-            <option value="Gravel">Gravel</option>
-            <option value="E-Bike">E-Bike</option>
-          </PocSelect>
-        </div>
-        <PocButtonLink href="/shop/inventory/new">Add bike</PocButtonLink>
       </div>
       <ul className={styles.list}>
         {bikes.map((bike) => (

@@ -1,0 +1,36 @@
+.sendy-select-wrap {
+  position: relative;
+  display: inline-flex;
+  width: 100%;
+}
+
+.sendy-select {
+  width: 100%;
+  min-height: 40px;
+  padding: 0 2.5rem 0 1rem;
+  border: 1px solid color-mix(in oklab, var(--color-border) 88%, transparent);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--sendy-text-body);
+  font-family: var(--sendy-font-family-body);
+  font-size: var(--sendy-font-size-body);
+  line-height: var(--sendy-line-height-body);
+  font-weight: var(--sendy-font-weight-regular);
+  appearance: none;
+  outline: none;
+}
+
+.sendy-select:focus {
+  border-color: var(--sendy-text-action);
+}
+
+.sendy-select-icon {
+  position: absolute;
+  top: 50%;
+  right: 0.75rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  transform: translateY(-50%);
+  color: color-mix(in oklab, var(--color-text) 45%, transparent);
+  pointer-events: none;
+}

@@ -15,7 +15,7 @@
 .sendy-shop-inventory-card__main {
   width: 100%;
   display: flex;
-  align-items: flex-start;
+  align-items: stretch;
   gap: 2rem;
 }
 
@@ -101,11 +101,11 @@
 
 .sendy-shop-inventory-card__input {
   width: 100%;
-  min-height: 3.375rem;
+  min-height: 40px;
   border-radius: 10px;
   border: 1px solid var(--color-border);
   background: var(--color-surface);
-  padding: 0.75rem 1rem;
+  padding: 0 1rem;
   font-family: var(--sendy-font-family-headings);
   font-size: var(--sendy-font-size-h3);
   line-height: var(--sendy-line-height-h3);
@@ -114,7 +114,9 @@
 }
 
 .sendy-shop-inventory-card__actions {
-  width: 100%;
+  width: min(100%, 26rem);
+  margin-top: auto;
+  align-self: flex-end;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 1rem;
