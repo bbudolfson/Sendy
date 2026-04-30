@@ -34,42 +34,55 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.125rem;
+  align-items: flex-start;
+  gap: var(--space-3);
   padding: 0;
 }
 
+.sendy-bike-tile__headline {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-1);
+  width: 100%;
+}
+
+/* Design: H2 — bike name */
 .sendy-bike-tile__title {
   margin: 0;
   font-family: var(--sendy-font-family-headings);
-  font-size: 20px;
-  line-height: 1.2;
+  font-size: var(--sendy-font-size-h2);
+  line-height: var(--sendy-line-height-h2);
   font-weight: var(--sendy-font-weight-semibold);
   color: var(--sendy-text-headings);
 }
 
+/* Design: H4 / weight 500 — price (muted, not body black) */
 .sendy-bike-tile__price {
   margin: 0;
   font-family: var(--sendy-font-family-headings);
-  font-size: 1.25rem; /* H4 */
-  line-height: 1.3;
+  font-size: var(--sendy-font-size-h3);
+  line-height: var(--sendy-line-height-h3);
   font-weight: var(--sendy-font-weight-medium);
-  color: var(--sendy-text-body);
+  color: var(--color-text-muted);
 }
 
+/* Design: H5 — hosted line */
 .sendy-bike-tile__hosted-by {
-  margin: 0.125rem 0 0;
+  margin: 0;
   font-family: var(--sendy-font-family-headings);
-  font-size: 1rem; /* H5 */
-  line-height: 1.375;
+  font-size: var(--sendy-font-size-body-sm);
+  line-height: var(--sendy-line-height-body-sm);
   font-weight: var(--sendy-font-weight-regular);
-  color: var(--sendy-text-body);
+  color: var(--color-text-muted);
 }
 
 .sendy-bike-tile__hosted-by-name {
   font-weight: var(--sendy-font-weight-medium);
+  color: var(--color-text);
 }
 
 .sendy-bike-tile__type-pill {
-  margin-top: var(--space-1);
+  margin: 0;
 }
 
