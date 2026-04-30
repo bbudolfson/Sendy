@@ -37,3 +37,16 @@ export function formatDisplayDate(isoDate: string | null | undefined): string {
   if (!label || Number.isNaN(d) || Number.isNaN(y)) return trimmed;
   return `${label} ${d} ${y}`;
 }
+
+/** `YYYY-MM-DD` → `BACK MAY 6` (uppercase) for compact return pills. */
+export function formatReturnBackPillText(isoDate: string | null | undefined): string {
+  if (isoDate == null || isoDate === "") return "BACK —";
+  const trimmed = isoDate.trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) return `BACK ${trimmed}`.toUpperCase();
+  const [, ms, ds] = trimmed.split("-");
+  const m = Number(ms);
+  const d = Number(ds);
+  const label = MONTH_SHORT[m - 1];
+  if (!label || Number.isNaN(d)) return `BACK ${trimmed}`.toUpperCase();
+  return `BACK ${label} ${d}`.toUpperCase();
+}

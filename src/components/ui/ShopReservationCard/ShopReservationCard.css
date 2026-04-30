@@ -13,6 +13,48 @@
     0 1px 3px 1px color-mix(in oklab, var(--color-text) 15%, transparent);
 }
 
+.sendy-shop-res-card--collapsed {
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-6);
+  min-height: 3.5rem;
+}
+
+.sendy-shop-res-card__collapsed-main {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--space-2);
+  min-width: 0;
+}
+
+.sendy-shop-res-card--collapsed .sendy-shop-res-card__title {
+  font-size: var(--sendy-font-size-h2);
+}
+
+.sendy-shop-res-card--collapsed .sendy-shop-res-card__price {
+  font-size: 1rem;
+  font-weight: var(--sendy-font-weight-regular);
+}
+
+.sendy-shop-res-card__collapsed-pill {
+  flex-shrink: 0;
+}
+
+.sendy-shop-res-card__collapsed-pill.sendy-pill--error {
+  text-transform: none;
+}
+
+.sendy-shop-res-card__return-pill.sendy-pill {
+  max-width: none;
+  width: auto;
+  min-width: 0;
+  padding-inline: var(--space-3);
+}
+
 .sendy-shop-res-card__body {
   width: 100%;
   display: grid;
@@ -151,4 +193,94 @@
     width: 100%;
     max-width: none;
   }
+
+  .sendy-shop-res-card--collapsed {
+    flex-wrap: wrap;
+    align-items: flex-start;
+  }
+
+  .sendy-shop-res-card--collapsed .sendy-shop-res-card__collapsed-pill {
+    margin-left: 0;
+  }
+}
+
+.sendy-shop-res-card__dialog {
+  margin: auto;
+  padding: 0;
+  max-width: min(calc(100vw - 2rem), 26rem);
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  box-shadow:
+    0 4px 6px color-mix(in oklab, var(--color-text) 12%, transparent),
+    0 12px 24px color-mix(in oklab, var(--color-text) 18%, transparent);
+}
+
+.sendy-shop-res-card__dialog::backdrop {
+  background: color-mix(in oklab, var(--color-text) 35%, transparent);
+}
+
+.sendy-shop-res-card__dialog-panel {
+  padding: var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.sendy-shop-res-card__dialog-title {
+  margin: 0;
+  font-family: var(--sendy-font-family-headings);
+  font-size: var(--sendy-font-size-h2);
+  line-height: var(--sendy-line-height-h2);
+  font-weight: var(--sendy-font-weight-semibold);
+  color: var(--sendy-text-headings);
+}
+
+.sendy-shop-res-card__dialog-lede {
+  margin: 0;
+  font-family: var(--sendy-font-family-body);
+  font-size: var(--sendy-font-size-body);
+  line-height: var(--sendy-line-height-body);
+  color: var(--color-text-muted);
+}
+
+.sendy-shop-res-card__dialog-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.sendy-shop-res-card__dialog-textarea {
+  width: 100%;
+  min-height: 6rem;
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-family: var(--sendy-font-family-body);
+  font-size: var(--sendy-font-size-body);
+  line-height: var(--sendy-line-height-body);
+  resize: vertical;
+  box-sizing: border-box;
+}
+
+.sendy-shop-res-card__dialog-textarea:focus {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.sendy-shop-res-card__dialog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.sendy-shop-res-card__dialog-actions .sendy-btn {
+  min-height: 2.75rem;
+  border-radius: 0.5rem;
 }

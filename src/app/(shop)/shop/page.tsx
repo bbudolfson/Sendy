@@ -1,9 +1,14 @@
 "use client";
 
-import { PocH1 } from "@/components/poc-ui";
+import { useMemo, useState } from "react";
+import { PocH1, PocMuted, PocSelect } from "@/components/poc-ui";
 import { ShopReservationCard } from "@/components/ui/ShopReservationCard/ShopReservationCard";
-import { SHOP_ACTIVITY_OPEN_REQUESTS, SHOP_ACTIVITY_RESERVATIONS_TODAY } from "@/lib/dummy-data";
 import type { ShopReservationActivity } from "@/lib/domain/types";
+import { SHOP_ACTIVITY_OPEN_REQUESTS, SHOP_ACTIVITY_RESERVATIONS_TODAY } from "@/lib/dummy-data";
+import {
+  reservationStartMatchesFilter,
+  type ReservationTimeFilter,
+} from "@/lib/reservation-time-filter";
 import shopPageStyles from "./shop-pages.module.css";
 import styles from "./shop-home.module.css";
 
@@ -32,8 +37,8 @@ function ActivityCard({
       editDefaults={{
         bikeSize: "Large",
         helmetSize: "None",
-        pickupDate: "2026-05-03",
-        returnDate: "2026-05-06",
+        pickupDate: row.startDateIso,
+        returnDate: row.endDateIso,
       }}
       onEdit={() => {}}
       onApprove={() => {}}

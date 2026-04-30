@@ -1,4 +1,4 @@
-import { formatDisplayDate } from "@/lib/format-display-date";
+import { formatDisplayDate, parseIsoDateOnlyLocal } from "@/lib/format-display-date";
 import type {
   AvailabilityRule,
   Bike,
@@ -377,32 +377,48 @@ export const SHOP_EMBED_LINKS: EmbedLink[] = [
 const ACTIVITY_RIDER = "Brett Budolfson";
 const ACTIVITY_BIKE = "Santa Cruz Nomad";
 const ACTIVITY_PRICE = "($200 Per Day)";
-const ACTIVITY_START = formatDisplayDate("2026-05-03");
-const ACTIVITY_END = formatDisplayDate("2026-05-06");
 
-function activityRow(id: string): ShopReservationActivity {
+function addDaysIso(iso: string, days: number): string {
+  const d = parseIsoDateOnlyLocal(iso);
+  d.setDate(d.getDate() + days);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${y}-${m}-${day}`;
+}
+
+function activityRow(
+  id: string,
+  startDateIso: string,
+  options?: { bikeTitle?: string; rentalDays?: number },
+): ShopReservationActivity {
+  const rentalDays = options?.rentalDays ?? 3;
+  const endDateIso = addDaysIso(startDateIso, rentalDays);
   return {
     id,
-    bikeTitle: ACTIVITY_BIKE,
+    bikeTitle: options?.bikeTitle ?? ACTIVITY_BIKE,
     priceLine: ACTIVITY_PRICE,
     requestedBy: ACTIVITY_RIDER,
-    startDateDisplay: ACTIVITY_START,
-    endDateDisplay: ACTIVITY_END,
+    startDateIso,
+    endDateIso,
+    startDateDisplay: formatDisplayDate(startDateIso),
+    endDateDisplay: formatDisplayDate(endDateIso),
   };
 }
 
-/** Confirmed / in-progress pickups today — owner follows up via message */
+/** Confirmed / in-progress — pickup dates span demo ranges for time filters */
 export const SHOP_ACTIVITY_RESERVATIONS_TODAY: ShopReservationActivity[] = [
-  activityRow("act-today-1"),
-  activityRow("act-today-2"),
+  activityRow("act-today-1", "2026-04-30"),
+  activityRow("act-today-2", "2026-05-01"),
+  activityRow("act-today-3", "2026-05-18", { bikeTitle: "Santa Cruz Tallboy" }),
 ];
 
 /** Pending owner approval */
 export const SHOP_ACTIVITY_OPEN_REQUESTS: ShopReservationActivity[] = [
-  activityRow("act-open-1"),
-  activityRow("act-open-2"),
-  activityRow("act-open-3"),
-  activityRow("act-open-4"),
+  activityRow("act-open-1", "2026-04-28"),
+  activityRow("act-open-2", "2026-04-30"),
+  activityRow("act-open-3", "2026-05-15"),
+  activityRow("act-open-4", "2026-07-01"),
 ];
 
 const SHOP_BIKE_GALLERY: Record<string, string[]> = {

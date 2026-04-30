@@ -148,6 +148,10 @@ export type ShopReservationActivity = {
   bikeTitle: string;
   priceLine: string;
   requestedBy: string;
+  /** `YYYY-MM-DD` for pickup — used for list time filters */
+  startDateIso: string;
+  /** `YYYY-MM-DD` for return */
+  endDateIso: string;
   startDateDisplay: string;
   endDateDisplay: string;
 };
