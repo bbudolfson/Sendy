@@ -108,7 +108,14 @@ export function ShopInventoryCard({
             </div>
           )}
 
-          <div className="sendy-shop-inventory-card__actions">
+          <div
+            className={[
+              "sendy-shop-inventory-card__actions",
+              isEdit ? "sendy-shop-inventory-card__actions--edit" : "",
+            ]
+              .filter(Boolean)
+              .join(" ")}
+          >
             {!isEdit && (
               <>
                 <Button type="button" variant="destructive" onClick={onRemove}>

@@ -95,18 +95,25 @@
 }
 
 .sendy-shop-inventory-card__actions {
-  width: 100%;
   margin-top: auto;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-  align-items: center;
-  gap: var(--space-3);
+  margin-left: auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-2);
+  width: min(100%, 22.5rem);
+  align-items: stretch;
 }
 
 .sendy-shop-inventory-card__actions .sendy-btn {
-  width: 10rem;
+  width: 100%;
+  min-width: 0;
   min-height: 2.75rem;
+  padding-inline: var(--space-2);
+}
+
+.sendy-shop-inventory-card__actions--edit {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  width: min(100%, 15rem);
 }
 
 @media (max-width: 800px) {
@@ -120,12 +127,8 @@
   }
 
   .sendy-shop-inventory-card__actions {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .sendy-shop-inventory-card__actions .sendy-btn {
     width: 100%;
     max-width: none;
+    grid-template-columns: 1fr;
   }
 }
