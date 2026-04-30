@@ -49,20 +49,56 @@ function ActivityCard({
 }
 
 export default function ShopHomePage() {
+  const [timeFilter, setTimeFilter] = useState<ReservationTimeFilter>("all");
+
+  const confirmedRows = useMemo(
+    () =>
+      SHOP_ACTIVITY_RESERVATIONS_TODAY.filter((row) =>
+        reservationStartMatchesFilter(row.startDateIso, timeFilter),
+      ),
+    [timeFilter],
+  );
+
+  const openRows = useMemo(
+    () =>
+      SHOP_ACTIVITY_OPEN_REQUESTS.filter((row) =>
+        reservationStartMatchesFilter(row.startDateIso, timeFilter),
+      ),
+    [timeFilter],
+  );
+
   return (
     <div className={styles.page}>
       <div className={shopPageStyles.shopPageHeaderRow}>
         <PocH1>Reservations</PocH1>
+        <div className={shopPageStyles.shopPageHeaderActions}>
+          <div className={shopPageStyles.inventoryFilterGroup}>
+            <PocMuted>Date range</PocMuted>
+            <PocSelect
+              className={shopPageStyles.inventoryFilterControl}
+              value={timeFilter}
+              onChange={(e) => setTimeFilter(e.currentTarget.value as ReservationTimeFilter)}
+              aria-label="Reservation date range"
+            >
+              <option value="today">Today</option>
+              <option value="week">This week</option>
+              <option value="month">This month</option>
+              <option value="all">All</option>
+            </PocSelect>
+          </div>
+        </div>
       </div>
 
-      <section className={styles.section} aria-labelledby="today-heading">
-        <h2 id="today-heading" className={styles.sectionTitle}>
-          Reservations today
+      <section className={styles.section} aria-labelledby="scheduled-heading">
+        <h2 id="scheduled-heading" className={styles.sectionTitle}>
+          On the schedule
         </h2>
         <div className={styles.cardList}>
-          {SHOP_ACTIVITY_RESERVATIONS_TODAY.map((row) => (
-            <ActivityCard key={row.id} row={row} status="approved" />
-          ))}
+          {confirmedRows.length === 0 ? (
+            <p className={styles.emptyFilter}>No confirmed reservations in this range.</p>
+          ) : (
+            confirmedRows.map((row) => <ActivityCard key={row.id} row={row} status="approved" />)
+          )}
         </div>
       </section>
 
@@ -71,9 +107,11 @@ export default function ShopHomePage() {
           Open reservation requests
         </h2>
         <div className={styles.cardList}>
-          {SHOP_ACTIVITY_OPEN_REQUESTS.map((row) => (
-            <ActivityCard key={row.id} row={row} status="pending" />
-          ))}
+          {openRows.length === 0 ? (
+            <p className={styles.emptyFilter}>No open requests in this range.</p>
+          ) : (
+            openRows.map((row) => <ActivityCard key={row.id} row={row} status="pending" />)
+          )}
         </div>
       </section>
     </div>

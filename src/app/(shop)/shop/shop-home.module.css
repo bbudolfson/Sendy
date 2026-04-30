@@ -29,6 +29,14 @@
   gap: var(--space-4);
 }
 
+.emptyFilter {
+  margin: 0;
+  font-family: var(--sendy-font-family-body);
+  font-size: var(--sendy-font-size-body-sm);
+  line-height: var(--sendy-line-height-body-sm);
+  color: var(--color-text-muted);
+}
+
 .card {
   border: 1px solid color-mix(in oklab, var(--color-border) 88%, transparent);
   border-radius: var(--radius-md);
