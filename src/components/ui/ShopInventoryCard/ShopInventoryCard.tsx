@@ -56,14 +56,7 @@ export function ShopInventoryCard({
 
   return (
     <article className="sendy-shop-inventory-card">
-      <div className="sendy-shop-inventory-card__top-row">
-        <h3 className="sendy-shop-inventory-card__title">{title}</h3>
-        {!isEdit && (
-          <button type="button" className="sendy-shop-inventory-card__edit-link" onClick={onEdit}>
-            Edit
-          </button>
-        )}
-      </div>
+      <h3 className="sendy-shop-inventory-card__title">{title}</h3>
       <div className="sendy-shop-inventory-card__main">
         <div className="sendy-shop-inventory-card__image-wrap">
           <img className="sendy-shop-inventory-card__image" src={imageUrl} alt={imageAlt ?? title} />
@@ -118,18 +111,25 @@ export function ShopInventoryCard({
           <div className="sendy-shop-inventory-card__actions">
             {!isEdit && (
               <>
-                <Button variant="secondary" onClick={onRemove}>
+                <Button type="button" variant="destructive" onClick={onRemove}>
                   Remove
                 </Button>
-                <Button onClick={onDuplicate}>Duplicate</Button>
+                <Button type="button" variant="secondary" onClick={onEdit}>
+                  Edit
+                </Button>
+                <Button type="button" onClick={onDuplicate}>
+                  Duplicate
+                </Button>
               </>
             )}
             {isEdit && (
               <>
-                <Button variant="secondary" onClick={onCancel}>
+                <Button type="button" variant="secondary" onClick={onCancel}>
                   Cancel
                 </Button>
-                <Button onClick={onSave}>Save</Button>
+                <Button type="button" onClick={onSave}>
+                  Save
+                </Button>
               </>
             )}
           </div>

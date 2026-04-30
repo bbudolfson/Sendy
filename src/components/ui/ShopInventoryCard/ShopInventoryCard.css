@@ -37,34 +37,13 @@
   gap: 1rem;
 }
 
-.sendy-shop-inventory-card__top-row {
-  width: 100%;
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: var(--space-2);
-}
-
 .sendy-shop-inventory-card__title {
-  margin: 0;
+  margin: 0 0 var(--space-2);
   font-family: var(--sendy-font-family-headings);
   font-size: var(--sendy-font-size-h2);
   line-height: var(--sendy-line-height-h2);
   font-weight: var(--sendy-font-weight-semibold);
   color: var(--sendy-text-headings);
-}
-
-.sendy-shop-inventory-card__edit-link {
-  border: 0;
-  background: transparent;
-  padding: 0;
-  color: var(--color-text-muted);
-  font-family: var(--sendy-font-family-headings);
-  font-size: var(--sendy-font-size-body);
-  line-height: var(--sendy-line-height-body);
-  font-weight: var(--sendy-font-weight-regular);
-  cursor: pointer;
 }
 
 .sendy-shop-inventory-card__detail-lines {
@@ -116,12 +95,18 @@
 }
 
 .sendy-shop-inventory-card__actions {
-  width: min(100%, 26rem);
+  width: 100%;
   margin-top: auto;
-  align-self: flex-end;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.sendy-shop-inventory-card__actions .sendy-btn {
+  width: 10rem;
+  min-height: 2.75rem;
 }
 
 @media (max-width: 800px) {
@@ -132,5 +117,15 @@
   .sendy-shop-inventory-card__image-wrap {
     width: 100%;
     max-width: 18rem;
+  }
+
+  .sendy-shop-inventory-card__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .sendy-shop-inventory-card__actions .sendy-btn {
+    width: 100%;
+    max-width: none;
   }
 }
