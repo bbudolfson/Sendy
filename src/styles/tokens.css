@@ -91,25 +91,3 @@
   --sendy-surface-error: color-mix(in oklab, var(--sendy-color-error) 10%, var(--color-surface));
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --color-bg: #0a0a0a;
-    --color-surface: #171717;
-    --color-surface-50: #202020;
-    --color-border: #404040;
-    --color-text: #fafafa;
-    --color-text-muted: #a3a3a3;
-    --color-text-subtle: #737373;
-    --color-focus: #fafafa;
-    --color-inverse-bg: #fafafa;
-    --color-inverse-text: #0a0a0a;
-    --color-brand: #7aa7de;
-    --color-brand-strong: #5b8bc7;
-    --color-overlay-surface: color-mix(in oklab, #171717 80%, transparent);
-    --color-overlay-border: color-mix(in oklab, #fafafa 25%, transparent);
-    --sendy-token-action-default: #919d92;
-    --sendy-token-action-hover: #768577;
-    --sendy-text-action: var(--sendy-token-action-default);
-    --sendy-text-action-hover: var(--sendy-token-action-hover);
-  }
-}
