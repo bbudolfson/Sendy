@@ -61,7 +61,7 @@
   font-family: var(--sendy-font-family-headings);
   font-size: 1rem; /* H5 */
   line-height: 1.375;
-  font-weight: var(--sendy-font-weight-medium);
+  font-weight: var(--sendy-font-weight-regular);
   color: var(--sendy-text-body);
 }
 

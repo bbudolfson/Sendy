@@ -2,14 +2,14 @@
 
 import { useRef, useState } from "react";
 import { useParams } from "next/navigation";
-import { PocButton, PocButtonLink } from "@/components/poc-ui";
+import { PocButtonLink } from "@/components/poc-ui";
+import { RiderReservationCard } from "@/components/ui/RiderReservationCard/RiderReservationCard";
 import {
   getShopBikeById,
   getShopBikeGallery,
   getRatePlanForBike,
   getShopProfileByShopId,
 } from "@/lib/dummy-data";
-import { formatDisplayDate } from "@/lib/format-display-date";
 import styles from "./bike-detail.module.css";
 
 export default function BikeDetailPage() {
@@ -82,71 +82,25 @@ export default function BikeDetailPage() {
       </div>
 
       <article className={styles.detailsCard}>
-        <div className={styles.detailsSplit}>
-          <div className={styles.detailsLeft}>
-            <div className={styles.detailsLeftCopy}>
-              <p className={styles.meta}>{priceLabel}</p>
-              <p className={styles.description}>{bike.description}</p>
-            </div>
-            {shop ? (
-              <p className={styles.hostedBy}>
-                Hosted by <span className={styles.hostedByName}>{shop.shopName}</span>
-              </p>
-            ) : null}
-          </div>
-
-          <div className={styles.detailsRight}>
-            <h2 className={styles.reserveHeading}>Check Availability</h2>
-            <form
-              className={styles.reserveForm}
-              onSubmit={(event) => {
-                event.preventDefault();
-              }}
-            >
-              <div className={styles.dateRangeRow} aria-label="Rental dates">
-                <div className={styles.dateField}>
-                  <button
-                    type="button"
-                    className={`${styles.dateButton} ${startValue ? styles.dateButtonFilled : ""}`}
-                    onClick={() => openPicker(startRef)}
-                  >
-                    {startValue ? formatDisplayDate(startValue) : "Start"}
-                  </button>
-                  <input
-                    ref={startRef}
-                    className={styles.dateNative}
-                    name="start"
-                    type="date"
-                    value={startValue}
-                    onChange={(event) => setStartValue(event.currentTarget.value)}
-                    aria-label="Start date"
-                  />
-                </div>
-                <div className={styles.dateField}>
-                  <button
-                    type="button"
-                    className={`${styles.dateButton} ${endValue ? styles.dateButtonFilled : ""}`}
-                    onClick={() => openPicker(endRef)}
-                  >
-                    {endValue ? formatDisplayDate(endValue) : "End"}
-                  </button>
-                  <input
-                    ref={endRef}
-                    className={styles.dateNative}
-                    name="end"
-                    type="date"
-                    value={endValue}
-                    onChange={(event) => setEndValue(event.currentTarget.value)}
-                    aria-label="End date"
-                  />
-                </div>
-              </div>
-              <PocButton type="submit" variant="primary" className={styles.reserveSubmit}>
-                Reserve
-              </PocButton>
-            </form>
-          </div>
-        </div>
+        <RiderReservationCard
+          bikeTitle={bike.title}
+          priceLine={priceLabel}
+          description={bike.description}
+          bikeLine={`Bike: ${bike.title}`}
+          sizeLine={`Size: ${bike.size}`}
+          hostedBy={shop?.shopName ?? "Bike Shop"}
+          state={startValue && endValue ? "priced" : "draft"}
+          startValue={startValue}
+          endValue={endValue}
+          totalChargesLine={startValue && endValue ? "Total Charges: $475.00 ($200 x 3 Days)" : undefined}
+          onOpenStartPicker={() => openPicker(startRef)}
+          onOpenEndPicker={() => openPicker(endRef)}
+          onStartChange={setStartValue}
+          onEndChange={setEndValue}
+          onReserve={() => {}}
+          startInputRef={startRef}
+          endInputRef={endRef}
+        />
 
         <div className={styles.specGrid}>
           <div className={styles.spec}>

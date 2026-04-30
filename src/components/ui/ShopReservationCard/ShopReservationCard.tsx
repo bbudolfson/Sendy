@@ -21,6 +21,7 @@ export type ShopReservationCardProps = {
   onEdit?: () => void;
   onApprove?: () => void;
   onDecline?: () => void;
+  onPickedUp?: () => void;
 };
 
 function toPillVariant(status: ReservationStatus): "error" | "success" | "pending" {
@@ -51,6 +52,7 @@ export function ShopReservationCard({
   onEdit,
   onApprove,
   onDecline,
+  onPickedUp,
 }: ShopReservationCardProps) {
   const heading = detailsTitle ?? (status === "declined" ? "Request Declined" : "Request Details");
 
@@ -99,10 +101,13 @@ export function ShopReservationCard({
           ) : null}
 
           {status === "approved" ? (
-            <div className="sendy-shop-res-card__actions sendy-shop-res-card__actions--single">
+          <div className="sendy-shop-res-card__actions">
               <Button variant="secondary" size="md" onClick={onDecline}>
                 Decline
               </Button>
+            <Button variant="primary" size="md" onClick={onPickedUp}>
+              Picked Up
+            </Button>
             </div>
           ) : null}
         </div>

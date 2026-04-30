@@ -15,6 +15,7 @@ const BASE = {
   onEdit: fn(),
   onApprove: fn(),
   onDecline: fn(),
+  onPickedUp: fn(),
 };
 
 const meta = {
