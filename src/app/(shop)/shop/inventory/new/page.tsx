@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   PocButton,
@@ -11,6 +11,7 @@ import {
   PocSelect,
   PocTextarea,
 } from "@/components/poc-ui";
+import { InventoryPhotoColumn } from "@/components/ui/InventoryPhotoColumn/InventoryPhotoColumn";
 import { useShopSession } from "@/context/shop-session";
 import { createDefaultAvailabilityRulesForBike } from "@/lib/dummy-data";
 import type { ShopBike } from "@/lib/domain/types";
@@ -28,30 +29,7 @@ function parseMoney(raw: unknown): number {
 export default function NewBikePage() {
   const router = useRouter();
   const { session, upsertBikeDraft, setBikeAvailabilityRules, setBikeRates } = useShopSession();
-  const [uploadPreviews, setUploadPreviews] = useState<string[]>([]);
-  const [dragActive, setDragActive] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  const addPhotoFiles = useCallback((files: File[]) => {
-    const imageFiles = files.filter((f) => /^image\//.test(f.type));
-    if (!imageFiles.length) return;
-    const previews = imageFiles.map((file) => URL.createObjectURL(file));
-    setUploadPreviews((prev) => [...prev, ...previews]);
-  }, []);
-
-  const allPhotoUrls = useMemo(() => uploadPreviews.filter(Boolean), [uploadPreviews]);
-
-  const onPickFiles = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const files = Array.from(event.currentTarget.files ?? []);
-    addPhotoFiles(files);
-    event.currentTarget.value = "";
-  };
-
-  const onDrop = (event: React.DragEvent) => {
-    event.preventDefault();
-    setDragActive(false);
-    addPhotoFiles(Array.from(event.dataTransfer.files ?? []));
-  };
+  const [photos, setPhotos] = useState<string[]>([]);
 
   const onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -73,8 +51,8 @@ export default function NewBikePage() {
       type: String(form.get("type") ?? "Mountain") as ShopBike["type"],
       size: String(form.get("size") ?? "").trim(),
       description: String(form.get("description") ?? "").trim(),
-      imageUrl: allPhotoUrls[0] ?? "",
-      photoUrls: allPhotoUrls,
+      imageUrl: photos[0] ?? "",
+      photoUrls: photos.length > 0 ? photos : undefined,
       status: "active",
     };
 
@@ -100,41 +78,7 @@ export default function NewBikePage() {
 
       <div className={`${pageStyles.pageWide} ${styles.card}`}>
         <form className={styles.layout} onSubmit={onSubmit}>
-          <label
-            className={`${styles.dropzone} ${dragActive ? styles.dragActive : ""}`}
-            htmlFor="add-bike-photos-input"
-            onDragEnter={(e) => {
-              e.preventDefault();
-              setDragActive(true);
-            }}
-            onDragOver={(e) => {
-              e.preventDefault();
-              setDragActive(true);
-            }}
-            onDragLeave={() => setDragActive(false)}
-            onDrop={onDrop}
-            onClick={() => fileInputRef.current?.click()}
-          >
-            <input
-              id="add-bike-photos-input"
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              multiple
-              onChange={onPickFiles}
-              tabIndex={-1}
-              aria-label="Bike photos"
-            />
-            <div className={styles.dropzoneInner}>Drag and Drop or Add Photos</div>
-            {allPhotoUrls.length > 0 ? (
-              <div className={styles.dropzoneThumbRow}>
-                {allPhotoUrls.map((url) => (
-                  // eslint-disable-next-line @next/next/no-img-element -- object URL previews
-                  <img key={url} className={styles.dropzoneThumb} src={url} alt="" />
-                ))}
-              </div>
-            ) : null}
-          </label>
+          <InventoryPhotoColumn photos={photos} onPhotosChange={setPhotos} />
 
           <div className={styles.fields}>
             <div>

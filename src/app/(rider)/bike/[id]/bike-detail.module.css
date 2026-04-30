@@ -207,13 +207,6 @@
   border-radius: var(--radius-md);
 }
 
-.availabilityCalendar {
-  width: 100%;
-  border-radius: var(--radius-md);
-  background: var(--color-surface-50);
-  padding: var(--space-4);
-}
-
 .meta {
   margin: 0;
   font-family: var(--sendy-font-family-body);

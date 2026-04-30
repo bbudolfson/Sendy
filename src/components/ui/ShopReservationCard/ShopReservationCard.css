@@ -77,34 +77,37 @@
   font-weight: var(--sendy-font-weight-medium);
 }
 
-.sendy-shop-res-card__right-head {
+.sendy-shop-res-card__edit-form {
+  margin-top: 0;
   display: flex;
-  justify-content: space-between;
-  align-items: baseline;
+  flex-direction: column;
   gap: var(--space-4);
 }
 
-.sendy-shop-res-card__details-title {
-  margin: 0;
-  font-family: var(--sendy-font-family-headings);
-  font-size: var(--sendy-font-size-h3); /* H3 */
-  line-height: var(--sendy-line-height-h3);
-  font-weight: var(--sendy-font-weight-semibold);
-  color: var(--sendy-text-headings);
+.sendy-shop-res-card__edit-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
 }
 
-.sendy-shop-res-card__edit {
-  border: 0;
-  background: transparent;
-  padding: 0;
-  cursor: pointer;
+.sendy-shop-res-card__field-label {
   font-family: var(--sendy-font-family-body);
-  font-size: 1rem;
-  color: var(--color-text-muted);
+  font-size: var(--sendy-font-size-body-sm);
+  line-height: var(--sendy-line-height-body-sm);
+  font-weight: var(--sendy-font-weight-medium);
+  color: var(--color-text);
+}
+
+.sendy-shop-res-card__select {
+  width: 100%;
+}
+
+.sendy-shop-res-card__edit-field .sendy-select-wrap {
+  width: 100%;
 }
 
 .sendy-shop-res-card__details-copy {
-  margin-top: var(--space-3);
+  margin-top: 0;
   display: grid;
   gap: var(--space-1);
 }
@@ -118,20 +121,16 @@
   color: var(--sendy-text-body);
 }
 
-.sendy-shop-res-card__actions {
-  margin-top: var(--space-3);
-  display: grid;
-  grid-template-columns: repeat(2, 10rem);
-  justify-content: end;
+.sendy-shop-res-card__footer {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  align-items: center;
   gap: var(--space-3);
 }
 
-.sendy-shop-res-card__actions--single {
-  grid-template-columns: 10rem;
-  margin-left: auto;
-}
-
-.sendy-shop-res-card__actions .sendy-btn {
+.sendy-shop-res-card__footer .sendy-btn {
   width: 10rem;
   min-height: 2.75rem;
   border-radius: 0.5rem;
@@ -143,11 +142,13 @@
     grid-template-columns: 1fr;
   }
 
-  .sendy-shop-res-card__actions {
-    grid-template-columns: 1fr 1fr;
+  .sendy-shop-res-card__footer {
+    flex-direction: column;
+    align-items: stretch;
   }
 
-  .sendy-shop-res-card__actions .sendy-btn {
+  .sendy-shop-res-card__footer .sendy-btn {
     width: 100%;
+    max-width: none;
   }
 }

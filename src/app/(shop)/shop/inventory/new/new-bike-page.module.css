@@ -9,6 +9,10 @@
     color-mix(in oklab, var(--color-text) 6%, transparent);
 }
 
+.card > h2 {
+  margin: 0 0 var(--space-6);
+}
+
 .layout {
   display: grid;
   gap: var(--space-6);
@@ -19,64 +23,6 @@
     grid-template-columns: minmax(12rem, 1fr) minmax(18rem, 1.35fr);
     align-items: start;
   }
-}
-
-.dropzone {
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  min-height: 18rem;
-  border: 2px dashed var(--color-border);
-  border-radius: var(--radius-sm);
-  background: var(--color-surface-50);
-  color: var(--color-text-muted);
-  font-family: var(--sendy-font-family-body);
-  font-size: var(--sendy-font-size-body-sm);
-  line-height: var(--sendy-line-height-body-sm);
-  text-align: center;
-  cursor: pointer;
-  transition:
-    border-color 0.15s,
-    background-color 0.15s,
-    color 0.15s;
-}
-
-.dropzone:hover,
-.dropzone.dragActive {
-  border-color: var(--color-text-subtle);
-  background: color-mix(in oklab, var(--color-text) 3%, var(--color-surface));
-}
-
-.dropzoneInner {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: var(--space-6);
-}
-
-.dropzone input[type="file"] {
-  position: absolute;
-  width: 0;
-  height: 0;
-  opacity: 0;
-  overflow: hidden;
-}
-
-.dropzoneThumbRow {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  justify-content: center;
-  padding: 0 var(--space-4) var(--space-4);
-}
-
-.dropzoneThumb {
-  width: 3rem;
-  height: 3rem;
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--color-border);
-  object-fit: cover;
 }
 
 .fields {

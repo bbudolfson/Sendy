@@ -14,7 +14,6 @@ function ActivityCard({
   row: ShopReservationActivity;
   status: "pending" | "approved" | "declined";
 }) {
-  const detailTitle = status === "declined" ? "Request Declined" : "Request Details";
   const totalChargesLine =
     status === "pending" ? "Total Charges: $475.00 (3 days + Accessories)" : "Total Charges: $475.00";
   return (
@@ -25,15 +24,21 @@ function ActivityCard({
       requestedBy={row.requestedBy}
       email="bbudolfson@gmail.com"
       phone="(555) 332-2230"
-      detailsTitle={detailTitle}
-      bikeDetailsLine={`Bike: ${row.bikeTitle}, L, Helmet`}
+      bikeDetailsLine={`Bike: ${row.bikeTitle}, Large, No helmet`}
       pickupLine={`Pickup: ${row.startDateDisplay}`}
       returnLine={`Return: ${row.endDateDisplay}`}
       totalChargesLine={totalChargesLine}
       declineReasonLine={status === "declined" ? "Reason: Shop worker enters a note when closing out a request." : undefined}
+      editDefaults={{
+        bikeSize: "Large",
+        helmetSize: "None",
+        pickupDate: "2026-05-03",
+        returnDate: "2026-05-06",
+      }}
       onEdit={() => {}}
       onApprove={() => {}}
       onDecline={() => {}}
+      onPickedUp={status === "approved" ? () => {} : undefined}
     />
   );
 }

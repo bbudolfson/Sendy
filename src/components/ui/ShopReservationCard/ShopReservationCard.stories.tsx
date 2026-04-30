@@ -8,9 +8,15 @@ const BASE = {
   requestedBy: "Brett Budolfson",
   email: "bbudolfson@gmail.com",
   phone: "(555) 332-2230",
-  bikeDetailsLine: "Bike: Santa Cruz Nomad, L, Helmet",
-  pickupLine: "Pickup: Sunday May 3",
-  returnLine: "Return: Wednesday May 6",
+  bikeDetailsLine: "Bike: Santa Cruz Nomad, Large, No helmet",
+  pickupLine: "Pickup: May 3 2026",
+  returnLine: "Return: May 6 2026",
+  editDefaults: {
+    bikeSize: "Large",
+    helmetSize: "None",
+    pickupDate: "2026-05-03",
+    returnDate: "2026-05-06",
+  },
   totalChargesLine: "Total Charges: $475.00 (3 days + Accessories)",
   onEdit: fn(),
   onApprove: fn(),
@@ -40,14 +46,12 @@ type Story = StoryObj<typeof meta>;
 export const Pending: Story = {
   args: {
     status: "pending",
-    detailsTitle: "Request Details",
   },
 };
 
 export const Approved: Story = {
   args: {
     status: "approved",
-    detailsTitle: "Request Details",
     totalChargesLine: "Total Charges: $475.00",
   },
 };
@@ -55,7 +59,6 @@ export const Approved: Story = {
 export const Declined: Story = {
   args: {
     status: "declined",
-    detailsTitle: "Request Declined",
     totalChargesLine: "Total Charges: $475.00",
     declineReasonLine: "Reason: Shop worker enters a note when closing out a request.",
   },
@@ -68,17 +71,11 @@ export const Set: Story = {
   },
   render: () => (
     <div style={{ display: "grid", gap: "1rem", width: "100%", maxWidth: "80rem", margin: "0 auto" }}>
-      <ShopReservationCard status="pending" detailsTitle="Request Details" {...BASE} />
-      <ShopReservationCard
-        {...BASE}
-        status="approved"
-        detailsTitle="Request Details"
-        totalChargesLine="Total Charges: $475.00"
-      />
+      <ShopReservationCard status="pending" {...BASE} />
+      <ShopReservationCard {...BASE} status="approved" totalChargesLine="Total Charges: $475.00" />
       <ShopReservationCard
         {...BASE}
         status="declined"
-        detailsTitle="Request Declined"
         totalChargesLine="Total Charges: $475.00"
         declineReasonLine="Reason: Shop worker enters a note when closing out a request."
       />

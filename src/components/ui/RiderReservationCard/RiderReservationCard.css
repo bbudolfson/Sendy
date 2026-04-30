@@ -176,7 +176,7 @@
   font-size: 1.375rem;
   line-height: 1.3;
   font-weight: var(--sendy-font-weight-medium);
-  color: #d97745;
+  color: var(--color-text);
 }
 
 .sendy-rider-res-card__reserved-message {
