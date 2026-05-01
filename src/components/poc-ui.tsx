@@ -63,9 +63,11 @@ export function PocButton({
   children,
   variant = "primary",
   className,
+  fullWidth = false,
   ...rest
 }: React.ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: PocButtonVariant;
+  fullWidth?: boolean;
 }) {
   const mappedVariant = variantToButtonVariant[variant];
   return (
@@ -74,6 +76,7 @@ export function PocButton({
       variant={mappedVariant}
       size="md"
       className={className}
+      fullWidth={fullWidth}
       {...rest}
     >
       {children}

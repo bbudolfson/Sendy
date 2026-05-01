@@ -26,6 +26,8 @@
   
   .sendy-btn--full {
     width: 100%;
+    max-width: none;
+    box-sizing: border-box;
   }
   
   /* ─── Sizes ─── */

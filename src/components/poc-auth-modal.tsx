@@ -54,6 +54,7 @@ export function PocAuthModal() {
                 </div>
                 <PocButton
                   type="button"
+                  fullWidth
                   onClick={() => {
                     patch({
                       isLoggedIn: true,
@@ -69,6 +70,7 @@ export function PocAuthModal() {
                 <PocButton
                   type="button"
                   variant="secondary"
+                  fullWidth
                   onClick={() => {
                     patch({
                       isLoggedIn: true,
@@ -85,6 +87,7 @@ export function PocAuthModal() {
                 <PocButton
                   type="button"
                   variant="secondary"
+                  fullWidth
                   onClick={() => openAuthModal("create-account")}
                 >
                   Create account
@@ -126,7 +129,9 @@ export function PocAuthModal() {
                     <PocLabel>Password</PocLabel>
                     <PocInput name="password" type="password" required minLength={4} />
                   </div>
-                  <PocButton type="submit">Create account</PocButton>
+                  <PocButton type="submit" fullWidth>
+                    Create account
+                  </PocButton>
                 </PocStack>
               </form>
               <StravaConnectSection variant="compact" />

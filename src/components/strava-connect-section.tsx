@@ -19,16 +19,17 @@ export function StravaConnectSection({ variant = "default" }: Props) {
         {session.stravaConnected ? (
           <>
             <p className={styles.status}>Strava connected</p>
-            <PocButton type="button" variant="secondary" onClick={() => patch({ stravaConnected: false })}>
+            <PocButton
+              type="button"
+              variant="secondary"
+              fullWidth={compact}
+              onClick={() => patch({ stravaConnected: false })}
+            >
               Disconnect Strava
             </PocButton>
           </>
         ) : (
-          <PocButton
-            type="button"
-            variant="secondary"
-            onClick={() => patch({ stravaConnected: true })}
-          >
+          <PocButton type="button" variant="secondary" fullWidth={compact} onClick={() => patch({ stravaConnected: true })}>
             Connect Strava
           </PocButton>
         )}
