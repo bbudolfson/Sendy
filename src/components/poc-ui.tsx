@@ -25,8 +25,8 @@ export function PocStack({
   );
 }
 
-export function PocCard({ children }: { children: ReactNode }) {
-  return <div className={styles.card}>{children}</div>;
+export function PocCard({ children, className }: { children: ReactNode; className?: string }) {
+  return <div className={[styles.card, className].filter(Boolean).join(" ")}>{children}</div>;
 }
 
 export function PocH1({ children }: { children: ReactNode }) {

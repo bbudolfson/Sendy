@@ -1,0 +1,39 @@
+/* Match `.page > :not(.grid)` column width (50rem) — overrides PocCard default `max-width: 36rem` */
+.shopContentCard {
+  max-width: none;
+  width: 100%;
+  margin-inline: 0;
+}
+
+.settingsStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  width: 100%;
+}
+
+.settingSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  align-self: stretch;
+}
+
+.embedForm {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--space-4);
+  width: 100%;
+}
+
+.embedFormFields {
+  display: grid;
+  gap: var(--space-4);
+}
+
+@media (min-width: 720px) {
+  .embedFormFields {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

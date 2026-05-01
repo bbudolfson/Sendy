@@ -1,7 +1,9 @@
 "use client";
 
-import { PocButtonLink, PocCard, PocH1, PocMuted, PocStack } from "@/components/poc-ui";
+import { PocH1, PocH2, PocMuted } from "@/components/poc-ui";
 import styles from "../shop-pages.module.css";
+import { SettingsEmbedCard, SettingsPaymentsCard } from "./blocks";
+import blockStyles from "./blocks.module.css";
 
 export default function ShopSettingsHubPage() {
   return (
@@ -9,27 +11,17 @@ export default function ShopSettingsHubPage() {
       <div className={styles.shopPageHeaderRow}>
         <PocH1>Settings</PocH1>
       </div>
-      <PocMuted>Manage your shop profile, payouts, and embeddable booking links.</PocMuted>
-      <PocStack gap="md">
-        <PocCard>
-          <PocStack gap="sm">
-            <PocButtonLink href="/shop/profile">Shop profile</PocButtonLink>
-            <PocMuted>Shop name, address, website, and contact details.</PocMuted>
-          </PocStack>
-        </PocCard>
-        <PocCard>
-          <PocStack gap="sm">
-            <PocButtonLink href="/shop/payments">Payments</PocButtonLink>
-            <PocMuted>Stripe connection and payout status.</PocMuted>
-          </PocStack>
-        </PocCard>
-        <PocCard>
-          <PocStack gap="sm">
-            <PocButtonLink href="/shop/embed">Embed</PocButtonLink>
-            <PocMuted>Links for your website.</PocMuted>
-          </PocStack>
-        </PocCard>
-      </PocStack>
+      <PocMuted>Manage payouts and website booking embeds.</PocMuted>
+      <div className={blockStyles.settingsStack}>
+        <section className={blockStyles.settingSection}>
+          <PocH2>Payments</PocH2>
+          <SettingsPaymentsCard />
+        </section>
+        <section className={blockStyles.settingSection}>
+          <PocH2>Embed</PocH2>
+          <SettingsEmbedCard />
+        </section>
+      </div>
     </div>
   );
 }

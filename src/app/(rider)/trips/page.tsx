@@ -1,6 +1,6 @@
 "use client";
 
-import { PocCard, PocH1, PocMuted, PocStack } from "@/components/poc-ui";
+import { PocH1, PocMuted } from "@/components/poc-ui";
 import { DUMMY_RENTALS } from "@/lib/dummy-data";
 import { formatDisplayDate } from "@/lib/format-display-date";
 import styles from "./trips.module.css";
@@ -11,44 +11,51 @@ export default function TripsPage() {
 
   return (
     <div className={styles.page}>
-      <div className={styles.topRow}>
+      <header className={styles.titleBlock}>
         <p className={styles.screenLabel}>Trips</p>
-      </div>
+        <PocH1>Your trips</PocH1>
+        <PocMuted>Review upcoming reservations and your previous rentals.</PocMuted>
+      </header>
 
-      <PocCard>
-        <PocStack gap="sm">
-          <PocH1>Your trips</PocH1>
-          <PocMuted>Review upcoming reservations and your previous rentals.</PocMuted>
-        </PocStack>
-      </PocCard>
+      <section className={styles.section} aria-labelledby="trips-upcoming-heading">
+        <h2 id="trips-upcoming-heading" className={styles.sectionTitle}>
+          Upcoming rentals
+        </h2>
+        <div className={styles.cardList}>
+          {upcoming.length === 0 ? (
+            <p className={styles.emptyHint}>No upcoming rentals.</p>
+          ) : (
+            upcoming.map((r) => (
+              <article key={r.id} className={styles.rentalRow}>
+                <p className={styles.rentalLocation}>{r.location}</p>
+                <p className={styles.meta}>
+                  {r.bikeName} · {formatDisplayDate(r.startDate)} → {formatDisplayDate(r.endDate)}
+                </p>
+              </article>
+            ))
+          )}
+        </div>
+      </section>
 
-      <PocCard>
-        <PocStack gap="sm">
-          <h2 className={styles.sectionTitle}>Upcoming rentals</h2>
-          {upcoming.map((r) => (
-            <article key={r.id} className={styles.rentalRow}>
-              <p>{r.location}</p>
-              <p className={styles.meta}>
-                {r.bikeName} · {formatDisplayDate(r.startDate)} → {formatDisplayDate(r.endDate)}
-              </p>
-            </article>
-          ))}
-        </PocStack>
-      </PocCard>
-
-      <PocCard>
-        <PocStack gap="sm">
-          <h2 className={styles.sectionTitle}>Previous rentals</h2>
-          {previous.map((r) => (
-            <article key={r.id} className={styles.rentalRow}>
-              <p>{r.location}</p>
-              <p className={styles.meta}>
-                {r.bikeName} · {formatDisplayDate(r.startDate)} → {formatDisplayDate(r.endDate)}
-              </p>
-            </article>
-          ))}
-        </PocStack>
-      </PocCard>
+      <section className={styles.section} aria-labelledby="trips-previous-heading">
+        <h2 id="trips-previous-heading" className={styles.sectionTitle}>
+          Previous rentals
+        </h2>
+        <div className={styles.cardList}>
+          {previous.length === 0 ? (
+            <p className={styles.emptyHint}>No previous rentals yet.</p>
+          ) : (
+            previous.map((r) => (
+              <article key={r.id} className={styles.rentalRow}>
+                <p className={styles.rentalLocation}>{r.location}</p>
+                <p className={styles.meta}>
+                  {r.bikeName} · {formatDisplayDate(r.startDate)} → {formatDisplayDate(r.endDate)}
+                </p>
+              </article>
+            ))
+          )}
+        </div>
+      </section>
     </div>
   );
 }

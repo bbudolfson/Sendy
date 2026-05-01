@@ -3,42 +3,79 @@
   max-width: 62.5rem; /* 1000px max */
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-8);
+  padding-top: var(--space-2);
 }
 
-.topRow {
+.titleBlock {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: var(--space-3);
 }
 
 .screenLabel {
-  font-size: 0.8125rem;
+  font-size: var(--sendy-font-size-body-sm);
+  line-height: var(--sendy-line-height-body-sm);
   color: var(--color-text-muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;
+  margin: 0;
+}
+
+/* Section heading outside the card (matches shop Reservations layout) */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
 }
 
 .sectionTitle {
-  font-size: 1.0625rem;
-  font-weight: 600;
-  color: var(--color-text);
+  margin: 0;
+  font-family: var(--sendy-font-family-headings);
+  font-size: var(--sendy-font-size-h3);
+  line-height: var(--sendy-line-height-h3);
+  font-weight: var(--sendy-font-weight-semibold);
+  color: var(--sendy-text-headings);
+}
+
+.cardList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  width: 100%;
 }
 
 .rentalRow {
+  width: 100%;
+  margin: 0;
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  padding: var(--space-3);
-  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  padding: var(--space-6);
+  box-sizing: border-box;
+  background: var(--color-surface);
+  box-shadow:
+    0 1px 2px color-mix(in oklab, var(--color-text) 8%, transparent),
+    0 1px 3px color-mix(in oklab, var(--color-text) 4%, transparent);
 }
 
-.rentalRow p:first-child {
-  font-size: 0.9375rem;
-  font-weight: 600;
-  margin-bottom: var(--space-1);
+.rentalLocation {
+  margin: 0 0 var(--space-1);
+  font-size: var(--sendy-font-size-body);
+  line-height: var(--sendy-line-height-body);
+  font-weight: var(--sendy-font-weight-semibold);
+  color: var(--sendy-text-headings);
 }
 
 .meta {
-  font-size: 0.8125rem;
+  margin: 0;
+  font-size: var(--sendy-font-size-body-sm);
+  line-height: var(--sendy-line-height-body-sm);
+  color: var(--color-text-muted);
+}
+
+.emptyHint {
+  margin: 0;
+  font-size: var(--sendy-font-size-body-sm);
+  line-height: var(--sendy-line-height-body-sm);
   color: var(--color-text-muted);
 }
