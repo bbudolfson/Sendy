@@ -128,8 +128,10 @@ export type PaymentConnectionStatus =
   | "connected"
   | "restricted";
 
+export type PaymentProvider = "stripe" | "square";
+
 export type PaymentConnection = {
-  provider: "stripe";
+  provider: PaymentProvider;
   status: PaymentConnectionStatus;
   payoutsEnabled: boolean;
   accountLabel: string;

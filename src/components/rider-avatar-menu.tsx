@@ -47,16 +47,18 @@ export function RiderAvatarMenu({ variant = "surface" }: Props) {
           Switch to shop
         </a>
         {session.isLoggedIn ? (
-          <button
-            type="button"
-            className={styles.menuItemButton}
-            onClick={() => {
-              resetAll();
-              router.push("/dashboard");
-            }}
-          >
-            Log out
-          </button>
+          <div className={styles.menuFooter}>
+            <button
+              type="button"
+              className={styles.menuItemButton}
+              onClick={() => {
+                resetAll();
+                router.push("/dashboard");
+              }}
+            >
+              Log out
+            </button>
+          </div>
         ) : null}
       </div>
     </details>

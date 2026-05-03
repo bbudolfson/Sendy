@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useShopSession } from "@/context/shop-session";
 import styles from "./shop-shell.module.css";
 
@@ -31,7 +31,8 @@ const RIDER_APP_LINK: MenuLink = {
 
 export function ShopShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  const { session } = useShopSession();
+  const router = useRouter();
+  const { session, resetShopSession } = useShopSession();
   const shopLabel = session.profile.shopName.trim();
   const initials =
     shopLabel.length >= 2
@@ -74,6 +75,18 @@ export function ShopShell({ children }: { children: ReactNode }) {
               >
                 {RIDER_APP_LINK.label}
               </a>
+              <div className={styles.menuFooter}>
+                <button
+                  type="button"
+                  className={styles.menuItemButton}
+                  onClick={() => {
+                    resetShopSession();
+                    router.push("/shop");
+                  }}
+                >
+                  Log out
+                </button>
+              </div>
             </div>
           </details>
         </div>

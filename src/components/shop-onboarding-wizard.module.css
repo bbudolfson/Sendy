@@ -1,0 +1,160 @@
+.wrap {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--color-bg);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: var(--space-4) var(--space-6);
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.logoRow {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1.125rem;
+  color: var(--color-text);
+}
+
+.logoRow:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.logoImg {
+  display: block;
+  height: 1.625rem;
+  width: auto;
+  max-width: 12rem;
+  object-fit: contain;
+  filter: invert(1);
+}
+
+.logoSuffix {
+  font-size: 1rem;
+  color: var(--color-text-muted);
+}
+
+.main {
+  flex: 1;
+  padding: var(--space-8) var(--space-6);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.card {
+  width: min(100%, 28rem);
+  padding: var(--space-8);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 10px color-mix(in oklab, var(--color-text) 6%, transparent);
+}
+
+.titleBlock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.heroQuestion {
+  margin: 0;
+  font-family: var(--sendy-font-family-headings);
+  font-size: var(--sendy-font-size-h3);
+  line-height: var(--sendy-line-height-h3);
+  font-weight: var(--sendy-font-weight-semibold);
+  color: var(--sendy-text-headings);
+}
+
+.buttonStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.fieldStack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.label {
+  font-size: var(--sendy-font-size-label);
+  line-height: var(--sendy-line-height-label);
+  font-weight: var(--sendy-font-weight-medium);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-text-muted);
+}
+
+.errorBox {
+  margin: 0;
+  padding: var(--space-3);
+  border-radius: var(--radius-sm);
+  background: color-mix(in oklab, var(--sendy-color-error, #b91c1c) 8%, var(--color-surface));
+  border: 1px solid color-mix(in oklab, var(--sendy-color-error, #b91c1c) 35%, transparent);
+  font-size: var(--sendy-font-size-body-sm);
+  line-height: var(--sendy-line-height-body-sm);
+  color: var(--sendy-text-headings);
+}
+
+.decisionLead {
+  margin: 0 0 var(--space-4);
+  font-size: var(--sendy-font-size-body);
+  line-height: var(--sendy-line-height-body);
+  color: var(--color-text);
+}
+
+.note {
+  margin: var(--space-4) 0 0;
+  font-size: var(--sendy-font-size-body-sm);
+  line-height: var(--sendy-line-height-body-sm);
+  color: var(--color-text-muted);
+}
+
+.paymentRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+}
+
+.backRow {
+  margin-top: var(--space-6);
+}
+
+.backBtn {
+  width: auto;
+}
+
+.linkish {
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+  font-family: var(--sendy-font-family-body);
+  font-size: var(--sendy-font-size-body-sm);
+  color: var(--color-text-muted);
+  text-decoration: underline;
+}
+
+.linkish:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  text-decoration: none;
+}
