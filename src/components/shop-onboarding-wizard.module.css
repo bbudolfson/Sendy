@@ -164,8 +164,23 @@
   text-decoration: underline;
 }
 
-.linkish:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
-  text-decoration: none;
+.signInLink {
+  margin-top: var(--space-2);
+  display: block;
+  width: 100%;
+  text-align: center;
+  background: none;
+  border: 0;
+  padding: var(--space-2) 0;
+  cursor: pointer;
+  font-family: var(--sendy-font-family-body);
+  font-size: var(--sendy-font-size-body-sm);
+  line-height: var(--sendy-line-height-body-sm);
+  color: var(--sendy-text-action);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.signInLink:hover {
+  color: var(--sendy-text-action-hover);
 }

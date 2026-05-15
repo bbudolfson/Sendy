@@ -246,11 +246,9 @@ export function ShopOnboardingWizard() {
               <p className={styles.note}>
                 Demo duplicate: <strong>{SHOP_PROFILE_DEMO.shopEmail}</strong> is treated as already registered.
               </p>
-              <div className={styles.backRow}>
-                <PocButton type="button" variant="secondary" className={styles.backBtn} onClick={() => goPhase("login")}>
-                  Back
-                </PocButton>
-              </div>
+              <button type="button" className={styles.signInLink} onClick={() => goPhase("login")}>
+                Already have an account? Sign in
+              </button>
             </form>
           ) : null}
 
