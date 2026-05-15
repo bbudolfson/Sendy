@@ -2,8 +2,11 @@
 
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+import { ShopFtueAccountMenu } from "@/components/shop-ftue-account-menu";
 import { PocButton, PocH1, PocInput, PocMuted } from "@/components/poc-ui";
+import { signIn, signUp } from "@/app/actions/auth";
 import { useShopSession } from "@/context/shop-session";
+import { useSupabase } from "@/context/supabase-provider";
 import { SHOP_PROFILE_DEMO } from "@/lib/dummy-data";
 import type { PaymentProvider } from "@/lib/domain/types";
 import type { ShopFtuePhase } from "@/lib/shop-ftue-types";
@@ -25,7 +28,10 @@ function useResendCooldown(until: number) {
 
 export function ShopOnboardingWizard() {
   const router = useRouter();
+  const { configured } = useSupabase();
+  const [authError, setAuthError] = useState<string | null>(null);
   const [passwordTooShort, setPasswordTooShort] = useState(false);
+  const [passwordMismatch, setPasswordMismatch] = useState(false);
   const {
     shopAuth,
     patchShopAuth,
@@ -41,7 +47,10 @@ export function ShopOnboardingWizard() {
   const phase = shopAuth.ftuePhase ?? "login";
 
   useEffect(() => {
-    if (phase === "create_account") setPasswordTooShort(false);
+    if (phase === "create_account") {
+      setPasswordTooShort(false);
+      setPasswordMismatch(false);
+    }
   }, [phase]);
   const { active: resendCooldownActive, secondsLeft } = useResendCooldown(shopAuth.verifyResendCooldownUntil);
 
@@ -69,21 +78,45 @@ export function ShopOnboardingWizard() {
           <img src="/fitted-logo.png" alt="" className={styles.logoImg} />
           <span className={styles.logoSuffix}>Shop</span>
         </span>
+        <div className={styles.headerRight}>
+          <ShopFtueAccountMenu />
+        </div>
       </header>
       <main className={styles.main}>
         <div className={styles.card}>
           {phase === "login" ? (
             <form
               className={styles.fieldStack}
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
+                setAuthError(null);
+                const fd = new FormData(e.currentTarget);
+                const email = String(fd.get("username") ?? "");
+                const password = String(fd.get("password") ?? "");
+                if (configured) {
+                  const result = await signIn(email, password);
+                  if (!result.ok) {
+                    setAuthError(result.error);
+                    return;
+                  }
+                  completeShopReturningLogin();
+                  router.refresh();
+                  return;
+                }
                 completeShopReturningLogin();
               }}
             >
               <div className={styles.titleBlock}>
                 <PocH1>Login</PocH1>
-                <PocMuted>Existing shop account (prototype — any username/password works).</PocMuted>
+                <PocMuted>
+                  {configured ? "Sign in to your shop workspace." : "Prototype — any credentials work."}
+                </PocMuted>
               </div>
+              {authError ? (
+                <p className={styles.errorBox} role="alert">
+                  {authError}
+                </p>
+              ) : null}
               <div className={styles.field}>
                 <label className={styles.label} htmlFor="shop-login-user">
                   Username or email
@@ -118,11 +151,32 @@ export function ShopOnboardingWizard() {
           {phase === "create_account" ? (
             <form
               className={styles.fieldStack}
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
+                setAuthError(null);
                 const fd = new FormData(e.currentTarget);
                 const email = String(fd.get("email") ?? "");
                 const password = String(fd.get("password") ?? "");
+                const confirmPassword = String(fd.get("confirmPassword") ?? "");
+                setPasswordTooShort(false);
+                setPasswordMismatch(false);
+                if (password !== confirmPassword) {
+                  setPasswordMismatch(true);
+                  return;
+                }
+                if (password.trim().length < 8) {
+                  setPasswordTooShort(true);
+                  return;
+                }
+                if (configured) {
+                  const result = await signUp(email, password, "shop");
+                  if (!result.ok) {
+                    setAuthError(result.error);
+                    return;
+                  }
+                  advanceShopPastEmailVerified(email);
+                  return;
+                }
                 const result = submitShopSignupStart(email, password);
                 setPasswordTooShort(!result.ok && result.error === "password");
               }}
@@ -134,6 +188,11 @@ export function ShopOnboardingWizard() {
               {passwordTooShort ? (
                 <p className={styles.errorBox} role="alert">
                   Password must be at least 8 characters.
+                </p>
+              ) : null}
+              {passwordMismatch ? (
+                <p className={styles.errorBox} role="alert">
+                  Passwords do not match.
                 </p>
               ) : null}
               {shopAuth.signupDuplicateEmail ? (
@@ -158,7 +217,27 @@ export function ShopOnboardingWizard() {
                   required
                   minLength={8}
                   autoComplete="new-password"
-                  onChange={() => setPasswordTooShort(false)}
+                  onChange={() => {
+                    setPasswordTooShort(false);
+                    setPasswordMismatch(false);
+                  }}
+                />
+              </div>
+              <div className={styles.field}>
+                <label className={styles.label} htmlFor="shop-signup-confirm-password">
+                  Confirm password
+                </label>
+                <PocInput
+                  id="shop-signup-confirm-password"
+                  name="confirmPassword"
+                  type="password"
+                  required
+                  minLength={8}
+                  autoComplete="new-password"
+                  onChange={() => {
+                    setPasswordTooShort(false);
+                    setPasswordMismatch(false);
+                  }}
                 />
               </div>
               <PocButton type="submit" fullWidth>

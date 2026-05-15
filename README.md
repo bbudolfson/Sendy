@@ -2,7 +2,15 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+### Supabase (backend)
+
+1. Copy `env.example` → `.env.local` and add your **anon key** from the [Supabase API settings](https://supabase.com/dashboard/project/chuieqzbufmjdwtnoenq/settings/api).
+2. Run the SQL migration in the Supabase SQL editor: `supabase/migrations/20250515000000_initial_schema.sql`
+3. Set auth redirect URL to `http://localhost:3000/auth/callback`
+
+See [docs/supabase-setup.md](docs/supabase-setup.md) for the full checklist.
+
+### Dev server
 
 ```bash
 npm run dev

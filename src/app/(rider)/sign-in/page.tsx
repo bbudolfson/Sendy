@@ -1,6 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { signIn } from "@/app/actions/auth";
 import {
   PocButton,
   PocCard,
@@ -11,11 +13,44 @@ import {
   PocStack,
 } from "@/components/poc-ui";
 import { usePocSession } from "@/context/poc-session";
+import { useSupabase } from "@/context/supabase-provider";
 import styles from "../auth-modal.module.css";
 
 export default function SignInPage() {
   const router = useRouter();
   const { patch } = usePocSession();
+  const { configured } = useSupabase();
+  const [error, setError] = useState<string | null>(null);
+  const [pending, setPending] = useState(false);
+
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setError(null);
+    const fd = new FormData(event.currentTarget);
+    const email = String(fd.get("email") ?? "");
+    const password = String(fd.get("password") ?? "");
+
+    if (configured) {
+      setPending(true);
+      const result = await signIn(email, password);
+      setPending(false);
+      if (!result.ok) {
+        setError(result.error);
+        return;
+      }
+      router.push("/dashboard");
+      router.refresh();
+      return;
+    }
+
+    patch({
+      isLoggedIn: true,
+      riderName: "Alex Rider",
+      isReturningUser: true,
+      hasCompletedFtue: true,
+    });
+    router.push("/dashboard");
+  }
 
   return (
     <div className={styles.overlay}>
@@ -24,57 +59,29 @@ export default function SignInPage() {
           ×
         </a>
         <PocCard>
-          <PocStack gap="md">
-            <PocH1>Sign in</PocH1>
-            <PocMuted>Sign in to save profile, trips, and checkout info.</PocMuted>
-            <PocStack gap="sm">
-              <PocLabel>Email</PocLabel>
-              <PocInput type="email" placeholder="you@example.com" />
-              <PocLabel>Password</PocLabel>
-              <PocInput type="password" placeholder="••••••••" />
-            </PocStack>
-            <PocStack gap="sm">
-              <PocButton
-                type="button"
-                onClick={() => {
-                  patch({
-                    isLoggedIn: true,
-                    riderName: "Alex Rider",
-                    isReturningUser: true,
-                    hasCompletedFtue: true,
-                  });
-                  router.push("/dashboard");
-                }}
-              >
-                Sign in
+          <form onSubmit={handleSubmit}>
+            <PocStack gap="md">
+              <PocH1>Sign in</PocH1>
+              <PocMuted>
+                {configured
+                  ? "Sign in with your Sendy account."
+                  : "Supabase not configured — using demo sign-in."}
+              </PocMuted>
+              {error ? <p role="alert">{error}</p> : null}
+              <PocStack gap="sm">
+                <PocLabel>Email</PocLabel>
+                <PocInput name="email" type="email" placeholder="you@example.com" required />
+                <PocLabel>Password</PocLabel>
+                <PocInput name="password" type="password" placeholder="••••••••" required />
+              </PocStack>
+              <PocButton type="submit" disabled={pending}>
+                {pending ? "Signing in…" : "Sign in"}
               </PocButton>
-              <PocButton
-                type="button"
-                variant="secondary"
-                onClick={() => {
-                  patch({
-                    isLoggedIn: true,
-                    riderName: "Alex Rider",
-                    isReturningUser: false,
-                    hasCompletedFtue: false,
-                  });
-                  router.push("/ftue/profile");
-                }}
-              >
-                Sign in with Google
-              </PocButton>
-              <PocButton
-                type="button"
-                variant="secondary"
-                onClick={() => router.push("/create-account")}
-              >
+              <PocButton type="button" variant="secondary" onClick={() => router.push("/create-account")}>
                 Create account
               </PocButton>
             </PocStack>
-            <a href="/forgot-password" className={styles.subtleLink}>
-              Forgot password
-            </a>
-          </PocStack>
+          </form>
         </PocCard>
       </div>
     </div>

@@ -1,0 +1,18 @@
+-- Optional seed: link demo inventory to a shop after you create a shop account.
+-- Replace YOUR_SHOP_ID with the uuid from: select id from shops limit 1;
+
+-- Example (uncomment and edit after first shop signup):
+-- insert into bikes (shop_id, market_id, title, brand, model, bike_type, size, description, image_url, status, daily_rate, weekly_rate, deposit)
+-- values (
+--   'YOUR_SHOP_ID',
+--   'bend',
+--   'Santa Cruz Tallboy',
+--   'Santa Cruz',
+--   'Tallboy C',
+--   'Mountain',
+--   'L',
+--   'Efficient trail setup with 130mm front travel.',
+--   'https://images.unsplash.com/photo-1485965120184-e220f721d03e?auto=format&fit=crop&w=1200&q=80',
+--   'active',
+--   92, 560, 250
+-- );

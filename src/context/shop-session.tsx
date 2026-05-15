@@ -21,6 +21,7 @@ import type {
 } from "@/lib/domain/types";
 import type { ShopAuth } from "@/lib/shop-ftue-types";
 import { defaultShopAuth } from "@/lib/shop-ftue-types";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
 import {
   SHOP_AVAILABILITY_RULES,
   SHOP_BIKES,
@@ -43,9 +44,18 @@ type ShopSession = {
   embedLinks: EmbedLink[];
 };
 
+export type ShopWorkspacePayload = {
+  profile: ShopProfile;
+  payment: PaymentConnection;
+  marketId: string | null;
+  inventory: ShopBike[];
+  rates: RatePlan[];
+};
+
 type ShopSessionValue = {
   session: ShopSession;
   shopAuth: ShopAuth;
+  loadWorkspace: (workspace: ShopWorkspacePayload) => void;
   patchShopProfile: (partial: Partial<ShopProfile>) => void;
   patchShopAuth: (partial: Partial<ShopAuth>) => void;
   upsertBikeDraft: (bike: ShopBike) => void;
@@ -80,6 +90,9 @@ type ShopSessionValue = {
 const ShopSessionContext = createContext<ShopSessionValue | null>(null);
 
 function createInitialShopSession(): ShopSession {
+  if (isSupabaseConfigured()) {
+    return createBlankSignupShopSession("");
+  }
   return {
     profile: { ...SHOP_PROFILE_DEMO },
     inventory: [...SHOP_BIKES],
@@ -146,7 +159,9 @@ export function ShopSessionProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const completeShopReturningLogin = useCallback(() => {
-    setSession(createInitialShopSession());
+    setSession(
+      isSupabaseConfigured() ? createBlankSignupShopSession("") : createInitialShopSession(),
+    );
     setShopAuth(() => ({
       ...defaultShopAuth(),
       isAuthenticated: true,
@@ -192,6 +207,19 @@ export function ShopSessionProvider({ children }: { children: ReactNode }) {
       isAuthenticated: true,
       ftuePhase: null,
     }));
+  }, []);
+
+  const loadWorkspace = useCallback((workspace: ShopWorkspacePayload) => {
+    setSession({
+      profile: workspace.profile,
+      inventory: workspace.inventory,
+      availabilityRules: [],
+      blockedDates: [],
+      rates: workspace.rates,
+      deliveryZones: [],
+      payment: workspace.payment,
+      embedLinks: [],
+    });
   }, []);
 
   const patchShopProfile = useCallback((partial: Partial<ShopProfile>) => {
@@ -300,6 +328,7 @@ export function ShopSessionProvider({ children }: { children: ReactNode }) {
     () => ({
       session,
       shopAuth,
+      loadWorkspace,
       patchShopProfile,
       patchShopAuth,
       upsertBikeDraft,
@@ -323,6 +352,7 @@ export function ShopSessionProvider({ children }: { children: ReactNode }) {
     [
       session,
       shopAuth,
+      loadWorkspace,
       patchShopProfile,
       patchShopAuth,
       upsertBikeDraft,

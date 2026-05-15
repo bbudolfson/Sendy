@@ -1,10 +1,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { PocSessionProvider } from "@/context/poc-session";
+import { RiderAuthSync } from "@/components/rider-auth-sync";
+import { SupabaseProvider } from "@/context/supabase-provider";
 
 export const metadata: Metadata = {
   title: "Sendy — Bike rentals",
-  description: "Proof-of-concept rider flows",
+  description: "Premium bike rentals for riders and shops",
 };
 
 export default function RootLayout({
@@ -15,7 +17,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <PocSessionProvider>{children}</PocSessionProvider>
+        <SupabaseProvider>
+          <PocSessionProvider>
+            <RiderAuthSync />
+            {children}
+          </PocSessionProvider>
+        </SupabaseProvider>
       </body>
     </html>
   );

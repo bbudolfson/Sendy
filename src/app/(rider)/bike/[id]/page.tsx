@@ -1,25 +1,74 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { useParams } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { getBikeById as getBikeByIdRemote } from "@/app/actions/bikes";
 import { PocButtonLink } from "@/components/poc-ui";
 import { RiderReservationCard } from "@/components/ui/RiderReservationCard/RiderReservationCard";
-import { getShopBikeById, getShopBikeGallery, getRatePlanForBike, getShopProfileByShopId } from "@/lib/dummy-data";
+import { usePocSession } from "@/context/poc-session";
+import { useSupabase } from "@/context/supabase-provider";
+import {
+  getShopBikeById,
+  getShopBikeGallery,
+  getRatePlanForBike,
+  getShopProfileByShopId,
+} from "@/lib/dummy-data";
+import type { ShopBike } from "@/lib/domain/types";
+import type { RatePlan } from "@/lib/domain/types";
 import styles from "./bike-detail.module.css";
 
 export default function BikeDetailPage() {
   const params = useParams();
+  const router = useRouter();
+  const { configured } = useSupabase();
+  const { patch } = usePocSession();
   const id = String(params.id ?? "");
-  const bike = getShopBikeById(id);
-  const gallery = getShopBikeGallery(id);
-  const ratePlan = bike ? getRatePlanForBike(bike.id) : undefined;
-  const shop = bike ? getShopProfileByShopId(bike.shopId) : undefined;
+
+  const [remoteBike, setRemoteBike] = useState<ShopBike | null>(null);
+  const [remoteRate, setRemoteRate] = useState<RatePlan | null>(null);
+  const [remoteShopName, setRemoteShopName] = useState("");
+  const [loading, setLoading] = useState(configured);
+
+  const localBike = getShopBikeById(id);
+  const bike = configured ? remoteBike : localBike;
+  const gallery = bike
+    ? bike.photoUrls?.length
+      ? bike.photoUrls
+      : bike.imageUrl
+        ? [bike.imageUrl]
+        : []
+    : getShopBikeGallery(id);
+  const ratePlan = configured
+    ? remoteRate ?? undefined
+    : localBike
+      ? getRatePlanForBike(localBike.id)
+      : undefined;
+  const shop = localBike ? getShopProfileByShopId(localBike.shopId) : undefined;
+  const hostedBy = configured ? remoteShopName || "Bike Shop" : shop?.shopName ?? "Bike Shop";
 
   const [activeIndex, setActiveIndex] = useState(0);
   const [startValue, setStartValue] = useState("");
   const [endValue, setEndValue] = useState("");
   const startRef = useRef<HTMLInputElement>(null);
   const endRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (!configured) {
+      setLoading(false);
+      return;
+    }
+    setLoading(true);
+    getBikeByIdRemote(id).then((data) => {
+      if (data) {
+        setRemoteBike(data.bike);
+        setRemoteRate(data.rate);
+        setRemoteShopName(data.shopName);
+      } else {
+        setRemoteBike(null);
+      }
+      setLoading(false);
+    });
+  }, [configured, id]);
 
   const openPicker = (ref: React.RefObject<HTMLInputElement | null>) => {
     const node = ref.current;
@@ -31,6 +80,14 @@ export default function BikeDetailPage() {
     }
     node.focus();
   };
+
+  if (loading) {
+    return (
+      <div className={styles.page}>
+        <p className={styles.pageTitle}>Loading…</p>
+      </div>
+    );
+  }
 
   if (!bike) {
     return (
@@ -47,6 +104,19 @@ export default function BikeDetailPage() {
 
   const priceLabel =
     ratePlan !== undefined ? `($${ratePlan.dailyRate} Per Day)` : "(Price on request)";
+
+  const days =
+    startValue && endValue
+      ? Math.max(
+          1,
+          Math.ceil(
+            (new Date(`${endValue}T12:00:00`).getTime() - new Date(`${startValue}T12:00:00`).getTime()) /
+              86400000,
+          ) + 1,
+        )
+      : 0;
+  const total =
+    ratePlan && days > 0 ? `$${(ratePlan.dailyRate * days).toFixed(0)}.00 ($${ratePlan.dailyRate} x ${days} Days)` : undefined;
 
   return (
     <div className={styles.page}>
@@ -83,16 +153,24 @@ export default function BikeDetailPage() {
         description={bike.description}
         bikeLine={`Bike: ${bike.title}`}
         sizeLine={`Size: ${bike.size}`}
-        hostedBy={shop?.shopName ?? "Bike Shop"}
+        hostedBy={hostedBy}
         state={startValue && endValue ? "priced" : "draft"}
         startValue={startValue}
         endValue={endValue}
-        totalChargesLine={startValue && endValue ? "Total Charges: $475.00 ($200 x 3 Days)" : undefined}
+        totalChargesLine={total}
         onOpenStartPicker={() => openPicker(startRef)}
         onOpenEndPicker={() => openPicker(endRef)}
         onStartChange={setStartValue}
         onEndChange={setEndValue}
-        onReserve={() => {}}
+        onReserve={() => {
+          patch({
+            bikeId: bike.id,
+            tripStart: startValue || null,
+            tripEnd: endValue || null,
+            datesKnown: !!(startValue && endValue),
+          });
+          router.push("/plan/reserve");
+        }}
         startInputRef={startRef}
         endInputRef={endRef}
       />

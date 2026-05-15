@@ -1,13 +1,27 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { getMyReservations } from "@/app/actions/reservations";
 import { PocH1, PocMuted } from "@/components/poc-ui";
+import { useSupabase } from "@/context/supabase-provider";
 import { DUMMY_RENTALS } from "@/lib/dummy-data";
+import type { RentalRecord } from "@/lib/domain/types";
 import { formatDisplayDate } from "@/lib/format-display-date";
 import styles from "./trips.module.css";
 
 export default function TripsPage() {
-  const upcoming = DUMMY_RENTALS.filter((r) => r.status === "upcoming");
-  const previous = DUMMY_RENTALS.filter((r) => r.status === "past");
+  const { configured } = useSupabase();
+  const [rentals, setRentals] = useState<RentalRecord[]>(() =>
+    configured ? [] : DUMMY_RENTALS,
+  );
+
+  useEffect(() => {
+    if (!configured) return;
+    getMyReservations().then(setRentals);
+  }, [configured]);
+
+  const upcoming = rentals.filter((r) => r.status === "upcoming");
+  const previous = rentals.filter((r) => r.status === "past");
 
   return (
     <div className={styles.page}>
@@ -27,7 +41,7 @@ export default function TripsPage() {
           ) : (
             upcoming.map((r) => (
               <article key={r.id} className={styles.rentalRow}>
-                <p className={styles.rentalLocation}>{r.location}</p>
+                <p className={styles.rentalLocation}>{r.location || "Rental"}</p>
                 <p className={styles.meta}>
                   {r.bikeName} · {formatDisplayDate(r.startDate)} → {formatDisplayDate(r.endDate)}
                 </p>
@@ -47,7 +61,7 @@ export default function TripsPage() {
           ) : (
             previous.map((r) => (
               <article key={r.id} className={styles.rentalRow}>
-                <p className={styles.rentalLocation}>{r.location}</p>
+                <p className={styles.rentalLocation}>{r.location || "Rental"}</p>
                 <p className={styles.meta}>
                   {r.bikeName} · {formatDisplayDate(r.startDate)} → {formatDisplayDate(r.endDate)}
                 </p>

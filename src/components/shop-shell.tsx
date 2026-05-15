@@ -25,7 +25,7 @@ const PRIMARY_MENU_LINKS: MenuLink[] = [
 
 const RIDER_APP_LINK: MenuLink = {
   href: "/dashboard",
-  label: "Rider app",
+  label: "Switch to rider",
   isActive: () => false,
 };
 
