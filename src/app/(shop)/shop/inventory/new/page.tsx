@@ -128,25 +128,27 @@ export default function NewBikePage() {
               <PocLabel htmlFor="add-bike-model">Model</PocLabel>
               <PocInput id="add-bike-model" name="model" required placeholder="Nomad" />
             </div>
-            <div>
-              <PocLabel htmlFor="add-bike-size">Size</PocLabel>
-              <PocSelect id="add-bike-size" name="size" required defaultValue="Large">
-                <option>X-Small</option>
-                <option>Small</option>
-                <option>Medium</option>
-                <option>Large</option>
-                <option>X-Large</option>
-                <option>XX-Large</option>
-              </PocSelect>
-            </div>
-            <div>
-              <PocLabel htmlFor="add-bike-type">Type</PocLabel>
-              <PocSelect id="add-bike-type" name="type" defaultValue="Mountain">
-                <option>Road</option>
-                <option>Mountain</option>
-                <option>Gravel</option>
-                <option>E-Bike</option>
-              </PocSelect>
+            <div className={styles.fieldPair}>
+              <div>
+                <PocLabel htmlFor="add-bike-size">Size</PocLabel>
+                <PocSelect id="add-bike-size" name="size" required defaultValue="Large">
+                  <option>X-Small</option>
+                  <option>Small</option>
+                  <option>Medium</option>
+                  <option>Large</option>
+                  <option>X-Large</option>
+                  <option>XX-Large</option>
+                </PocSelect>
+              </div>
+              <div>
+                <PocLabel htmlFor="add-bike-type">Type</PocLabel>
+                <PocSelect id="add-bike-type" name="type" defaultValue="Mountain">
+                  <option>Road</option>
+                  <option>Mountain</option>
+                  <option>Gravel</option>
+                  <option>E-Bike</option>
+                </PocSelect>
+              </div>
             </div>
             <div>
               <PocLabel htmlFor="add-bike-description">Description</PocLabel>
@@ -157,25 +159,27 @@ export default function NewBikePage() {
                 rows={3}
               />
             </div>
-            <div>
-              <PocLabel htmlFor="add-bike-daily">Daily rate</PocLabel>
-              <PocInput
-                id="add-bike-daily"
-                name="dailyRate"
-                inputMode="decimal"
-                placeholder="$200"
-                required
-              />
-            </div>
-            <div>
-              <PocLabel htmlFor="add-bike-half">Half day rate</PocLabel>
-              <PocInput
-                id="add-bike-half"
-                name="halfDayRate"
-                inputMode="decimal"
-                placeholder="$125"
-                required
-              />
+            <div className={styles.fieldPair}>
+              <div>
+                <PocLabel htmlFor="add-bike-daily">Full day rate</PocLabel>
+                <PocInput
+                  id="add-bike-daily"
+                  name="dailyRate"
+                  inputMode="decimal"
+                  placeholder="$200"
+                  required
+                />
+              </div>
+              <div>
+                <PocLabel htmlFor="add-bike-half">Half day rate</PocLabel>
+                <PocInput
+                  id="add-bike-half"
+                  name="halfDayRate"
+                  inputMode="decimal"
+                  placeholder="$125"
+                  required
+                />
+              </div>
             </div>
 
             <div className={styles.footer}>

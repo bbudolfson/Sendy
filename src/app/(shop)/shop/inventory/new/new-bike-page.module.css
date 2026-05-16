@@ -31,6 +31,16 @@
   gap: var(--space-4);
 }
 
+.fieldPair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.fieldPair > div {
+  min-width: 0;
+}
+
 .footer {
   display: flex;
   flex-wrap: wrap;
