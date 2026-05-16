@@ -10,6 +10,7 @@ import {
 import type { DbBike } from "@/lib/supabase/database.types";
 import type { RatePlan, ShopBike } from "@/lib/domain/types";
 import { getMyShop } from "@/app/actions/shops";
+import { getShopIdsInMarket } from "@/app/actions/markets";
 import { revalidatePath } from "next/cache";
 
 export async function searchBikes(marketId: string | null, start?: string | null, end?: string | null) {
@@ -18,7 +19,9 @@ export async function searchBikes(marketId: string | null, start?: string | null
   let query = supabase.from("bikes").select("*").eq("status", "active");
 
   if (marketId) {
-    query = query.eq("market_id", marketId);
+    const shopIds = await getShopIdsInMarket(marketId);
+    if (!shopIds.length) return { bikes: [], error: null };
+    query = query.in("shop_id", shopIds);
   }
 
   const { data, error } = await query.order("created_at", { ascending: false });
@@ -27,16 +30,25 @@ export async function searchBikes(marketId: string | null, start?: string | null
   const rows = (data ?? []) as DbBike[];
   const shopIds = [...new Set(rows.map((r) => r.shop_id))];
   const shopNames = new Map<string, string>();
+  const shopMarketIds = new Map<string, string | null>();
 
   if (shopIds.length) {
-    const { data: shops } = await supabase.from("shops").select("id, shop_name").in("id", shopIds);
+    const { data: shops } = await supabase
+      .from("shops")
+      .select("id, shop_name, market_id")
+      .in("id", shopIds);
     for (const shop of shops ?? []) {
       shopNames.set(shop.id, shop.shop_name);
+      shopMarketIds.set(shop.id, shop.market_id);
     }
   }
 
   const bikes = rows.map((row) =>
-    bikeToListing(row, shopNames.get(row.shop_id) ?? "Local shop"),
+    bikeToListing(
+      row,
+      shopNames.get(row.shop_id) ?? "Local shop",
+      row.market_id ?? shopMarketIds.get(row.shop_id) ?? null,
+    ),
   );
 
   if (!start || !end) {
@@ -85,13 +97,12 @@ export async function getBikeById(id: string) {
 export async function upsertShopBike(
   bike: ShopBike,
   rates: RatePlan,
-  marketId: string | null,
 ): Promise<{ ok: boolean; id?: string; error?: string }> {
   const shop = await getMyShop();
   if (!shop) return { ok: false, error: "Sign in as a shop to manage inventory" };
 
   const supabase = await createClient();
-  const payload = shopBikeToInsert({ ...bike, shopId: shop.id }, rates, marketId);
+  const payload = shopBikeToInsert({ ...bike, shopId: shop.id }, rates, shop.market_id);
 
   const isUuid = /^[0-9a-f-]{36}$/i.test(bike.id);
   if (isUuid) {

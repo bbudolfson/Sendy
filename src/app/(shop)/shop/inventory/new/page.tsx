@@ -43,7 +43,6 @@ export default function NewBikePage() {
     const brand = String(form.get("brand") ?? "").trim();
     const model = String(form.get("model") ?? "").trim();
     const title = `${brand} ${model}`.trim() || brand || model || "New bike";
-    const marketId = String(form.get("marketId") ?? "").trim() || null;
 
     const id = `shop-bike-${Date.now()}`;
     const dailyRate = parseMoney(form.get("dailyRate"));
@@ -93,7 +92,7 @@ export default function NewBikePage() {
 
     if (configured) {
       setPending(true);
-      const result = await upsertShopBike(bike, rates, marketId);
+      const result = await upsertShopBike(bike, rates);
       setPending(false);
       if (!result.ok) {
         setError(result.error ?? "Failed to save bike");
@@ -121,14 +120,6 @@ export default function NewBikePage() {
 
           <div className={styles.fields}>
             {error ? <p role="alert">{error}</p> : null}
-            <div>
-              <PocLabel htmlFor="add-bike-market">Market</PocLabel>
-              <PocSelect id="add-bike-market" name="marketId" required defaultValue="bend">
-                <option value="moab">Moab, UT</option>
-                <option value="bend">Bend, OR</option>
-                <option value="boulder">Boulder, CO</option>
-              </PocSelect>
-            </div>
             <div>
               <PocLabel htmlFor="add-bike-brand">Brand</PocLabel>
               <PocInput id="add-bike-brand" name="brand" required placeholder="Santa Cruz" />

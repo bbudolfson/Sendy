@@ -2,6 +2,7 @@
 
 import { createClient } from "@/lib/supabase/server";
 import { marketRowToDomain } from "@/lib/supabase/mappers";
+import { shopLocationMatchesMarketLabel } from "@/lib/market-location";
 
 export async function getMarkets() {
   const supabase = await createClient();
@@ -27,4 +28,24 @@ export async function resolveMarketFromLocation(input: string) {
       m.label.toLowerCase().replace(/\s/g, "").includes(q.replace(/\s/g, "")),
   );
   return { exists: !!hit, market: hit ?? null };
+}
+
+/** Shop ids whose profile location matches a curated market (for rider search). */
+export async function getShopIdsInMarket(marketId: string): Promise<string[]> {
+  const supabase = await createClient();
+  const { data: market } = await supabase
+    .from("markets")
+    .select("label")
+    .eq("id", marketId)
+    .maybeSingle();
+
+  const { data: shops } = await supabase.from("shops").select("id, market_id, city, state");
+  const label = market?.label ?? "";
+
+  return (shops ?? [])
+    .filter((shop) => {
+      if (shop.market_id === marketId) return true;
+      return shopLocationMatchesMarketLabel(shop.city, shop.state, label);
+    })
+    .map((shop) => shop.id);
 }

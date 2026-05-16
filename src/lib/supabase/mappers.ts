@@ -107,11 +107,15 @@ export type PublicBikeListing = ShopBike & {
   shopName: string;
 };
 
-export function bikeToListing(row: DbBike, shopName: string): PublicBikeListing {
+export function bikeToListing(
+  row: DbBike,
+  shopName: string,
+  marketId?: string | null,
+): PublicBikeListing {
   return {
     ...bikeRowToShopBike(row),
     dailyRate: Number(row.daily_rate),
-    marketId: row.market_id,
+    marketId: marketId ?? row.market_id,
     shopName,
   };
 }

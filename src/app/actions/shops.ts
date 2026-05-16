@@ -10,6 +10,8 @@ import {
   shopRowToProfile,
 } from "@/lib/supabase/mappers";
 import type { PaymentConnection, ShopProfile, RatePlan } from "@/lib/domain/types";
+import { getMarkets } from "@/app/actions/markets";
+import { matchMarketIdForShopLocation } from "@/lib/market-location";
 import { revalidatePath } from "next/cache";
 
 type EnsureShopResult =
@@ -86,10 +88,12 @@ export async function getMyShopWorkspace() {
 
 export async function updateMyShopProfile(
   profile: ShopProfile,
-  marketId?: string | null,
 ): Promise<{ ok: boolean; error?: string }> {
   const { shop, error: ensureError } = await ensureMyShop();
   if (!shop) return { ok: false, error: ensureError ?? "No shop found" };
+
+  const { markets } = await getMarkets();
+  const marketId = matchMarketIdForShopLocation(profile.city, profile.state, markets);
 
   const supabase = await createClient();
   const { data, error } = await supabase
