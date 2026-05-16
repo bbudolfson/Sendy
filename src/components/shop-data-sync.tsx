@@ -14,14 +14,25 @@ export function ShopDataSync() {
     if (!configured || loading) return;
 
     if (user && profile?.role === "shop") {
-      patchShopAuth({ isAuthenticated: true, ftuePhase: null });
-      getMyShopWorkspace().then((workspace) => {
-        if (workspace) loadWorkspace(workspace);
-      });
+      patchShopAuth({ isAuthenticated: true });
+      if (shopAuth.ftuePhase === null) {
+        getMyShopWorkspace().then((workspace) => {
+          if (workspace) loadWorkspace(workspace);
+        });
+      }
     } else if (!user && shopAuth.isAuthenticated) {
       patchShopAuth({ isAuthenticated: false, ftuePhase: "login" });
     }
-  }, [configured, loading, user, profile, patchShopAuth, loadWorkspace, shopAuth.isAuthenticated]);
+  }, [
+    configured,
+    loading,
+    user,
+    profile,
+    patchShopAuth,
+    loadWorkspace,
+    shopAuth.isAuthenticated,
+    shopAuth.ftuePhase,
+  ]);
 
   return null;
 }

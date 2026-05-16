@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { ShopFtueAccountMenu } from "@/components/shop-ftue-account-menu";
 import { PocButton, PocH1, PocInput, PocMuted } from "@/components/poc-ui";
 import { signIn, signUp } from "@/app/actions/auth";
+import { getMyShopWorkspace, updateMyShopProfile } from "@/app/actions/shops";
 import { useShopSession } from "@/context/shop-session";
 import { useSupabase } from "@/context/supabase-provider";
 import { SHOP_PROFILE_DEMO } from "@/lib/dummy-data";
@@ -32,11 +33,14 @@ export function ShopOnboardingWizard() {
   const [authError, setAuthError] = useState<string | null>(null);
   const [passwordTooShort, setPasswordTooShort] = useState(false);
   const [passwordMismatch, setPasswordMismatch] = useState(false);
+  const [profileError, setProfileError] = useState<string | null>(null);
+  const [profileSaving, setProfileSaving] = useState(false);
   const {
     shopAuth,
     patchShopAuth,
     session,
     patchShopProfile,
+    loadWorkspace,
     patchShopPayment,
     completeShopReturningLogin,
     submitShopSignupStart,
@@ -195,6 +199,11 @@ export function ShopOnboardingWizard() {
                   Passwords do not match.
                 </p>
               ) : null}
+              {authError ? (
+                <p className={styles.errorBox} role="alert">
+                  {authError}
+                </p>
+              ) : null}
               {shopAuth.signupDuplicateEmail ? (
                 <p className={styles.errorBox} role="alert">
                   An account with this email already exists. Log in instead.
@@ -292,8 +301,9 @@ export function ShopOnboardingWizard() {
           {phase === "create_store_profile" ? (
             <form
               className={styles.fieldStack}
-              onSubmit={(e) => {
+              onSubmit={async (e) => {
                 e.preventDefault();
+                setProfileError(null);
                 const fd = new FormData(e.currentTarget);
                 const shopName = String(fd.get("shopName") ?? "").trim();
                 const addressLine1 = String(fd.get("addressLine1") ?? "").trim();
@@ -302,17 +312,38 @@ export function ShopOnboardingWizard() {
                 const postalCode = String(fd.get("postalCode") ?? "").trim();
                 const logoUrl = String(fd.get("logoUrl") ?? "").trim();
                 if (!shopName || !addressLine1) return;
-                patchShopProfile({
+
+                const updatedProfile = {
+                  ...session.profile,
                   shopName,
                   addressLine1,
                   city,
                   state,
                   postalCode,
                   logoUrl: logoUrl || session.profile.logoUrl,
-                });
+                };
+                patchShopProfile(updatedProfile);
+
+                if (configured) {
+                  setProfileSaving(true);
+                  const result = await updateMyShopProfile(updatedProfile);
+                  setProfileSaving(false);
+                  if (!result.ok) {
+                    setProfileError(result.error ?? "Could not save profile.");
+                    return;
+                  }
+                  const workspace = await getMyShopWorkspace();
+                  if (workspace) loadWorkspace(workspace);
+                }
+
                 patchShopAuth({ ftuePhase: "payment_check" });
               }}
             >
+              {profileError ? (
+                <p className={styles.errorBox} role="alert">
+                  {profileError}
+                </p>
+              ) : null}
               <div className={styles.titleBlock}>
                 <PocH1>Create store profile</PocH1>
                 <PocMuted>Name, logo (optional), and address.</PocMuted>
@@ -359,8 +390,8 @@ export function ShopOnboardingWizard() {
                 </label>
                 <PocInput id="ftue-postal" name="postalCode" required defaultValue={session.profile.postalCode} />
               </div>
-              <PocButton type="submit" fullWidth>
-                Continue
+              <PocButton type="submit" fullWidth disabled={profileSaving}>
+                {profileSaving ? "Saving…" : "Continue"}
               </PocButton>
               <div className={styles.backRow}>
                 <PocButton type="button" variant="secondary" className={styles.backBtn} onClick={() => goPhase("verify_email")}>

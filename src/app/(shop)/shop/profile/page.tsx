@@ -2,13 +2,18 @@
 
 import { useState } from "react";
 import { PocButton, PocH1, PocMuted, PocInput } from "@/components/poc-ui";
+import { getMyShopWorkspace, updateMyShopProfile } from "@/app/actions/shops";
 import { useShopSession } from "@/context/shop-session";
+import { useSupabase } from "@/context/supabase-provider";
 import pageStyles from "../shop-pages.module.css";
 import styles from "./profile-page.module.css";
 
 export default function ShopProfilePage() {
-  const { session, patchShopProfile, profileCompletion } = useShopSession();
+  const { configured } = useSupabase();
+  const { session, patchShopProfile, loadWorkspace, profileCompletion } = useShopSession();
   const [saved, setSaved] = useState(false);
+  const [saveError, setSaveError] = useState<string | null>(null);
+  const [saving, setSaving] = useState(false);
 
   return (
     <div className={pageStyles.page}>
@@ -22,10 +27,13 @@ export default function ShopProfilePage() {
       <div className={styles.profileCard}>
         <form
           className={styles.form}
-          onSubmit={(event) => {
+          onSubmit={async (event) => {
             event.preventDefault();
+            setSaved(false);
+            setSaveError(null);
             const form = new FormData(event.currentTarget);
-            patchShopProfile({
+            const updatedProfile = {
+              ...session.profile,
               shopName: String(form.get("shopName") ?? ""),
               websiteUrl: String(form.get("websiteUrl") ?? ""),
               shopEmail: String(form.get("shopEmail") ?? ""),
@@ -34,7 +42,21 @@ export default function ShopProfilePage() {
               city: String(form.get("city") ?? ""),
               state: String(form.get("state") ?? ""),
               postalCode: String(form.get("postalCode") ?? ""),
-            });
+            };
+            patchShopProfile(updatedProfile);
+
+            if (configured) {
+              setSaving(true);
+              const result = await updateMyShopProfile(updatedProfile);
+              setSaving(false);
+              if (!result.ok) {
+                setSaveError(result.error ?? "Could not save profile.");
+                return;
+              }
+              const workspace = await getMyShopWorkspace();
+              if (workspace) loadWorkspace(workspace);
+            }
+
             setSaved(true);
           }}
         >
@@ -122,8 +144,15 @@ export default function ShopProfilePage() {
           </div>
 
           <div className={styles.footer}>
+            {saveError ? (
+              <p role="alert" className={pageStyles.mutedText}>
+                {saveError}
+              </p>
+            ) : null}
             {saved ? <PocMuted>Profile updated.</PocMuted> : null}
-            <PocButton type="submit">Save</PocButton>
+            <PocButton type="submit" disabled={saving}>
+              {saving ? "Saving…" : "Save"}
+            </PocButton>
           </div>
         </form>
       </div>
