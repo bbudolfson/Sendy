@@ -43,7 +43,7 @@ export default function ShopInventoryPage() {
   return (
     <div className={styles.page}>
       <div className={styles.shopPageHeaderRow}>
-        <PocH1>Inventory</PocH1>
+        <PocH1>Fleet</PocH1>
         <div className={styles.shopPageHeaderActions}>
           <div className={styles.inventoryFilterGroup}>
             <PocMuted>Status</PocMuted>
