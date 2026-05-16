@@ -21,7 +21,13 @@ export function ShopDataSync() {
         });
       }
     } else if (!user && shopAuth.isAuthenticated) {
-      patchShopAuth({ isAuthenticated: false, ftuePhase: "login" });
+      // Keep onboarding step when session is briefly unavailable (e.g. after server revalidate).
+      const inOnboarding = shopAuth.ftuePhase != null && shopAuth.ftuePhase !== "login";
+      patchShopAuth(
+        inOnboarding
+          ? { isAuthenticated: false }
+          : { isAuthenticated: false, ftuePhase: "login" },
+      );
     }
   }, [
     configured,

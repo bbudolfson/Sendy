@@ -179,6 +179,7 @@ export function ShopOnboardingWizard() {
                     return;
                   }
                   advanceShopPastEmailVerified(email);
+                  router.refresh();
                   return;
                 }
                 const result = submitShopSignupStart(email, password);

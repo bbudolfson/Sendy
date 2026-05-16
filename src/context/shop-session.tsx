@@ -4,6 +4,7 @@ import {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
   type ReactNode,
@@ -21,6 +22,11 @@ import type {
 } from "@/lib/domain/types";
 import type { ShopAuth } from "@/lib/shop-ftue-types";
 import { defaultShopAuth } from "@/lib/shop-ftue-types";
+import {
+  clearPersistedShopAuth,
+  persistShopAuth,
+  readPersistedShopAuth,
+} from "@/lib/shop-auth-storage";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import {
   SHOP_AVAILABILITY_RULES,
@@ -147,14 +153,29 @@ function isDuplicateShopSignupEmail(email: string): boolean {
 
 export function ShopSessionProvider({ children }: { children: ReactNode }) {
   const [session, setSession] = useState<ShopSession>(() => createInitialShopSession());
-  const [shopAuth, setShopAuth] = useState<ShopAuth>(() => defaultShopAuth());
+  const [shopAuth, setShopAuth] = useState<ShopAuth>(() =>
+    isSupabaseConfigured() ? readPersistedShopAuth() : defaultShopAuth(),
+  );
 
   const patchShopAuth = useCallback((partial: Partial<ShopAuth>) => {
-    setShopAuth((a) => ({ ...a, ...partial }));
+    setShopAuth((a) => {
+      const next = { ...a, ...partial };
+      if (isSupabaseConfigured()) persistShopAuth(next);
+      return next;
+    });
   }, []);
+
+  useEffect(() => {
+    if (!isSupabaseConfigured() || !shopAuth.signupEmail.trim()) return;
+    setSession((current) => {
+      if (current.profile.shopEmail.trim()) return current;
+      return createBlankSignupShopSession(shopAuth.signupEmail);
+    });
+  }, [shopAuth.signupEmail]);
 
   const resetShopSession = useCallback(() => {
     setSession(createInitialShopSession());
+    clearPersistedShopAuth();
     setShopAuth(defaultShopAuth());
   }, []);
 
@@ -162,11 +183,12 @@ export function ShopSessionProvider({ children }: { children: ReactNode }) {
     setSession(
       isSupabaseConfigured() ? createBlankSignupShopSession("") : createInitialShopSession(),
     );
-    setShopAuth(() => ({
+    clearPersistedShopAuth();
+    setShopAuth({
       ...defaultShopAuth(),
       isAuthenticated: true,
       ftuePhase: null,
-    }));
+    });
   }, []);
 
   const submitShopSignupStart = useCallback((email: string, password: string) => {
@@ -176,38 +198,36 @@ export function ShopSessionProvider({ children }: { children: ReactNode }) {
       return { ok: false as const, error: "password" as const };
     }
     if (isDuplicateShopSignupEmail(trimmedEmail)) {
-      setShopAuth((a) => ({
-        ...a,
-        signupDuplicateEmail: true,
-      }));
+      patchShopAuth({ signupDuplicateEmail: true });
       return { ok: false as const, error: "duplicate" as const };
     }
-    setShopAuth((a) => ({
-      ...a,
+    patchShopAuth({
       signupEmail: trimmedEmail,
       signupPassword: trimmedPassword,
       signupDuplicateEmail: false,
       ftuePhase: "verify_email",
-    }));
+    });
     return { ok: true as const };
-  }, []);
+  }, [patchShopAuth]);
 
-  const advanceShopPastEmailVerified = useCallback((signupEmail: string) => {
-    setSession(createBlankSignupShopSession(signupEmail));
-    setShopAuth((a) => ({
-      ...a,
-      ftuePhase: "create_store_profile",
-      verifyResendCooldownUntil: 0,
-    }));
-  }, []);
+  const advanceShopPastEmailVerified = useCallback(
+    (signupEmail: string) => {
+      setSession(createBlankSignupShopSession(signupEmail));
+      patchShopAuth({
+        ftuePhase: "create_store_profile",
+        verifyResendCooldownUntil: 0,
+      });
+    },
+    [patchShopAuth],
+  );
 
   const completeShopSignupToDashboard = useCallback(() => {
-    setShopAuth((a) => ({
-      ...a,
+    clearPersistedShopAuth();
+    patchShopAuth({
       isAuthenticated: true,
       ftuePhase: null,
-    }));
-  }, []);
+    });
+  }, [patchShopAuth]);
 
   const loadWorkspace = useCallback((workspace: ShopWorkspacePayload) => {
     setSession({

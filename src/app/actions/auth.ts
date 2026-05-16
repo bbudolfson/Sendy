@@ -22,7 +22,7 @@ export async function signUp(
     },
   });
   if (error) return { ok: false, error: error.message };
-  revalidatePath("/", "layout");
+  revalidatePath("/shop");
   return { ok: true };
 }
 
@@ -33,7 +33,7 @@ export async function signIn(email: string, password: string): Promise<AuthResul
     password,
   });
   if (error) return { ok: false, error: error.message };
-  revalidatePath("/", "layout");
+  revalidatePath("/shop");
   return { ok: true };
 }
 
