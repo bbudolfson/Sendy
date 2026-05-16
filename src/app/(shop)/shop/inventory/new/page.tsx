@@ -99,14 +99,14 @@ export default function NewBikePage() {
         setError(result.error ?? "Failed to save bike");
         return;
       }
-      router.push(`/shop/inventory/${result.id}`);
+      router.push("/shop");
       return;
     }
 
     upsertBikeDraft(bike);
     setBikeAvailabilityRules(id, createDefaultAvailabilityRulesForBike(id));
     setBikeRates(rates);
-    router.push(`/shop/inventory/${id}`);
+    router.push("/shop");
   };
 
   return (

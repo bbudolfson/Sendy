@@ -32,7 +32,7 @@ const RIDER_APP_LINK: MenuLink = {
 export function ShopShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { session, resetShopSession } = useShopSession();
+  const { session, resetShopSession, completeShopSignupToDashboard } = useShopSession();
   const shopLabel = session.profile.shopName.trim();
   const initials =
     shopLabel.length >= 2
@@ -42,7 +42,12 @@ export function ShopShell({ children }: { children: ReactNode }) {
   return (
     <div className={styles.wrap}>
       <header className={styles.header}>
-        <a href="/shop" className={styles.logo} aria-label="Fitted shop workspace">
+        <a
+          href="/shop"
+          className={styles.logo}
+          aria-label="Fitted shop reservations"
+          onClick={() => completeShopSignupToDashboard()}
+        >
           <img src="/fitted-logo.png" alt="" className={styles.logoImg} />
           <span className={styles.logoSuffix}>Shop</span>
         </a>

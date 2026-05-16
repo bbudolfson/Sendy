@@ -12,20 +12,56 @@ import {
 import type { PaymentConnection, ShopProfile, RatePlan } from "@/lib/domain/types";
 import { revalidatePath } from "next/cache";
 
-export async function getMyShop() {
+type EnsureShopResult =
+  | { shop: Database["public"]["Tables"]["shops"]["Row"]; error?: undefined }
+  | { shop: null; error: string };
+
+async function ensureMyShop(): Promise<EnsureShopResult> {
   const supabase = await createClient();
   const {
     data: { user },
+    error: authError,
   } = await supabase.auth.getUser();
-  if (!user) return null;
 
-  const { data: shop, error } = await supabase
+  if (authError || !user) {
+    return { shop: null, error: "Not signed in. Sign in again and try saving." };
+  }
+
+  const { data: existing, error: selectError } = await supabase
     .from("shops")
     .select("*")
     .eq("owner_id", user.id)
     .maybeSingle();
 
-  if (error || !shop) return null;
+  if (selectError) return { shop: null, error: selectError.message };
+  if (existing) return { shop: existing };
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("role, email")
+    .eq("id", user.id)
+    .maybeSingle();
+
+  if (profile?.role !== "shop") {
+    return { shop: null, error: "This account is not set up as a shop." };
+  }
+
+  const { data: created, error: insertError } = await supabase
+    .from("shops")
+    .insert({
+      owner_id: user.id,
+      shop_email: user.email ?? profile.email ?? "",
+      shop_name: "",
+    })
+    .select("*")
+    .single();
+
+  if (insertError) return { shop: null, error: insertError.message };
+  return { shop: created };
+}
+
+export async function getMyShop() {
+  const { shop } = await ensureMyShop();
   return shop;
 }
 
@@ -52,19 +88,22 @@ export async function updateMyShopProfile(
   profile: ShopProfile,
   marketId?: string | null,
 ): Promise<{ ok: boolean; error?: string }> {
-  const shop = await getMyShop();
-  if (!shop) return { ok: false, error: "No shop found" };
+  const { shop, error: ensureError } = await ensureMyShop();
+  if (!shop) return { ok: false, error: ensureError ?? "No shop found" };
 
   const supabase = await createClient();
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from("shops")
     .update({
       ...shopProfileToUpdate(profile, marketId),
       updated_at: new Date().toISOString(),
     })
-    .eq("id", shop.id);
+    .eq("id", shop.id)
+    .select("id")
+    .maybeSingle();
 
   if (error) return { ok: false, error: error.message };
+  if (!data) return { ok: false, error: "Could not update shop profile. Check you are signed in." };
   revalidatePath("/shop");
   return { ok: true };
 }
@@ -72,8 +111,8 @@ export async function updateMyShopProfile(
 export async function updateMyShopPayment(
   payment: Partial<PaymentConnection>,
 ): Promise<{ ok: boolean; error?: string }> {
-  const shop = await getMyShop();
-  if (!shop) return { ok: false, error: "No shop found" };
+  const { shop, error: ensureError } = await ensureMyShop();
+  if (!shop) return { ok: false, error: ensureError ?? "No shop found" };
 
   const supabase = await createClient();
   const patch: Database["public"]["Tables"]["shops"]["Update"] = {

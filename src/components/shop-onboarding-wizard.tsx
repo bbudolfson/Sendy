@@ -29,7 +29,7 @@ function useResendCooldown(until: number) {
 
 export function ShopOnboardingWizard() {
   const router = useRouter();
-  const { configured } = useSupabase();
+  const { configured, user, profile } = useSupabase();
   const [authError, setAuthError] = useState<string | null>(null);
   const [passwordTooShort, setPasswordTooShort] = useState(false);
   const [passwordMismatch, setPasswordMismatch] = useState(false);
@@ -78,10 +78,19 @@ export function ShopOnboardingWizard() {
   return (
     <div className={styles.wrap}>
       <header className={styles.header}>
-        <span className={styles.logoRow}>
+        <a
+          href="/shop"
+          className={styles.logoRow}
+          aria-label="Fitted shop reservations"
+          onClick={() => {
+            if (configured && user && profile?.role === "shop") {
+              completeShopSignupToDashboard();
+            }
+          }}
+        >
           <img src="/fitted-logo.png" alt="" className={styles.logoImg} />
           <span className={styles.logoSuffix}>Shop</span>
-        </span>
+        </a>
         <div className={styles.headerRight}>
           <ShopFtueAccountMenu />
         </div>
@@ -176,6 +185,11 @@ export function ShopOnboardingWizard() {
                   const result = await signUp(email, password, "shop");
                   if (!result.ok) {
                     setAuthError(result.error);
+                    return;
+                  }
+                  const signInResult = await signIn(email, password);
+                  if (!signInResult.ok) {
+                    setAuthError(signInResult.error);
                     return;
                   }
                   advanceShopPastEmailVerified(email);

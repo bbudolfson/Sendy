@@ -4,18 +4,21 @@ import { useEffect } from "react";
 import { getMyShopWorkspace } from "@/app/actions/shops";
 import { useShopSession } from "@/context/shop-session";
 import { useSupabase } from "@/context/supabase-provider";
+import { isPersistedShopId } from "@/lib/shop-id";
 
 /** Loads shop workspace from Supabase when a shop user is signed in. */
 export function ShopDataSync() {
   const { configured, user, profile, loading } = useSupabase();
-  const { shopAuth, patchShopAuth, loadWorkspace } = useShopSession();
+  const { session, shopAuth, patchShopAuth, loadWorkspace } = useShopSession();
 
   useEffect(() => {
     if (!configured || loading) return;
 
     if (user && profile?.role === "shop") {
       patchShopAuth({ isAuthenticated: true });
-      if (shopAuth.ftuePhase === null) {
+      const shouldLoadWorkspace =
+        shopAuth.ftuePhase === null || !isPersistedShopId(session.profile.id);
+      if (shouldLoadWorkspace) {
         getMyShopWorkspace().then((workspace) => {
           if (workspace) loadWorkspace(workspace);
         });
@@ -38,6 +41,7 @@ export function ShopDataSync() {
     loadWorkspace,
     shopAuth.isAuthenticated,
     shopAuth.ftuePhase,
+    session.profile.id,
   ]);
 
   return null;

@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
-import { PocButton, PocH1, PocMuted, PocInput } from "@/components/poc-ui";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { PocButton, PocH1, PocInput } from "@/components/poc-ui";
 import { getMyShopWorkspace, updateMyShopProfile } from "@/app/actions/shops";
 import { useShopSession } from "@/context/shop-session";
 import { useSupabase } from "@/context/supabase-provider";
@@ -9,11 +10,25 @@ import pageStyles from "../shop-pages.module.css";
 import styles from "./profile-page.module.css";
 
 export default function ShopProfilePage() {
-  const { configured } = useSupabase();
+  const router = useRouter();
+  const { configured, user, profile } = useSupabase();
   const { session, patchShopProfile, loadWorkspace, profileCompletion } = useShopSession();
-  const [saved, setSaved] = useState(false);
   const [saveError, setSaveError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (!configured || !user || profile?.role !== "shop") return;
+    getMyShopWorkspace().then((workspace) => {
+      if (workspace) loadWorkspace(workspace);
+    });
+  }, [configured, user, profile?.role, loadWorkspace]);
+
+  const formKey = [
+    session.profile.id,
+    session.profile.shopName,
+    session.profile.addressLine1,
+    session.profile.city,
+  ].join("|");
 
   return (
     <div className={pageStyles.page}>
@@ -26,10 +41,10 @@ export default function ShopProfilePage() {
 
       <div className={styles.profileCard}>
         <form
+          key={formKey}
           className={styles.form}
           onSubmit={async (event) => {
             event.preventDefault();
-            setSaved(false);
             setSaveError(null);
             const form = new FormData(event.currentTarget);
             const updatedProfile = {
@@ -57,7 +72,7 @@ export default function ShopProfilePage() {
               if (workspace) loadWorkspace(workspace);
             }
 
-            setSaved(true);
+            router.push("/shop");
           }}
         >
           <div>
@@ -149,7 +164,6 @@ export default function ShopProfilePage() {
                 {saveError}
               </p>
             ) : null}
-            {saved ? <PocMuted>Profile updated.</PocMuted> : null}
             <PocButton type="submit" disabled={saving}>
               {saving ? "Saving…" : "Save"}
             </PocButton>

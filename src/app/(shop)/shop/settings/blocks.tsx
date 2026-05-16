@@ -1,7 +1,10 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { PocButton, PocCard, PocInput, PocLabel, PocMuted, PocStack } from "@/components/poc-ui";
+import { getMyShopWorkspace, updateMyShopPayment } from "@/app/actions/shops";
 import { useShopSession } from "@/context/shop-session";
+import { useSupabase } from "@/context/supabase-provider";
 import type { PaymentConnectionStatus } from "@/lib/domain/types";
 import pageStyles from "../shop-pages.module.css";
 import blockStyles from "./blocks.module.css";
@@ -15,7 +18,27 @@ function humanizePaymentStatus(status: PaymentConnectionStatus): string {
 }
 
 export function SettingsPaymentsCard() {
-  const { session, setPaymentConnectionState } = useShopSession();
+  const router = useRouter();
+  const { configured } = useSupabase();
+  const { session, setPaymentConnectionState, loadWorkspace } = useShopSession();
+
+  const applyPaymentStatus = async (status: PaymentConnectionStatus) => {
+    setPaymentConnectionState(status);
+    const payment = {
+      ...session.payment,
+      status,
+      payoutsEnabled: status === "connected",
+    };
+
+    if (configured) {
+      const result = await updateMyShopPayment(payment);
+      if (!result.ok) return;
+      const workspace = await getMyShopWorkspace();
+      if (workspace) loadWorkspace(workspace);
+    }
+
+    router.push("/shop");
+  };
 
   return (
     <PocCard className={shopContentCardClass}>
@@ -35,7 +58,7 @@ export function SettingsPaymentsCard() {
               key={status}
               type="button"
               variant={session.payment.status === status ? "primary" : "secondary"}
-              onClick={() => setPaymentConnectionState(status)}
+              onClick={() => void applyPaymentStatus(status)}
             >
               Set {humanizePaymentStatus(status)}
             </PocButton>

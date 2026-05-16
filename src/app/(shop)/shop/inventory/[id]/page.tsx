@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import {
   PocButton,
   PocButtonLink,
@@ -18,6 +19,7 @@ import pageStyles from "../../shop-pages.module.css";
 import layoutStyles from "../new/new-bike-page.module.css";
 
 export default function InventoryBikeDetailPage({ params }: { params: { id: string } }) {
+  const router = useRouter();
   const { session, upsertBikeDraft } = useShopSession();
   const bike = session.inventory.find((item) => item.id === params.id);
   const [photos, setPhotos] = useState<string[]>([]);
@@ -72,6 +74,7 @@ export default function InventoryBikeDetailPage({ params }: { params: { id: stri
               description: String(form.get("description") ?? ""),
               status: String(form.get("status") ?? "active") as typeof bike.status,
             });
+            router.push("/shop");
           }}
         >
           <InventoryPhotoColumn photos={photos} onPhotosChange={setPhotos} />

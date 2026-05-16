@@ -129,6 +129,7 @@ export default function ShopInventoryPage() {
                 });
                 setEditingId(null);
                 setDraftBike({ bike: "", size: "", specs: "", rate: "" });
+                router.push("/shop");
               }}
             />
           </li>
