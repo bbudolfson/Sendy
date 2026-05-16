@@ -16,6 +16,16 @@
   gap: var(--space-4);
 }
 
+.fieldPair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-4);
+}
+
+.fieldPair > div {
+  min-width: 0;
+}
+
 .profileLabel {
   display: block;
   margin-bottom: var(--space-2);

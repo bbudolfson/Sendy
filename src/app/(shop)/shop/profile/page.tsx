@@ -102,32 +102,33 @@ export default function ShopProfilePage() {
             />
           </div>
 
-          <div>
-            <label className={styles.profileLabel} htmlFor="shop-profile-email">
-              Shop email
-            </label>
-            <PocInput
-              id="shop-profile-email"
-              name="shopEmail"
-              type="email"
-              autoComplete="email"
-              placeholder="contact@yourshop.com"
-              defaultValue={session.profile.shopEmail}
-            />
-          </div>
-
-          <div>
-            <label className={styles.profileLabel} htmlFor="shop-profile-phone">
-              Shop phone
-            </label>
-            <PocInput
-              id="shop-profile-phone"
-              name="supportPhone"
-              type="tel"
-              autoComplete="tel"
-              placeholder="(555) 555-0100"
-              defaultValue={session.profile.supportPhone}
-            />
+          <div className={styles.fieldPair}>
+            <div>
+              <label className={styles.profileLabel} htmlFor="shop-profile-email">
+                Shop email
+              </label>
+              <PocInput
+                id="shop-profile-email"
+                name="shopEmail"
+                type="email"
+                autoComplete="email"
+                placeholder="contact@yourshop.com"
+                defaultValue={session.profile.shopEmail}
+              />
+            </div>
+            <div>
+              <label className={styles.profileLabel} htmlFor="shop-profile-phone">
+                Shop phone
+              </label>
+              <PocInput
+                id="shop-profile-phone"
+                name="supportPhone"
+                type="tel"
+                autoComplete="tel"
+                placeholder="(555) 555-0100"
+                defaultValue={session.profile.supportPhone}
+              />
+            </div>
           </div>
 
           <div>
@@ -144,18 +145,19 @@ export default function ShopProfilePage() {
             <PocInput id="shop-profile-city" name="city" placeholder="City" defaultValue={session.profile.city} />
           </div>
 
-          <div>
-            <label className={styles.profileLabel} htmlFor="shop-profile-state">
-              State
-            </label>
-            <PocInput id="shop-profile-state" name="state" placeholder="CA" defaultValue={session.profile.state} />
-          </div>
-
-          <div>
-            <label className={styles.profileLabel} htmlFor="shop-profile-zip">
-              Zip
-            </label>
-            <PocInput id="shop-profile-zip" name="postalCode" placeholder="97701" defaultValue={session.profile.postalCode} />
+          <div className={styles.fieldPair}>
+            <div>
+              <label className={styles.profileLabel} htmlFor="shop-profile-state">
+                State
+              </label>
+              <PocInput id="shop-profile-state" name="state" placeholder="CA" defaultValue={session.profile.state} />
+            </div>
+            <div>
+              <label className={styles.profileLabel} htmlFor="shop-profile-zip">
+                Zip
+              </label>
+              <PocInput id="shop-profile-zip" name="postalCode" placeholder="97701" defaultValue={session.profile.postalCode} />
+            </div>
           </div>
 
           <div className={styles.footer}>

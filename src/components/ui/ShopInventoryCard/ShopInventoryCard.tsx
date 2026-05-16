@@ -1,7 +1,21 @@
 import React from "react";
 import { PocInput } from "@/components/poc-ui";
-import { Button } from "@/components/ui/Button/Button";
 import "./ShopInventoryCard.css";
+
+function MoreVerticalIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden>
+      <circle cx="10" cy="4" r="1.25" fill="currentColor" />
+      <circle cx="10" cy="10" r="1.25" fill="currentColor" />
+      <circle cx="10" cy="16" r="1.25" fill="currentColor" />
+    </svg>
+  );
+}
+
+function closeOverflowMenu(event: React.MouseEvent<HTMLElement>) {
+  const details = event.currentTarget.closest("details");
+  if (details) details.open = false;
+}
 
 type ShopInventoryCardMode = "view" | "edit";
 
@@ -56,7 +70,78 @@ export function ShopInventoryCard({
 
   return (
     <article className="sendy-shop-inventory-card">
-      <h3 className="sendy-shop-inventory-card__title">{title}</h3>
+      <header className="sendy-shop-inventory-card__header">
+        <h3 className="sendy-shop-inventory-card__title">{title}</h3>
+        <details className="sendy-shop-inventory-card__overflow">
+          <summary className="sendy-shop-inventory-card__overflow-trigger" aria-label="Bike actions">
+            <MoreVerticalIcon />
+          </summary>
+          <div className="sendy-shop-inventory-card__overflow-menu" role="menu">
+            {!isEdit ? (
+              <>
+                <button
+                  type="button"
+                  role="menuitem"
+                  className="sendy-shop-inventory-card__overflow-item"
+                  onClick={(event) => {
+                    onEdit?.();
+                    closeOverflowMenu(event);
+                  }}
+                >
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  role="menuitem"
+                  className="sendy-shop-inventory-card__overflow-item"
+                  onClick={(event) => {
+                    onDuplicate?.();
+                    closeOverflowMenu(event);
+                  }}
+                >
+                  Duplicate
+                </button>
+                <button
+                  type="button"
+                  role="menuitem"
+                  className="sendy-shop-inventory-card__overflow-item sendy-shop-inventory-card__overflow-item--destructive"
+                  onClick={(event) => {
+                    onRemove?.();
+                    closeOverflowMenu(event);
+                  }}
+                >
+                  Remove
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  role="menuitem"
+                  className="sendy-shop-inventory-card__overflow-item"
+                  onClick={(event) => {
+                    onCancel?.();
+                    closeOverflowMenu(event);
+                  }}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="button"
+                  role="menuitem"
+                  className="sendy-shop-inventory-card__overflow-item"
+                  onClick={(event) => {
+                    onSave?.();
+                    closeOverflowMenu(event);
+                  }}
+                >
+                  Save
+                </button>
+              </>
+            )}
+          </div>
+        </details>
+      </header>
       <div className="sendy-shop-inventory-card__main">
         <div className="sendy-shop-inventory-card__image-wrap">
           <img className="sendy-shop-inventory-card__image" src={imageUrl} alt={imageAlt ?? title} />
@@ -107,39 +192,6 @@ export function ShopInventoryCard({
               </label>
             </div>
           )}
-
-          <div
-            className={[
-              "sendy-shop-inventory-card__actions",
-              isEdit ? "sendy-shop-inventory-card__actions--edit" : "",
-            ]
-              .filter(Boolean)
-              .join(" ")}
-          >
-            {!isEdit && (
-              <>
-                <Button type="button" variant="destructive" onClick={onRemove}>
-                  Remove
-                </Button>
-                <Button type="button" variant="secondary" onClick={onEdit}>
-                  Edit
-                </Button>
-                <Button type="button" onClick={onDuplicate}>
-                  Duplicate
-                </Button>
-              </>
-            )}
-            {isEdit && (
-              <>
-                <Button type="button" variant="secondary" onClick={onCancel}>
-                  Cancel
-                </Button>
-                <Button type="button" onClick={onSave}>
-                  Save
-                </Button>
-              </>
-            )}
-          </div>
         </div>
       </div>
     </article>
