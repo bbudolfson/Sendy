@@ -17,6 +17,7 @@ Required:
 Optional:
 
 - `STRIPE_SECRET_KEY` / `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` — real card charges
+- `NEXT_PUBLIC_APP_URL` — used for Stripe Connect return URLs (defaults to `http://localhost:3000`)
 - Without Stripe, checkout **confirms reservations without charging** (dev mode)
 
 ## 2. Run the database migration
@@ -57,7 +58,7 @@ After shop signup, set **market** on the shop profile (e.g. Bend) so bikes appea
 1. Sign in at `/shop`
 2. Complete profile (city/state used for listings)
 3. **Inventory → Add bike** — photos upload to Storage when Supabase is configured
-4. Connect payments (demo toggles status in DB; Stripe Connect is a follow-up)
+4. **Payments** → **Connect Stripe Account** (Stripe Connect Express onboarding; status saved on your shop row)
 5. Riders search by market name (e.g. “Bend”) on `/dashboard`
 
 ## 7. Troubleshooting

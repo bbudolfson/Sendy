@@ -135,6 +135,7 @@ export type PaymentConnection = {
   status: PaymentConnectionStatus;
   payoutsEnabled: boolean;
   accountLabel: string;
+  stripeAccountId?: string | null;
 };
 
 export type EmbedLink = {

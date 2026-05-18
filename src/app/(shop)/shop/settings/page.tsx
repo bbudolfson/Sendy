@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { PocH1, PocH2, PocMuted } from "@/components/poc-ui";
 import styles from "../shop-pages.module.css";
 import { SettingsEmbedCard, SettingsPaymentsCard } from "./blocks";
@@ -15,7 +16,9 @@ export default function ShopSettingsHubPage() {
       <div className={blockStyles.settingsStack}>
         <section className={blockStyles.settingSection}>
           <PocH2>Payments</PocH2>
-          <SettingsPaymentsCard />
+          <Suspense fallback={<PocMuted>Loading payments…</PocMuted>}>
+            <SettingsPaymentsCard />
+          </Suspense>
         </section>
         <section className={blockStyles.settingSection}>
           <PocH2>Embed</PocH2>

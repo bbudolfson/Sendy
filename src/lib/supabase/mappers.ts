@@ -28,6 +28,7 @@ export function shopRowToPayment(row: DbShop): PaymentConnection {
     status: row.payment_status,
     payoutsEnabled: row.payouts_enabled,
     accountLabel: row.payment_account_label,
+    stripeAccountId: row.stripe_account_id,
   };
 }
 

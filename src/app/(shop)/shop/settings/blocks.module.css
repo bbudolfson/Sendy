@@ -37,3 +37,10 @@
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
+
+.paymentError {
+  margin: 0;
+  color: var(--sendy-text-error);
+  font-size: var(--sendy-font-size-body);
+  line-height: var(--sendy-line-height-body);
+}

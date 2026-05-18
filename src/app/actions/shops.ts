@@ -109,6 +109,7 @@ export async function updateMyShopProfile(
   if (error) return { ok: false, error: error.message };
   if (!data) return { ok: false, error: "Could not update shop profile. Check you are signed in." };
   revalidatePath("/shop");
+  revalidatePath("/shop/payments");
   return { ok: true };
 }
 
@@ -126,9 +127,12 @@ export async function updateMyShopPayment(
   if (payment.status) patch.payment_status = payment.status;
   if (payment.payoutsEnabled !== undefined) patch.payouts_enabled = payment.payoutsEnabled;
   if (payment.accountLabel !== undefined) patch.payment_account_label = payment.accountLabel;
+  if (payment.stripeAccountId !== undefined) patch.stripe_account_id = payment.stripeAccountId;
 
   const { error } = await supabase.from("shops").update(patch).eq("id", shop.id);
   if (error) return { ok: false, error: error.message };
   revalidatePath("/shop");
+  revalidatePath("/shop/payments");
+  revalidatePath("/shop/settings");
   return { ok: true };
 }

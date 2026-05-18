@@ -1,69 +1,144 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { PocButton, PocCard, PocInput, PocLabel, PocMuted, PocStack } from "@/components/poc-ui";
-import { getMyShopWorkspace, updateMyShopPayment } from "@/app/actions/shops";
+import { startStripeConnectOnboarding, syncStripeConnectAccount } from "@/app/actions/stripe-connect";
 import { useShopSession } from "@/context/shop-session";
 import { useSupabase } from "@/context/supabase-provider";
 import type { PaymentConnectionStatus } from "@/lib/domain/types";
+import { isSupabaseConfigured } from "@/lib/supabase/config";
 import pageStyles from "../shop-pages.module.css";
 import blockStyles from "./blocks.module.css";
 
 const shopContentCardClass = blockStyles.shopContentCard;
 
-const PAYMENT_STATUSES: PaymentConnectionStatus[] = ["not_connected", "pending", "connected", "restricted"];
-
 function humanizePaymentStatus(status: PaymentConnectionStatus): string {
   return status.replace(/_/g, " ");
 }
 
+function statusDescription(status: PaymentConnectionStatus): string {
+  switch (status) {
+    case "connected":
+      return "Stripe is connected. You can accept rider payments and receive payouts.";
+    case "pending":
+      return "Your Stripe setup is incomplete. Continue onboarding to start accepting payments.";
+    case "restricted":
+      return "Stripe needs additional information before payouts can be enabled.";
+    default:
+      return "Connect your Stripe account to accept payments from riders and receive payouts.";
+  }
+}
+
 export function SettingsPaymentsCard() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const stripeReturn = searchParams.get("stripe");
   const { configured } = useSupabase();
-  const { session, setPaymentConnectionState, loadWorkspace } = useShopSession();
+  const { session, loadWorkspace, patchShopPayment } = useShopSession();
+  const [pending, setPending] = useState(false);
+  const [syncing, setSyncing] = useState(
+    stripeReturn === "return" || stripeReturn === "refresh",
+  );
+  const [error, setError] = useState<string | null>(null);
 
-  const applyPaymentStatus = async (status: PaymentConnectionStatus) => {
-    setPaymentConnectionState(status);
-    const payment = {
-      ...session.payment,
-      status,
-      payoutsEnabled: status === "connected",
+  const connectFallback = useMemo(
+    () => ({
+      shopId: session.profile.id,
+      shopEmail: session.profile.shopEmail,
+      stripeAccountId: session.payment.stripeAccountId,
+    }),
+    [session.payment.stripeAccountId, session.profile.id, session.profile.shopEmail],
+  );
+
+  const usePersistedShop = isSupabaseConfigured() && configured;
+
+  useEffect(() => {
+    if (stripeReturn !== "return" && stripeReturn !== "refresh") return;
+
+    let cancelled = false;
+
+    void (async () => {
+      setSyncing(true);
+      setError(null);
+      const result = await syncStripeConnectAccount(usePersistedShop ? undefined : connectFallback);
+      if (cancelled) return;
+
+      if (!result.ok) {
+        setError(result.error ?? "Could not update Stripe status.");
+        setSyncing(false);
+        return;
+      }
+
+      if (result.workspace) {
+        loadWorkspace(result.workspace);
+      } else if (result.payment) {
+        patchShopPayment(result.payment);
+      }
+
+      setSyncing(false);
+      router.replace("/shop/payments");
+    })();
+
+    return () => {
+      cancelled = true;
     };
+  }, [
+    connectFallback,
+    loadWorkspace,
+    patchShopPayment,
+    router,
+    stripeReturn,
+    usePersistedShop,
+  ]);
 
-    if (configured) {
-      const result = await updateMyShopPayment(payment);
-      if (!result.ok) return;
-      const workspace = await getMyShopWorkspace();
-      if (workspace) loadWorkspace(workspace);
+  const handleConnect = async () => {
+    setPending(true);
+    setError(null);
+    const result = await startStripeConnectOnboarding(usePersistedShop ? undefined : connectFallback);
+    if (!result.ok || !result.url) {
+      setError(result.error ?? "Could not open Stripe Connect.");
+      setPending(false);
+      return;
     }
-
-    router.push("/shop");
+    if (result.stripeAccountId) {
+      patchShopPayment({
+        stripeAccountId: result.stripeAccountId,
+        status: "pending",
+        provider: "stripe",
+      });
+    }
+    window.location.assign(result.url);
   };
+
+  const showConnectCta = session.payment.status !== "connected";
 
   return (
     <PocCard className={shopContentCardClass}>
       <PocStack gap="md">
-        <PocMuted>
-          Prototype state machine for Stripe Connect-like onboarding. This is mock-only for now.
-        </PocMuted>
+        <PocMuted>{statusDescription(session.payment.status)}</PocMuted>
         <p>
-          Current status: <strong>{humanizePaymentStatus(session.payment.status)}</strong>
+          Status: <strong>{humanizePaymentStatus(session.payment.status)}</strong>
         </p>
-        <p>
-          Payouts enabled: <strong>{session.payment.payoutsEnabled ? "yes" : "no"}</strong>
-        </p>
-        <div className={pageStyles.actions}>
-          {PAYMENT_STATUSES.map((status) => (
+        {session.payment.accountLabel ? (
+          <p>
+            Account: <strong>{session.payment.accountLabel}</strong>
+          </p>
+        ) : null}
+        {syncing ? <PocMuted>Updating your Stripe connection…</PocMuted> : null}
+        {error ? <p className={blockStyles.paymentError}>{error}</p> : null}
+        {showConnectCta ? (
+          <div className={pageStyles.actions}>
             <PocButton
-              key={status}
               type="button"
-              variant={session.payment.status === status ? "primary" : "secondary"}
-              onClick={() => void applyPaymentStatus(status)}
+              variant="primary"
+              disabled={pending || syncing}
+              onClick={() => void handleConnect()}
             >
-              Set {humanizePaymentStatus(status)}
+              {pending ? "Opening Stripe…" : "Connect Stripe Account"}
             </PocButton>
-          ))}
-        </div>
+          </div>
+        ) : null}
       </PocStack>
     </PocCard>
   );
