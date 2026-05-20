@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { getMyReservations } from "@/app/actions/reservations";
 import { PocH1, PocMuted } from "@/components/poc-ui";
+import { EmptyState } from "@/components/ui/EmptyState/EmptyState";
 import { useSupabase } from "@/context/supabase-provider";
 import { DUMMY_RENTALS } from "@/lib/dummy-data";
 import type { RentalRecord } from "@/lib/domain/types";
@@ -37,7 +38,10 @@ export default function TripsPage() {
         </h2>
         <div className={styles.cardList}>
           {upcoming.length === 0 ? (
-            <p className={styles.emptyHint}>No upcoming rentals.</p>
+            <EmptyState
+              title="No upcoming rentals."
+              description="When you book a bike, your trip details will show up here."
+            />
           ) : (
             upcoming.map((r) => (
               <article key={r.id} className={styles.rentalRow}>
@@ -57,7 +61,10 @@ export default function TripsPage() {
         </h2>
         <div className={styles.cardList}>
           {previous.length === 0 ? (
-            <p className={styles.emptyHint}>No previous rentals yet.</p>
+            <EmptyState
+              title="No previous rentals yet."
+              description="Completed trips will appear here so you can revisit where you’ve ridden."
+            />
           ) : (
             previous.map((r) => (
               <article key={r.id} className={styles.rentalRow}>

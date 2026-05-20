@@ -3,6 +3,7 @@
 import { PocH1 } from "@/components/poc-ui";
 import { useShopSession } from "@/context/shop-session";
 import { AccountCreationTile } from "@/components/ui/AccountCreationTile/AccountCreationTile";
+import { EmptyState } from "@/components/ui/EmptyState/EmptyState";
 import {
   isShopFleetReady,
   isShopPaymentReadyForRentals,
@@ -44,7 +45,14 @@ export default function ShopHomePage() {
           On the schedule
         </h2>
         <div className={styles.cardList}>
-          <p className={styles.emptyFilter}>No confirmed reservations yet.</p>
+          <EmptyState
+            title="No Reservations Today."
+            description="Give a shout out to your rentals on social media and we’ll help get more Freewheelers in your door."
+            actions={[
+              { label: "Share on Facebook", href: "https://www.facebook.com/sharer/sharer.php" },
+              { label: "Share on Instagram", href: "https://www.instagram.com" },
+            ]}
+          />
         </div>
       </section>
 
@@ -53,7 +61,10 @@ export default function ShopHomePage() {
           Open reservation requests
         </h2>
         <div className={styles.cardList}>
-          <p className={styles.emptyFilter}>No open requests yet.</p>
+          <EmptyState
+            title="No open requests."
+            description="When riders request a booking, it will show up here for you to review."
+          />
         </div>
       </section>
     </div>

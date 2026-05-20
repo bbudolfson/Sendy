@@ -8,6 +8,7 @@ import { getMarkets, resolveMarketFromLocation as resolveMarketRemote } from "@/
 import { PocInput, PocMuted } from "@/components/poc-ui";
 import { RiderAvatarMenu } from "@/components/rider-avatar-menu";
 import { BikeTile } from "@/components/ui/BikeTile/BikeTile";
+import { EmptyState } from "@/components/ui/EmptyState/EmptyState";
 import { usePocSession } from "@/context/poc-session";
 import { useSupabase } from "@/context/supabase-provider";
 import type { Market } from "@/lib/domain/types";
@@ -30,18 +31,22 @@ const HOME_ROWS = [
 function BikeGrid({
   bikes,
   searching,
+  onClearFilters,
 }: {
   bikes: PublicBikeListing[] | typeof SHOP_BIKES;
   searching: boolean;
+  onClearFilters?: () => void;
 }) {
   if (searching) {
     return <p className={styles.resultsMeta}>Loading bikes…</p>;
   }
   if (bikes.length === 0) {
     return (
-      <p className={styles.resultsMeta}>
-        No bikes listed here yet. Shop owners can add inventory at /shop.
-      </p>
+      <EmptyState
+        title="Bummer, No Bikes Available Here."
+        description="We’re working on expanding our coverage, and will keep try find bikes in this area, so please check back."
+        actions={onClearFilters ? [{ label: "Clear Filters", onClick: onClearFilters }] : []}
+      />
     );
   }
   return (
@@ -330,7 +335,7 @@ export default function DashboardPage() {
                 : "Add trip dates in the search bar to continue booking with dates."}
             </p>
             <div className={styles.bikeGrid}>
-              <BikeGrid bikes={resultShopBikes} searching={searching} />
+              <BikeGrid bikes={resultShopBikes} searching={searching} onClearFilters={clearLocationSearch} />
             </div>
           </div>
         ) : configured ? (
