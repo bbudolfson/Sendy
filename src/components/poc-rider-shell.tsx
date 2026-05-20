@@ -15,8 +15,8 @@ export function PocRiderShell({ children }: { children: ReactNode }) {
     <div className={styles.wrap}>
       {!hideHeader ? (
         <header className={styles.header}>
-          <a href="/dashboard" className={styles.logo} aria-label="Fitted home">
-            <img src="/fitted-logo.png" alt="" className={styles.logoImg} />
+          <a href="/dashboard" className={styles.logo} aria-label="Freewheel home">
+            <img src="/freewheel-logo.svg" alt="" className={styles.logoImg} />
           </a>
           <RiderAvatarMenu variant="surface" />
         </header>

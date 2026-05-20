@@ -30,7 +30,7 @@
   align-items: flex-start;
 }
 
-/* Match `logoImg` in rider / shop shells (same asset, hero context — no invert) */
+/* Match header logo sizing; white wordmark for dark hero background */
 .logoImage {
   display: block;
   height: 1.625rem;

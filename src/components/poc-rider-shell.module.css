@@ -27,14 +27,12 @@
   border-radius: var(--radius-sm);
 }
 
-/* Wordmark PNG is optimized for dark backgrounds; invert for light `--color-surface` header bar */
 .logoImg {
   display: block;
   height: 1.625rem;
   width: auto;
   max-width: 12rem;
   object-fit: contain;
-  filter: invert(1);
 }
 
 .main {

@@ -46,7 +46,6 @@
   width: auto;
   max-width: 12rem;
   object-fit: contain;
-  filter: invert(1);
 }
 
 .logoSuffix {

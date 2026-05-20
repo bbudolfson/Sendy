@@ -81,14 +81,14 @@ export function ShopOnboardingWizard() {
         <a
           href="/shop"
           className={styles.logoRow}
-          aria-label="Fitted shop reservations"
+          aria-label="Freewheel shop reservations"
           onClick={() => {
             if (configured && user && profile?.role === "shop") {
               completeShopSignupToDashboard();
             }
           }}
         >
-          <img src="/fitted-logo.png" alt="" className={styles.logoImg} />
+          <img src="/freewheel-logo.svg" alt="" className={styles.logoImg} />
           <span className={styles.logoSuffix}>Shop</span>
         </a>
         <div className={styles.headerRight}>

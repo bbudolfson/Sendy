@@ -157,7 +157,7 @@ export default function DashboardPage() {
     <div className={styles.page}>
       <section className={styles.hero}>
         <div className={styles.heroTop}>
-          <img src="/fitted-logo.png" alt="Fitted Premium Bike Rentals" className={styles.logoImage} />
+          <img src="/freewheel-logo-white.svg" alt="Freewheel" className={styles.logoImage} />
           <RiderAvatarMenu variant="hero" />
         </div>
         <div className={styles.searchWrap}>

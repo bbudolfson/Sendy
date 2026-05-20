@@ -45,10 +45,10 @@ export function ShopShell({ children }: { children: ReactNode }) {
         <a
           href="/shop"
           className={styles.logo}
-          aria-label="Fitted shop reservations"
+          aria-label="Freewheel shop reservations"
           onClick={() => completeShopSignupToDashboard()}
         >
-          <img src="/fitted-logo.png" alt="" className={styles.logoImg} />
+          <img src="/freewheel-logo.svg" alt="" className={styles.logoImg} />
           <span className={styles.logoSuffix}>Shop</span>
         </a>
         <div className={styles.headerRight}>
