@@ -1,81 +1,82 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { Suspense, useMemo, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { uploadBikePhoto, upsertShopBike } from "@/app/actions/bikes";
-import {
-  PocButton,
-  PocH1,
-  PocInput,
-  PocLabel,
-  PocMuted,
-  PocSelect,
-  PocTextarea,
-} from "@/components/poc-ui";
-import { InventoryPhotoColumn } from "@/components/ui/InventoryPhotoColumn/InventoryPhotoColumn";
+import { PocH1, PocMuted } from "@/components/poc-ui";
 import { useShopSession } from "@/context/shop-session";
 import { useSupabase } from "@/context/supabase-provider";
 import { createDefaultAvailabilityRulesForBike } from "@/lib/dummy-data";
 import type { ShopBike } from "@/lib/domain/types";
+import {
+  BikeInventoryForm,
+  bikePhotoUrls,
+  bikeToFormDefaults,
+  type BikeInventoryFormValues,
+} from "../bike-inventory-form";
 import pageStyles from "../../shop-pages.module.css";
 import styles from "./new-bike-page.module.css";
 
-function parseMoney(raw: unknown): number {
-  const cleaned = String(raw ?? "")
-    .replace(/[^\d.-]/g, "")
-    .trim();
-  const n = Number.parseFloat(cleaned);
-  return Number.isFinite(n) ? Math.max(0, n) : 0;
+async function resolvePhotoUrls(photos: string[], configured: boolean): Promise<string[]> {
+  if (!configured || !photos.some((p) => p.startsWith("blob:"))) {
+    return photos;
+  }
+
+  const uploaded: string[] = [];
+  for (const preview of photos) {
+    if (!preview.startsWith("blob:")) {
+      uploaded.push(preview);
+      continue;
+    }
+    const blob = await fetch(preview).then((r) => r.blob());
+    const fd = new FormData();
+    fd.set("file", new File([blob], "bike.jpg", { type: blob.type || "image/jpeg" }));
+    const result = await uploadBikePhoto(fd);
+    if (result.ok && result.url) uploaded.push(result.url);
+  }
+  return uploaded;
 }
 
-export default function NewBikePage() {
+function NewBikePageContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const duplicateId = searchParams.get("duplicate");
   const { configured } = useSupabase();
   const { session, upsertBikeDraft, setBikeAvailabilityRules, setBikeRates } = useShopSession();
-  const [photos, setPhotos] = useState<string[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [pending, setPending] = useState(false);
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const sourceBike = useMemo(
+    () => (duplicateId ? session.inventory.find((bike) => bike.id === duplicateId) : undefined),
+    [duplicateId, session.inventory],
+  );
+
+  const sourceRates = useMemo(
+    () => (sourceBike ? session.rates.find((rate) => rate.bikeId === sourceBike.id) : undefined),
+    [session.rates, sourceBike],
+  );
+
+  const formDefaults = sourceBike ? bikeToFormDefaults(sourceBike, sourceRates) : undefined;
+  const initialPhotos = sourceBike ? bikePhotoUrls(sourceBike) : [];
+
+  const saveBike = async (values: BikeInventoryFormValues) => {
     setError(null);
-    const form = new FormData(event.currentTarget);
-    const brand = String(form.get("brand") ?? "").trim();
-    const model = String(form.get("model") ?? "").trim();
-    const title = `${brand} ${model}`.trim() || brand || model || "New bike";
-
+    const title =
+      `${values.brand} ${values.model}`.trim() || values.brand || values.model || "New bike";
     const id = `shop-bike-${Date.now()}`;
-    const dailyRate = parseMoney(form.get("dailyRate"));
-    const halfDayRate = parseMoney(form.get("halfDayRate"));
 
-    let photoUrls = [...photos];
-    if (configured && photos.some((p) => p.startsWith("blob:"))) {
-      setPending(true);
-      const uploaded: string[] = [];
-      for (const preview of photos) {
-        if (!preview.startsWith("blob:")) {
-          uploaded.push(preview);
-          continue;
-        }
-        const blob = await fetch(preview).then((r) => r.blob());
-        const fd = new FormData();
-        fd.set("file", new File([blob], "bike.jpg", { type: blob.type || "image/jpeg" }));
-        const result = await uploadBikePhoto(fd);
-        if (result.ok && result.url) uploaded.push(result.url);
-      }
-      photoUrls = uploaded;
-      setPending(false);
-    }
+    setPending(true);
+    const photoUrls = await resolvePhotoUrls(values.photos, configured);
 
     const bike: ShopBike = {
       id,
       shopId: session.profile.id,
-      title,
-      brand,
-      model,
-      type: String(form.get("type") ?? "Mountain") as ShopBike["type"],
-      size: String(form.get("size") ?? "").trim(),
-      description: String(form.get("description") ?? "").trim(),
+      title: sourceBike ? `${title} Copy` : title,
+      brand: values.brand,
+      model: values.model,
+      type: values.type,
+      size: values.size,
+      description: values.description,
       imageUrl: photoUrls[0] ?? "",
       photoUrls: photoUrls.length > 0 ? photoUrls : undefined,
       status: "active",
@@ -83,29 +84,29 @@ export default function NewBikePage() {
 
     const rates = {
       bikeId: id,
-      dailyRate,
-      halfDayRate: halfDayRate > 0 ? halfDayRate : undefined,
-      weeklyRate: Math.max(1, Math.round(dailyRate * 5)),
-      deposit: Math.max(50, Math.round(dailyRate * 2)),
+      dailyRate: values.dailyRate,
+      halfDayRate: values.halfDayRate > 0 ? values.halfDayRate : undefined,
+      weeklyRate: Math.max(1, Math.round(values.dailyRate * 5)),
+      deposit: Math.max(50, Math.round(values.dailyRate * 2)),
       seasonalNote: "",
     };
 
     if (configured) {
-      setPending(true);
       const result = await upsertShopBike(bike, rates);
       setPending(false);
       if (!result.ok) {
         setError(result.error ?? "Failed to save bike");
         return;
       }
-      router.push("/shop");
+      router.push("/shop/inventory");
       return;
     }
 
     upsertBikeDraft(bike);
     setBikeAvailabilityRules(id, createDefaultAvailabilityRulesForBike(id));
     setBikeRates(rates);
-    router.push("/shop");
+    setPending(false);
+    router.push("/shop/inventory");
   };
 
   return (
@@ -115,86 +116,26 @@ export default function NewBikePage() {
       </div>
 
       <div className={`${pageStyles.pageWide} ${styles.card}`}>
-        <form className={styles.layout} onSubmit={onSubmit}>
-          <InventoryPhotoColumn photos={photos} onPhotosChange={setPhotos} />
-
-          <div className={styles.fields}>
-            {error ? <p role="alert">{error}</p> : null}
-            <div>
-              <PocLabel htmlFor="add-bike-brand">Brand</PocLabel>
-              <PocInput id="add-bike-brand" name="brand" required placeholder="Santa Cruz" />
-            </div>
-            <div>
-              <PocLabel htmlFor="add-bike-model">Model</PocLabel>
-              <PocInput id="add-bike-model" name="model" required placeholder="Nomad" />
-            </div>
-            <div className={styles.fieldPair}>
-              <div>
-                <PocLabel htmlFor="add-bike-size">Size</PocLabel>
-                <PocSelect id="add-bike-size" name="size" required defaultValue="Large">
-                  <option>X-Small</option>
-                  <option>Small</option>
-                  <option>Medium</option>
-                  <option>Large</option>
-                  <option>X-Large</option>
-                  <option>XX-Large</option>
-                </PocSelect>
-              </div>
-              <div>
-                <PocLabel htmlFor="add-bike-type">Type</PocLabel>
-                <PocSelect id="add-bike-type" name="type" defaultValue="Mountain">
-                  <option>Road</option>
-                  <option>Mountain</option>
-                  <option>Gravel</option>
-                  <option>E-Bike</option>
-                </PocSelect>
-              </div>
-            </div>
-            <div>
-              <PocLabel htmlFor="add-bike-description">Description</PocLabel>
-              <PocTextarea
-                id="add-bike-description"
-                name="description"
-                placeholder="$200 Full Day | $125 Half Day"
-                rows={3}
-              />
-            </div>
-            <div className={styles.fieldPair}>
-              <div>
-                <PocLabel htmlFor="add-bike-daily">Full day rate</PocLabel>
-                <PocInput
-                  id="add-bike-daily"
-                  name="dailyRate"
-                  inputMode="decimal"
-                  placeholder="$200"
-                  required
-                />
-              </div>
-              <div>
-                <PocLabel htmlFor="add-bike-half">Half day rate</PocLabel>
-                <PocInput
-                  id="add-bike-half"
-                  name="halfDayRate"
-                  inputMode="decimal"
-                  placeholder="$125"
-                  required
-                />
-              </div>
-            </div>
-
-            <div className={styles.footer}>
-              <PocButton type="button" variant="secondary" onClick={() => router.push("/shop/inventory")}>
-                Cancel
-              </PocButton>
-              <PocButton type="submit" disabled={pending}>
-                {pending ? "Saving…" : "Save"}
-              </PocButton>
-            </div>
-          </div>
-        </form>
+        <BikeInventoryForm
+          key={duplicateId ?? "new"}
+          initialPhotos={initialPhotos}
+          defaultValues={formDefaults}
+          error={error}
+          pending={pending}
+          onCancel={() => router.push("/shop/inventory")}
+          onSubmit={saveBike}
+        />
       </div>
 
       <PocMuted>Weekly hours and blocked dates can be managed on each bike’s Availability page.</PocMuted>
     </div>
+  );
+}
+
+export default function NewBikePage() {
+  return (
+    <Suspense fallback={<PocMuted>Loading…</PocMuted>}>
+      <NewBikePageContent />
+    </Suspense>
   );
 }

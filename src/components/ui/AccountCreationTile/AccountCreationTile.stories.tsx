@@ -5,7 +5,7 @@ const meta = {
   title: "UI/Account Creation Tile",
   component: AccountCreationTile,
   parameters: {
-    layout: "padded",
+    layout: "centered",
   },
   args: {
     profileComplete: false,

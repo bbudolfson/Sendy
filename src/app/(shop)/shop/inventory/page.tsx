@@ -10,12 +10,10 @@ import styles from "../shop-pages.module.css";
 
 export default function ShopInventoryPage() {
   const router = useRouter();
-  const { session, upsertBikeDraft } = useShopSession();
+  const { session } = useShopSession();
   const [status, setStatus] = useState<"all" | "active" | "inactive">("all");
   const [type, setType] = useState<"all" | "Road" | "Mountain" | "Gravel" | "E-Bike">("all");
-  const [editingId, setEditingId] = useState<string | null>(null);
   const [removedIds, setRemovedIds] = useState<string[]>([]);
-  const [draftBike, setDraftBike] = useState({ bike: "", size: "", specs: "", rate: "" });
 
   const ratesByBikeId = useMemo(
     () =>
@@ -83,54 +81,15 @@ export default function ShopInventoryPage() {
         {bikes.map((bike) => (
           <li key={bike.id} className={styles.listItem}>
             <ShopInventoryCard
-              mode={editingId === bike.id ? "edit" : "view"}
               imageUrl={bike.imageUrl}
               title={bike.title}
               bikeLine={`Bike: ${bike.title}`}
               sizeLine={`Size: ${bike.size}`}
               specsLine={`Specs: ${bike.model}`}
               rateLine={`Rate: ${ratesByBikeId.get(bike.id) ?? "$200 Full Day | $125 Half Day"}`}
-              bikeValue={draftBike.bike}
-              sizeValue={draftBike.size}
-              specsValue={draftBike.specs}
-              rateValue={draftBike.rate}
-              onBikeValueChange={(value) => setDraftBike((current) => ({ ...current, bike: value }))}
-              onSizeValueChange={(value) => setDraftBike((current) => ({ ...current, size: value }))}
-              onSpecsValueChange={(value) => setDraftBike((current) => ({ ...current, specs: value }))}
-              onRateValueChange={(value) => setDraftBike((current) => ({ ...current, rate: value }))}
-              onEdit={() => {
-                setEditingId(bike.id);
-                setDraftBike({
-                  bike: bike.title,
-                  size: bike.size,
-                  specs: bike.model,
-                  rate: ratesByBikeId.get(bike.id) ?? "$200 Full Day | $125 Half Day",
-                });
-              }}
+              onEdit={() => router.push(`/shop/inventory/${bike.id}`)}
+              onDuplicate={() => router.push(`/shop/inventory/new?duplicate=${bike.id}`)}
               onRemove={() => setRemovedIds((current) => [...current, bike.id])}
-              onDuplicate={() => {
-                const duplicateId = `bike-${Date.now()}`;
-                upsertBikeDraft({
-                  ...bike,
-                  id: duplicateId,
-                  title: `${bike.title} Copy`,
-                });
-              }}
-              onCancel={() => {
-                setEditingId(null);
-                setDraftBike({ bike: "", size: "", specs: "", rate: "" });
-              }}
-              onSave={() => {
-                upsertBikeDraft({
-                  ...bike,
-                  title: draftBike.bike.trim() || bike.title,
-                  size: draftBike.size.trim() || bike.size,
-                  model: draftBike.specs.trim() || bike.model,
-                });
-                setEditingId(null);
-                setDraftBike({ bike: "", size: "", specs: "", rate: "" });
-                router.push("/shop");
-              }}
             />
           </li>
         ))}
