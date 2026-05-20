@@ -6,13 +6,18 @@
 }
 
 .header {
+  border-bottom: 1px solid var(--color-border);
+  background: var(--color-surface);
+}
+
+.headerShell {
+  width: min(100%, var(--page-shell-width));
+  margin-inline: auto;
+  padding: var(--space-4) var(--space-6);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: var(--space-4);
-  padding: var(--space-4) var(--space-6);
-  border-bottom: 1px solid var(--color-border);
-  background: var(--color-surface);
 }
 
 .logo {
@@ -177,9 +182,8 @@
 .main {
   flex: 1;
   width: 100%;
-  padding: var(--space-8) var(--space-6) var(--space-8);
+  padding: var(--space-8) 0;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: stretch;
 }

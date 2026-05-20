@@ -1,33 +1,26 @@
-/* Centered column in shop shell `main` (flex row + justify-content: center) */
+/* Shared centered page shell — matches rider dashboard layout */
 .page {
-  width: min(100%, 62.5rem); /* 1000px max */
+  width: min(100%, var(--page-shell-width));
   margin-inline: auto;
+  padding-inline: var(--space-6);
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
   gap: var(--space-4);
 }
 
-/* Headings / stacks that sit beside cards — same width as cards for alignment */
-.page > :not(.grid) {
-  width: min(100%, 50rem); /* 800px default */
-  max-width: 62.5rem; /* 1000px max */
+.page > * {
+  width: 100%;
 }
 
-.page > .pageWide {
-  width: min(100%, 62.5rem);
-  max-width: 62.5rem;
-}
-
-.page > .grid {
-  width: min(100%, 62.5rem); /* 1000px max */
-  max-width: 62.5rem;
-  align-self: stretch;
+.pageWide {
+  width: 100%;
 }
 
 .grid {
   display: grid;
   gap: var(--space-4);
+  width: 100%;
 }
 
 @media (min-width: 880px) {
@@ -39,6 +32,7 @@
 .twoCol {
   display: grid;
   gap: var(--space-3);
+  width: 100%;
 }
 
 @media (min-width: 700px) {
@@ -51,6 +45,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  width: 100%;
 }
 
 .actions {
@@ -59,7 +54,6 @@
   gap: var(--space-2);
 }
 
-/* Page title row (matches Fleet / Inventory shell pattern) */
 .shopPageHeaderActions,
 .inventoryFilters {
   display: flex;
@@ -71,8 +65,7 @@
 
 .shopPageHeaderRow,
 .inventoryHeaderRow {
-  width: min(100%, 50rem);
-  max-width: 62.5rem;
+  width: 100%;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -106,10 +99,12 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
+  width: 100%;
 }
 
 .listItem {
   padding: 0;
+  width: 100%;
 }
 
 .row {

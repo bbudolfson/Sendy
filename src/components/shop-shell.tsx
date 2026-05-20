@@ -42,17 +42,18 @@ export function ShopShell({ children }: { children: ReactNode }) {
   return (
     <div className={styles.wrap}>
       <header className={styles.header}>
-        <a
-          href="/shop"
-          className={styles.logo}
-          aria-label="Freewheel shop reservations"
-          onClick={() => completeShopSignupToDashboard()}
-        >
-          <img src="/freewheel-logo.svg" alt="" className={styles.logoImg} />
-          <span className={styles.logoSuffix}>Shop</span>
-        </a>
-        <div className={styles.headerRight}>
-          <details className={styles.accountMenu}>
+        <div className={styles.headerShell}>
+          <a
+            href="/shop"
+            className={styles.logo}
+            aria-label="Freewheel shop reservations"
+            onClick={() => completeShopSignupToDashboard()}
+          >
+            <img src="/freewheel-logo.svg" alt="" className={styles.logoImg} />
+            <span className={styles.logoSuffix}>Shop</span>
+          </a>
+          <div className={styles.headerRight}>
+            <details className={styles.accountMenu}>
             <summary className={styles.accountSummary}>
               <span className={styles.avatarRing}>
                 <span className={styles.avatar} aria-hidden>
@@ -93,7 +94,8 @@ export function ShopShell({ children }: { children: ReactNode }) {
                 </button>
               </div>
             </div>
-          </details>
+            </details>
+          </div>
         </div>
       </header>
       <main className={styles.main}>{children}</main>

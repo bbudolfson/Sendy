@@ -22,6 +22,7 @@
   --space-4: 1rem;
   --space-6: 1.5rem;
   --space-8: 2rem;
+  --page-shell-width: 72rem;
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
   --sendy-font-family-body: "Outfit", var(--font-sans);

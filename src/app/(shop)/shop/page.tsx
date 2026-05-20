@@ -24,7 +24,7 @@ export default function ShopHomePage() {
 
   if (!reservationsUnlocked) {
     return (
-      <div className={styles.page}>
+      <div className={shopPageStyles.page}>
         <AccountCreationTile
           profileComplete={profileComplete}
           paymentComplete={paymentComplete}
@@ -35,11 +35,12 @@ export default function ShopHomePage() {
   }
 
   return (
-    <div className={styles.page}>
+    <div className={shopPageStyles.page}>
       <div className={shopPageStyles.shopPageHeaderRow}>
         <PocH1>Reservations</PocH1>
       </div>
 
+      <div className={styles.content}>
       <section className={styles.section} aria-labelledby="scheduled-heading">
         <h2 id="scheduled-heading" className={styles.sectionTitle}>
           On the schedule
@@ -67,6 +68,7 @@ export default function ShopHomePage() {
           />
         </div>
       </section>
+      </div>
     </div>
   );
 }

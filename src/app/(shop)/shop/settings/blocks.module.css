@@ -1,4 +1,4 @@
-/* Match `.page > :not(.grid)` column width (50rem) — overrides PocCard default `max-width: 36rem` */
+/* Full-width cards inside the shop page shell */
 .shopContentCard {
   max-width: none;
   width: 100%;

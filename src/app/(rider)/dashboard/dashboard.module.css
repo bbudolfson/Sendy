@@ -5,11 +5,11 @@
   flex-direction: column;
   gap: 0;
   padding: 0;
-  --dashboard-shell-width: 72rem;
+  --page-shell-width: 72rem;
 }
 
 .shell {
-  width: min(100%, var(--dashboard-shell-width));
+  width: min(100%, var(--page-shell-width));
   margin-inline: auto;
   padding-inline: var(--space-6);
 }
