@@ -17,9 +17,9 @@ type Story = StoryObj<typeof meta>;
 /** Rider search — no bikes in the selected area. */
 export const NoBikesAvailable: Story = {
   args: {
-    title: "Bummer, No Bikes Available Here.",
+    title: "Bummer, No Bikes Available Yet.",
     description:
-      "We’re working on expanding our coverage, and will keep try find bikes in this area, so please check back.",
+      "We’re new and working on getting bikes up here as our community grows. Please check back later.",
     actions: [{ label: "Clear Filters", onClick: fn() }],
   },
 };
@@ -47,15 +47,15 @@ export const NoActions: Story = {
 
 export const Set: Story = {
   args: {
-    title: "Bummer, No Bikes Available Here.",
+    title: "Bummer, No Bikes Available Yet.",
     description:
-      "We’re working on expanding our coverage, and will keep try find bikes in this area, so please check back.",
+      "We’re new and working on getting bikes up here as our community grows. Please check back later.",
   },
   render: () => (
     <div style={{ display: "grid", gap: "1.5rem", width: "100%", maxWidth: "50rem", margin: "0 auto" }}>
       <EmptyState
-        title="Bummer, No Bikes Available Here."
-        description="We’re working on expanding our coverage, and will keep try find bikes in this area, so please check back."
+        title="Bummer, No Bikes Available Yet."
+        description="We’re new and working on getting bikes up here as our community grows. Please check back later."
         actions={[{ label: "Clear Filters", onClick: fn() }]}
       />
       <EmptyState

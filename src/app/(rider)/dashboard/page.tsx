@@ -43,8 +43,8 @@ function BikeGrid({
   if (bikes.length === 0) {
     return (
       <EmptyState
-        title="Bummer, No Bikes Available Here."
-        description="We’re working on expanding our coverage, and will keep try find bikes in this area, so please check back."
+        title="Bummer, No Bikes Available Yet."
+        description="We’re new and working on getting bikes up here as our community grows. Please check back later."
         actions={onClearFilters ? [{ label: "Clear Filters", onClick: onClearFilters }] : []}
       />
     );
@@ -351,12 +351,10 @@ export default function DashboardPage() {
               </div>
             ))
           ) : (
-            <div>
-              <h2 className={styles.sectionTitle}>No bikes listed yet</h2>
-              <p className={styles.resultsMeta}>
-                Search Moab, Bend, or Boulder above, or add inventory from the shop portal at /shop.
-              </p>
-            </div>
+            <EmptyState
+              title="Bummer, No Bikes Available Yet."
+              description="We’re new and working on getting bikes up here as our community grows. Please check back later."
+            />
           )
         ) : (
           HOME_ROWS.map((row) => (

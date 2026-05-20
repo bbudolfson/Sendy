@@ -1,3 +1,4 @@
+import { useId } from "react";
 import { Button } from "@/components/ui/Button/Button";
 import styles from "./EmptyState.module.css";
 
@@ -15,16 +16,18 @@ export type EmptyStateProps = {
 };
 
 export function EmptyState({ title, description, actions = [], className }: EmptyStateProps) {
+  const titleId = useId();
+
   return (
     <section
-      className={[styles.card, className].filter(Boolean).join(" ")}
-      aria-labelledby="empty-state-title"
+      className={[styles.root, className].filter(Boolean).join(" ")}
+      aria-labelledby={titleId}
     >
       <div className={styles.content}>
-        <h2 id="empty-state-title" className={styles.title}>
+        <h3 id={titleId} className={styles.title}>
           {title}
-        </h2>
-        <p className={styles.description}>{description}</p>
+        </h3>
+        <h4 className={styles.description}>{description}</h4>
       </div>
 
       {actions.length > 0 ? (
