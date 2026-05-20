@@ -52,6 +52,7 @@
 
   --sendy-text-headings: var(--color-text);
   --sendy-text-body: var(--color-text);
+  --sendy-text-label: var(--color-text-muted);
   /*
    Mapped/Mode 1 → Text.Action → Primary.Default → Earth.Default
    Mapped/Mode 1 → Text.Action hover → Primary.600 → Earth.600

@@ -5,7 +5,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { searchBikes } from "@/app/actions/bikes";
 import { getMarkets, resolveMarketFromLocation as resolveMarketRemote } from "@/app/actions/markets";
-import { PocInput, PocMuted } from "@/components/poc-ui";
+import { PocInput } from "@/components/poc-ui";
 import { RiderAvatarMenu } from "@/components/rider-avatar-menu";
 import { BikeTile } from "@/components/ui/BikeTile/BikeTile";
 import { EmptyState } from "@/components/ui/EmptyState/EmptyState";
@@ -83,7 +83,6 @@ export default function DashboardPage() {
   const [browseByMarket, setBrowseByMarket] = useState<
     { market: Market; bikes: PublicBikeListing[] }[]
   >([]);
-  const [markets, setMarkets] = useState<Market[]>([]);
   const [searching, setSearching] = useState(false);
   const [browseLoading, setBrowseLoading] = useState(false);
   const [startValue, setStartValue] = useState(session.tripStart ?? "");
@@ -119,7 +118,6 @@ export default function DashboardPage() {
     }
     setBrowseLoading(true);
     getMarkets().then(async ({ markets: loaded }) => {
-      setMarkets(loaded);
       const grouped = await Promise.all(
         loaded.map(async (market) => {
           const { bikes } = await searchBikes(market.id, null, null);
@@ -211,11 +209,7 @@ export default function DashboardPage() {
                   <PocInput
                     name="location"
                     required
-                    placeholder={
-                      configured
-                        ? "Try Moab, Bend, or Boulder"
-                        : "Where are you riding?"
-                    }
+                    placeholder="Where do you want to ride?"
                     value={locationValue}
                     autoComplete="off"
                     onChange={(event) => setLocationValue(event.currentTarget.value)}
@@ -318,11 +312,6 @@ export default function DashboardPage() {
               </button>
             </div>
           </form>
-          {configured && !session.marketId && markets.length > 0 ? (
-            <PocMuted>
-              Destinations: {markets.map((m) => m.label).join(" · ")}
-            </PocMuted>
-          ) : null}
           </div>
         </div>
       </section>
