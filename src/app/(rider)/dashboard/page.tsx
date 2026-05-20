@@ -161,11 +161,12 @@ export default function DashboardPage() {
   return (
     <div className={styles.page}>
       <section className={styles.hero}>
-        <div className={styles.heroTop}>
-          <img src="/freewheel-logo-white.svg" alt="Freewheel" className={styles.logoImage} />
-          <RiderAvatarMenu variant="hero" />
-        </div>
-        <div className={styles.searchWrap}>
+        <div className={styles.shell}>
+          <div className={styles.heroTop}>
+            <img src="/freewheel-logo-white.svg" alt="Freewheel" className={styles.logoImage} />
+            <RiderAvatarMenu variant="hero" />
+          </div>
+          <div className={styles.searchWrap}>
           <form
             className={styles.searchCard}
             autoComplete="off"
@@ -322,10 +323,12 @@ export default function DashboardPage() {
               Destinations: {markets.map((m) => m.label).join(" · ")}
             </PocMuted>
           ) : null}
+          </div>
         </div>
       </section>
 
       <section className={styles.resultsWrap}>
+        <div className={styles.shell}>
         {session.marketId && searchMarket ? (
           <div className={styles.resultSection}>
             <h2 className={styles.sectionTitle}>Bikes in {searchMarket.label}</h2>
@@ -382,6 +385,7 @@ export default function DashboardPage() {
             </div>
           ))
         )}
+        </div>
       </section>
     </div>
   );
